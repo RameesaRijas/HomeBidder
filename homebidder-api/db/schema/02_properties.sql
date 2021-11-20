@@ -20,5 +20,5 @@ CREATE TABLE properties (
   year_built INTEGER NOT NULL,
   
   is_active BOOLEAN NOT NULL DEFAULT TRUE,
-  is_approved BOOLEAN NOT NULL DEFAULT FALSE,
+  is_approved BOOLEAN NOT NULL DEFAULT FALSE
 );
