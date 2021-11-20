@@ -7,6 +7,7 @@ const logger = require('morgan');
 const usersRouter = require('./routes/users');
 const db = require('./db');
 const dbHelpers = require('./helpers/dbHelpers')(db);
+const propertyRouter = require('./routes/properties');
 
 const app = express();
 
@@ -16,8 +17,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.use('/', indexRouter);
-// app.use('/users', usersRouter);
 app.use('/api/users', usersRouter(dbHelpers));
+app.use('/api/properties', propertyRouter(dbHelpers));
 
 module.exports = app;

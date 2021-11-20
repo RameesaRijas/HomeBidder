@@ -22,7 +22,7 @@ module.exports = (db) => {
         .query(query)
         .then(result => result.rows[0])
         .catch((err) => err);
-  }
+  };
 
   //ADD USER
   const addUser = (firstName, lastName, email, password) => {
@@ -34,13 +34,24 @@ module.exports = (db) => {
     return db.query(query)
         .then(result => result.rows[0])
         .catch(err => err);
-  }
+  };
 
+  const getProperties = () => {
+    const query = {
+        text: 'SELECT * FROM properties',
+    };
+
+    return db
+        .query(query)
+        .then((result) => result.rows)
+        .catch((err) => err);
+  };
 
 
   return {
     getUsers,
     addUser,
-    getUserByEmail
+    getUserByEmail,
+    getProperties
   };
 };
