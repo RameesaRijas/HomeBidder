@@ -16,6 +16,7 @@ CREATE TABLE properties (
   province VARCHAR(255) NOT NULL,
   post_code VARCHAR(255) NOT NULL,
   square_footage NUMERIC NOT NULL,
+  property_type VARCHAR(255) NOT NULL,
   year_built INTEGER NOT NULL,
   
   is_active BOOLEAN NOT NULL DEFAULT TRUE,
