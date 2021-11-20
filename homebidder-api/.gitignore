@@ -2,3 +2,4 @@ node_modules/
 public/styles
 .env
 *.log
+.DS_Store

@@ -20,9 +20,4 @@ VALUES
     (5,'./images/4_2.png'),
     (5,'./images/4_3.png'),
     (5,'./images/4_4.png'),
-    (5,'./images/4_5.png'),
-    (6,'./images/5_1.png'),
-    (6,'./images/5_2.png'),
-    (6,'./images/5_3.png'),
-    (6,'./images/5_4.png'),
-    (6,'./images/5_5.png');
+    (5,'./images/4_5.png');
