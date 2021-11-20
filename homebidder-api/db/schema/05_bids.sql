@@ -5,7 +5,7 @@ CREATE TABLE bids (
   property_id INTEGER REFERENCES properties(id) ON DELETE CASCADE,
   base_price_in_cents INTEGER  NOT NULL,
   increment_price_per_bid INTEGER DEFAULT 100000,
-  bid_start_time DATE NOT NULL,
+  bid_start_date DATE NOT NULL,
   bid_end_date DATE NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
