@@ -1,0 +1,17 @@
+.login{
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.loginform{
+  
+  padding:2em;
+  background-color: rgb(228, 226, 225);
+}
+.form-group{
+  padding: 0.25em;
+}
+.login-button{
+  background-color: rgb(233, 174, 174);
+}
