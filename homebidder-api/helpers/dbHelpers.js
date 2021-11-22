@@ -1,4 +1,5 @@
 module.exports = (db) => {
+
   //GET ALL USERS
   const getUsers = () => {
     const query = {
@@ -10,6 +11,7 @@ module.exports = (db) => {
         .then((result) => result.rows)
         .catch((err) => err);
   };
+
   //CHECK IF USER EMAIL ALREADY EXIST
   const getUserByEmail = email => {
 
@@ -36,6 +38,7 @@ module.exports = (db) => {
         .catch(err => err);
   };
 
+  //GET ALL PROPERTIES
   const getProperties = () => {
     const query = {
         text: 'SELECT * FROM properties',
@@ -47,11 +50,27 @@ module.exports = (db) => {
         .catch((err) => err);
   };
 
+  //ADD A PROPERTY TO THE LISTINGS
+  const addProperty = (ownerId, numBaths, numBeds, numParking, street, city, province, postCode, squareFootage, propertyType, yearBuilt) => {
+    const query = {
+      text: `INSERT INTO properties
+        (owner_id, number_of_bathrooms, number_of_bedrooms, parking_spaces, street, city, province, post_code, square_footage, property_type, year_built)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`,
+      values: [ownerId, numBaths, numBeds, numParking, street, city, province, postCode, squareFootage, propertyType, yearBuilt]
+    };
+
+    return db
+      .query(query)
+      .then(result => result.rows[0])
+      .catch(err => err);
+  };
+
 
   return {
     getUsers,
     addUser,
     getUserByEmail,
-    getProperties
+    getProperties,
+    addProperty
   };
 };
