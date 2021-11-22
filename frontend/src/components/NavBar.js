@@ -1,9 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 import './NavBar.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Navbar, Container, Nav } from 'react-bootstrap';
+import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
 
 export default function NavBar() {
 
@@ -24,6 +24,24 @@ export default function NavBar() {
           <Nav.Link href="/">Listings</Nav.Link>
           <Nav.Link href="/login">Login</Nav.Link>
           <Nav.Link href="/register">Register</Nav.Link>
+          <NavDropdown title="User" id="navbarScrollingDropdown">
+            <NavDropdown.Item href="getRoute">My Favourites</NavDropdown.Item>
+            <NavDropdown.Item href="getRoute">My Bids</NavDropdown.Item>
+            <NavDropdown.Item href="getRoute">My Listings</NavDropdown.Item>
+            <NavDropdown.Item href="postRoute">Create New Listing</NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item href="logout">
+              Logout
+          </NavDropdown.Item>
+          </NavDropdown>
+          <NavDropdown title="Admin" id="navbarScrollingDropdown">
+            <NavDropdown.Item href="getRoute">Pending Listings</NavDropdown.Item>
+            <NavDropdown.Item href="getRoute">My Bids</NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item href="logout">
+              Logout
+            </NavDropdown.Item>
+          </NavDropdown>
         </Nav>
       </Container>
     </Navbar>
