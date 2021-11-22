@@ -17,6 +17,7 @@ export default function Login() {
             setLoginStatus(false);
           } else {
               console.log(response.data)
+              localStorage.setItem("email",userEmail)
               localStorage.setItem("token",response.data.token)
              setLoginStatus(true);
           }
@@ -46,7 +47,7 @@ export default function Login() {
       
   return(
     <div className="login">
-        {!loginStatus ? "please login to continue":(<button onClick={logout}>logout</button>)}
+        {!loginStatus && "please login to continue"}
     <form className="loginform" onSubmit={login} >
         <div className="form-group ">
         <label >Email </label>
