@@ -1,49 +1,28 @@
 import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './index.css';
-import Login from './components/Login';
-import RegistForm from './components/Register'
 
-import { BrowserRouter,Routes, Route, Link } from "react-router-dom";
-
-
+import NavBar from "./components/NavBar";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
 function App() {
   return (
     <BrowserRouter>
-    
-    <div className="App">
-  
-      <h1>Welcome</h1>
-      <header>
-        <nav>
-          <ul>
-            
-           
-         
-          <Link to="/login">login</Link>
-          
-          
-          <Link to="/Register">Register</Link>
-          
-       
-          </ul>
-        </nav>
-      </header>
-      
+      <div className="App">
 
-    <Routes>
-      <Route path="/Login"element={<Login/>}>
-      </Route>
-      <Route path="/Register"element={<RegistForm/>}>
-      </Route>
-      <Route path="/login" component={Login} />
-    </Routes>
-    
-    </div>
+
+        <NavBar />
+
+
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+
+
+
+      </div>
     </BrowserRouter>
-  
-
   );
 }
 
