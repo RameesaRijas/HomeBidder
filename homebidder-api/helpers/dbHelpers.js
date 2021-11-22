@@ -66,6 +66,7 @@ module.exports = (db) => {
       .then(result => result.rows[0])
       .catch(err => err);
   }
+  //get all the photos
   const getPropertiesPhotos = (property_id) => {
     const query = {
         text: `SELECT * FROM property_images
@@ -79,9 +80,11 @@ module.exports = (db) => {
         .catch((err) => err);
   };
 
-  const getRegisteredUsers = () => {
+  //
+  const getRegisteredUsersAndBids = () => {
     const query = {
-      text: `SELECT * FROM bidder_registrations`,
+      text: `SELECT * FROM bidder_registrations
+           `,
   };
 
   return db
@@ -91,6 +94,27 @@ module.exports = (db) => {
   };
 
 
+  ///get property details
+
+  const getPropertyDetailsById= (id) => {
+    const query = {
+      text: `SELECT bids.id as bid_id, 
+                property_bid_histories.id as history_id,
+                property_bid_histories.bid_amount as offer_amount,
+                property_bid_histories.seller_response,
+                bids.*, properties.* FROM properties
+                JOIN bids ON properties.id = bids.property_id
+                LEFT JOIN property_bid_histories ON properties.id = property_bid_histories.property_id
+                WHERE properties.id = $1`,
+      values: [id]
+  };
+
+  return db
+      .query(query)
+      .then((result) => result.rows[0])
+      .catch((err) => err);
+  }
+
   return {
     getUsers,
     addUser,
@@ -98,6 +122,7 @@ module.exports = (db) => {
     getProperties,
     addProperty,
     getPropertiesPhotos,
-    getRegisteredUsers
+    getRegisteredUsersAndBids,
+    getPropertyDetailsById
   };
 };

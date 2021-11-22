@@ -5,7 +5,8 @@ module.exports = ({
   getProperties,
   addProperty,
   getPropertiesPhotos,
-  getRegisteredUsers
+  getRegisteredUsersAndBids,
+  getPropertyDetailsById
 }) => {
   /* GET properties listing. */
   router.get('/', (req, res) => {
@@ -28,10 +29,29 @@ module.exports = ({
       }));
   });
   
-  //get all the registred bidders
-  router.get('/bidders', (req, res) => {
-    getRegisteredUsers()
+  ///get bidder registrations and bids
+  router.get('/bidder', (req, res) => {
+    getRegisteredUsersAndBids()
       .then((bidders) => res.json(bidders))
+      .catch((err) => res.json({
+          error: err.message
+      }));
+  });
+
+  //get all the details by passing id
+  router.get('/:id', (req, res) => {
+    const id = req.params.id
+    getPropertyDetailsById(id)
+      .then(property => {
+        return new Promise(resolve => {
+            getPropertiesPhotos(id)
+              .then(images =>  {
+                property['thumbnail'] = images
+                resolve(property)
+              })
+            })
+            .then(result => res.json(result))
+        })
       .catch((err) => res.json({
           error: err.message
       }));
@@ -59,6 +79,8 @@ module.exports = ({
       .catch((error) => res.status(500).send(error.message));
 
   })
+
+
 
 
   return router;
