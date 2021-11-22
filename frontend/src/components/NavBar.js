@@ -10,7 +10,7 @@ export default function NavBar() {
   return (
     <Navbar className="homebidder-nav" variant="dark" sticky="top">
       <Container>
-        <Navbar.Brand href="#home">
+        <Navbar.Brand as={Link} to="/">
           <img
           alt="homebidder-icon"
           src="/home.png"
@@ -21,24 +21,24 @@ export default function NavBar() {
           HomeBidder
         </Navbar.Brand>
         <Nav className="justify-content-end">
-          <Nav.Link href="/">Listings</Nav.Link>
-          <Nav.Link href="/login">Login</Nav.Link>
-          <Nav.Link href="/register">Register</Nav.Link>
+          <Nav.Link as={Link} to="/">Listings</Nav.Link>
+          <Nav.Link as={Link} to="/login">Login</Nav.Link>
+          <Nav.Link as={Link} to="/register">Register</Nav.Link>
           <NavDropdown title="User" id="navbarScrollingDropdown">
-            <NavDropdown.Item href="getRoute">My Favourites</NavDropdown.Item>
-            <NavDropdown.Item href="getRoute">My Bids</NavDropdown.Item>
-            <NavDropdown.Item href="getRoute">My Listings</NavDropdown.Item>
-            <NavDropdown.Item href="postRoute">Create New Listing</NavDropdown.Item>
+            <NavDropdown.Item as={Link} to="getRoute">My Favourites</NavDropdown.Item>
+            <NavDropdown.Item as={Link} to="getRoute">My Bids</NavDropdown.Item>
+            <NavDropdown.Item as={Link} to="getRoute">My Listings</NavDropdown.Item>
+            <NavDropdown.Item as={Link} to="postRoute">Create New Listing</NavDropdown.Item>
             <NavDropdown.Divider />
-            <NavDropdown.Item href="logout">
+            <NavDropdown.Item as={Link} to="logout">
               Logout
           </NavDropdown.Item>
           </NavDropdown>
           <NavDropdown title="Admin" id="navbarScrollingDropdown">
-            <NavDropdown.Item href="getRoute">Pending Listings</NavDropdown.Item>
-            <NavDropdown.Item href="getRoute">My Bids</NavDropdown.Item>
+            <NavDropdown.Item as={Link} to="getRoute">Pending Listings</NavDropdown.Item>
+            <NavDropdown.Item as={Link} to="getRoute">My Bids</NavDropdown.Item>
             <NavDropdown.Divider />
-            <NavDropdown.Item href="logout">
+            <NavDropdown.Item as={Link} to="logout">
               Logout
             </NavDropdown.Item>
           </NavDropdown>
