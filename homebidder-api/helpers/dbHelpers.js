@@ -47,11 +47,26 @@ module.exports = (db) => {
         .catch((err) => err);
   };
 
+  const addProperties = (number_of_bathrooms, number_of_bedrooms, parking_spaces, street, city, province, post_code, square_footage, property_type, year_built) => {
+    const query = {
+      text: `INSERT INTO properties
+        (number_of_bathrooms, number_of_bedrooms, parking_spaces, street,city, province, post_code, square_footage, property_type, year_built)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
+      values: [number_of_bathrooms, number_of_bedrooms, parking_spaces, street, city, province, post_code, square_footage, property_type, year_built]
+    };
+
+    return db
+      .query(query)
+      .then(result => result.rows[o])
+      .catch(err => err);
+  };
+
 
   return {
     getUsers,
     addUser,
     getUserByEmail,
-    getProperties
+    getProperties,
+    addProperties
   };
 };
