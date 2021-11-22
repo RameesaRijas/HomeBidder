@@ -28,7 +28,7 @@ export default function NavBar() {
             <NavDropdown.Item as={Link} to="getRoute">My Favourites</NavDropdown.Item>
             <NavDropdown.Item as={Link} to="getRoute">My Bids</NavDropdown.Item>
             <NavDropdown.Item as={Link} to="getRoute">My Listings</NavDropdown.Item>
-            <NavDropdown.Item as={Link} to="postRoute">Create New Listing</NavDropdown.Item>
+            <NavDropdown.Item as={Link} to="/properties/new">Create New Listing</NavDropdown.Item>
             <NavDropdown.Divider />
             <NavDropdown.Item as={Link} to="logout">
               Logout

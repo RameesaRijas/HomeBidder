@@ -4,6 +4,7 @@ import NavBar from "./components/NavBar";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import PostListingForm from './components/Property/PostListingForm';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="properties/new" element={<PostListingForm />} />
         </Routes>
 
 
