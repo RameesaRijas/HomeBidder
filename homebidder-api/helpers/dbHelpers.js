@@ -41,7 +41,9 @@ module.exports = (db) => {
   //GET ALL PROPERTIES
   const getProperties = () => {
     const query = {
-        text: 'SELECT * FROM properties',
+        text: `SELECT bids.id as bid_id, * FROM properties
+           JOIN bids 
+           ON properties.id = property_id`,
     };
 
     return db
@@ -63,6 +65,29 @@ module.exports = (db) => {
       .query(query)
       .then(result => result.rows[0])
       .catch(err => err);
+  }
+  const getPropertiesPhotos = (property_id) => {
+    const query = {
+        text: `SELECT * FROM property_images
+              where property_id = $1`,
+        values: [property_id]
+    };
+
+    return db
+        .query(query)
+        .then((result) => result.rows)
+        .catch((err) => err);
+  };
+
+  const getRegisteredUsers = () => {
+    const query = {
+      text: `SELECT * FROM bidder_registrations`,
+  };
+
+  return db
+      .query(query)
+      .then((result) => result.rows)
+      .catch((err) => err);
   };
 
 
@@ -71,6 +96,8 @@ module.exports = (db) => {
     addUser,
     getUserByEmail,
     getProperties,
-    addProperty
+    addProperty,
+    getPropertiesPhotos,
+    getRegisteredUsers
   };
 };
