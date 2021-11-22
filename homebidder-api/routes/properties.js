@@ -46,7 +46,9 @@ module.exports = ({
         return new Promise(resolve => {
             getPropertiesPhotos(id)
               .then(images =>  {
-                property['thumbnail'] = images
+                if (images) { 
+                  property['thumbnail'] = images;
+                }
                 resolve(property)
               })
             })
