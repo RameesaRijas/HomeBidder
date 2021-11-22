@@ -51,7 +51,7 @@ module.exports = (db) => {
   };
 
   //ADD A PROPERTY TO THE LISTINGS
-  const addProperties = (ownerId, numBaths, numBeds, numParking, street, city, province, postCode, squareFootage, propertyType, yearBuilt) => {
+  const addProperty = (ownerId, numBaths, numBeds, numParking, street, city, province, postCode, squareFootage, propertyType, yearBuilt) => {
     const query = {
       text: `INSERT INTO properties
         (owner_id, number_of_bathrooms, number_of_bedrooms, parking_spaces, street, city, province, post_code, square_footage, property_type, year_built)
@@ -71,6 +71,6 @@ module.exports = (db) => {
     addUser,
     getUserByEmail,
     getProperties,
-    addProperties
+    addProperty
   };
 };

@@ -3,7 +3,7 @@ const router = express.Router();
 
 module.exports = ({
   getProperties,
-  addProperties
+  addProperty
 
 }) => {
   /* GET properties listing. */
@@ -17,6 +17,7 @@ module.exports = ({
 
   // Add a property to the listings
   router.post('/properties', (req, res) => {
+
     const {
       owner_id,
       number_of_bathrooms,
@@ -31,8 +32,8 @@ module.exports = ({
       year_built
     } = req.body;
 
-    addProperties(owner_id, number_of_bathrooms, number_of_bedrooms, parking_spaces, street, city, province, post_code, square_footage, property_type, year_built)
-      .then(() => res.status(200))
+    addProperty(owner_id, number_of_bathrooms, number_of_bedrooms, parking_spaces, street, city, province, post_code, square_footage, property_type, year_built)
+      .then((property) => res.json(property))
       .catch((error) => res.status(500).send(error.message));
 
   })
