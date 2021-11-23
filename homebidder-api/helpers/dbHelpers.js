@@ -152,7 +152,7 @@ module.exports = (db) => {
     getPropertiesPhotos,
     getRegisteredUsersAndBids,
     getPropertyDetailsById,
-    addbid,
+    addbidlog,
     adduserRegistration
   };
 };
