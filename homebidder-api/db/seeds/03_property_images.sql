@@ -1,11 +1,13 @@
 INSERT INTO
 property_images(property_id,image_url)
 VALUES
+    (1,'./images/1_1.png'), 
+    (1,'./images/1_2.jpeg'),
+    (1,'./images/1_3.png'),
     (2,'./images/1_1.png'), 
-    (2,'./images/1_2.png'),
+    (2,'./images/1_2.jpeg'),
     (2,'./images/1_3.png'),
-    (2,'./images/1_4.png'),
-    (2,'./images/1_5.png'),
+    (2,'./images/1_4.jpeg'),
     (3,'./images/2_1.png'),
     (3,'./images/2_2.png'),
     (3,'./images/2_3.png'),
@@ -20,4 +22,7 @@ VALUES
     (5,'./images/4_2.png'),
     (5,'./images/4_3.png'),
     (5,'./images/4_4.png'),
-    (5,'./images/4_5.png');
+    (5,'./images/4_5.png'),
+    (6,'./images/4_3.png'),
+    (6,'./images/4_4.png'),
+    (6,'./images/4_5.png');
