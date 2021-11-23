@@ -10,6 +10,7 @@ import {
 import PropertyList from './components/Property/PropertyList';
 import Property from './components/Property/Property';
 import usePropertyData from './hooks/usePropertyData';
+import Header from './components/Header';
 
 function App() {
 

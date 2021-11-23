@@ -1,4 +1,8 @@
 import PropertListItem from './PropertyListItem';
+import './PropertyList.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container, Row } from 'react-bootstrap';
+import Header from '../Header';
 
 
 export default function PropertyList(props) {
@@ -10,9 +14,17 @@ export default function PropertyList(props) {
                       />)
   
   return (
-    <div> 
-      {propertylist}
+    <>
+    <Header />
+    <Container>
+      <h2><hr/></h2>
+    <div className="property-list">
+      <Row>
+        {propertylist}
+      </Row>
     </div>
+    </Container>
+    </>
   );
 
 }
