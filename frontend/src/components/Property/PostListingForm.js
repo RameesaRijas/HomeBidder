@@ -20,7 +20,7 @@ export default function PostListingForm() {
 
   const newListing = (e) => {
     e.preventDefault()
-    axios.post("api/properties/new", {
+    axios.post('/api/properties/new', {
       street: street,
       city: city,
       province: province,
@@ -34,7 +34,8 @@ export default function PostListingForm() {
     })
     .then((response) => {
       console.log(response);
-    });
+    })
+    .catch((error) => console.log(error));
   };
 
   return (

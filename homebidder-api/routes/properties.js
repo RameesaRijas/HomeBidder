@@ -16,7 +16,7 @@ module.exports = ({
   });
 
   // Add a property to the listings
-  router.post('/properties', (req, res) => {
+  router.post('/new', (req, res) => {
 
     const {
       owner_id,
