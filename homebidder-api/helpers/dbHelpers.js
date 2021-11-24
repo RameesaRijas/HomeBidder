@@ -190,6 +190,8 @@ module.exports = (db) => {
     adduserRegistration,
     getAllFavorites,
     addToFavorites,
-    removeFromFavorites
+    removeFromFavorites,
+    addbidlog,
+    adduserRegistration
   };
 };
