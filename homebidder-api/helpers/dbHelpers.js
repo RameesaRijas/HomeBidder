@@ -188,7 +188,7 @@ module.exports = (db) => {
     getPropertyDetailsById,
     getAllFavorites,
     addToFavorites,
-    removeFromFavorites
+    removeFromFavorites,
     addbidlog,
     adduserRegistration
   };
