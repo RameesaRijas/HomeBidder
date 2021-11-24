@@ -10,19 +10,21 @@ import {
 import PropertyList from './components/Property/PropertyList';
 import Property from './components/Property/Property';
 import usePropertyData from './hooks/usePropertyData';
-import Header from './components/Header';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
 
-  const {state} = usePropertyData();
+  const {state, addToYourFav, removeFromFav} = usePropertyData();
 
   return (
         <BrowserRouter>
           <div className="App">
           <NavBar />
+          <ToastContainer position={toast.POSITION.TOP_RIGHT} autoClose={1700}/>
           <Switch>
             <Route exact path="/">
-              <PropertyList list={state}/>
+              <PropertyList list={state} addToYourFav={addToYourFav} removeFromFav={removeFromFav}/>
             </Route>
             <Route path="/listing/:propertyId" >
               <Property />
