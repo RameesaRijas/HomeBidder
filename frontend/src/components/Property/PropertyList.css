@@ -28,7 +28,7 @@
   margin-bottom: -4px;
 }
 
-.property-list .box .top span {
+.property-list .box .top .carousel > span {
   position: absolute;
   right: 20px;
   bottom: 15px;
@@ -38,6 +38,17 @@
 
 .fav {
   top:0;
+  position: absolute;
+  right: 20px;
+  bottom: 15px;
+  color: white;
+  font-size: 20px;
+}
+.property-list .carousel-control-next {
+  right: 0;
+  margin-top: 2em;
+  top: 0;
+  bottom: 0;
 }
 
 .property-list .box .top span i {
