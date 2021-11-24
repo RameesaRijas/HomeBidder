@@ -7,6 +7,7 @@ import {
   Switch,
   Route
 } from "react-router-dom";
+import PostListingForm from './components/Property/PostListingForm';
 import PropertyList from './components/Property/PropertyList';
 import Property from './components/Property/Property';
 import usePropertyData from './hooks/usePropertyData';
@@ -34,6 +35,9 @@ function App() {
             </Route>
             <Route exact path="/register" >
               <Register />
+            </Route>
+            <Route exact path="/properties/new" >
+              <PostListingForm />
             </Route>
           </Switch>
       </div>
