@@ -33,12 +33,12 @@ module.exports = ({
     getUserByEmail(email)
       .then(user => {
           if (user) {
-            
+
               res.json({
                   msg: 'Sorry, a user account with this email already exists'
               });
           } else {
-            
+
               const passwordHashed = bcrypt.hashSync(password, salt);
               console.log("pass",passwordHashed)
               return addUser(first_name, last_name, email, passwordHashed)
@@ -53,23 +53,23 @@ module.exports = ({
 
   //login to check and compare password
   router.post('/login', (req, res) => {
-    
+
     const {email, password} = req.body;
-   
+
     getUserByEmail(email)
       .then(user => {
         if (user) {
-         
+
           if (bcrypt.compareSync(password, user.password)) {
-          
+
             console.log("password match")
             const token = jwt.sign({
               email : req.body.email,},"secret123")
-            
+
             res.json({auth:true,token:token,user:user})
           } else {
             res.json({ auth :false,
-           
+
               msg: 'Wrong Credentials'
             });
           }
@@ -94,7 +94,7 @@ module.exports = ({
     })
     }
 };
-  
+
 router.get('/userAuth',verfiyjwt,(req,res) => {
   res.send("you are  authenticated")
 })
