@@ -17,9 +17,11 @@ module.exports = ({
 
   // Add a property to the listings
   router.post('/new', (req, res) => {
+    console.log('Hello from the backend!')
+
+    const owner_id = 2;
 
     const {
-      owner_id,
       number_of_bathrooms,
       number_of_bedrooms,
       parking_spaces,
