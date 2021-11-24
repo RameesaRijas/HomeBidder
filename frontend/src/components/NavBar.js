@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-
 import './NavBar.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container, Navbar, Nav, NavDropdown,ListGroup } from 'react-bootstrap';
 
-import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 
 export default function NavBar() {
+  const isuserLoggedin = localStorage.getItem("token") !== ""
+  const useremail = localStorage.getItem("email")
+  const type = localStorage.getItem("usertype")
+  const logout =()=> {
+    localStorage.setItem("token","")
+    localStorage.setItem("email","")
+    window.location.reload(false);
+}
 
   return (
     <Navbar className="homebidder-nav" variant="dark" bg="dark" sticky="top" >
@@ -19,32 +27,54 @@ export default function NavBar() {
           />{' '}
           HomeBidder
         </Navbar.Brand>
+       
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ms-auto">
           <Nav.Link as={Link} to="/">Listings</Nav.Link>
-          <Nav.Link as={Link} to="/login">Login</Nav.Link>
-          <Nav.Link as={Link} to="/register">Register</Nav.Link>
-            <NavDropdown title="User" id="navbarScrollingDropdown">
-              <NavDropdown.Item as={Link} to="getRoute">My Favourites</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="getRoute">My Bids</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="getRoute">My Listings</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="postRoute">Create New Listing</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item as={Link} to="logout">
-                Logout
-              </NavDropdown.Item>
-            </NavDropdown>
-            <NavDropdown title="Admin" id="navbarScrollingDropdown">
-              <NavDropdown.Item as={Link} to="getRoute">Pending Listings</NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="getRoute">My Bids</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item as={Link} to="logout">
-                Logout
-              </NavDropdown.Item>
-            </NavDropdown>
-        </Nav>
+          
+          {!isuserLoggedin && ( 
+            <div>
+              <ul> <li className="nav">
+
+            <Nav.Link href="/login" >Login</Nav.Link>
+            <Nav.Link href="/register">Register</Nav.Link>
+            </li></ul>
+            </div>
+          
+           )}
+           {isuserLoggedin &&  (
+             <div>
+             <p> welcome{useremail}</p>
+               </div> )}
+               {(isuserLoggedin  && type == 2) && (
+          <NavDropdown title="User" id="navbarScrollingDropdown">
+            <NavDropdown.Item as={Link} to="getRoute">My Favourites</NavDropdown.Item>
+            <NavDropdown.Item as={Link} to="getRoute">My Bids</NavDropdown.Item>
+            <NavDropdown.Item as={Link} to="getRoute">My Listings</NavDropdown.Item>
+            <NavDropdown.Item as={Link} to="postRoute">Create New Listing</NavDropdown.Item>
+            <NavDropdown.Divider />
+            
+            <NavDropdown.Item  onClick={logout} as={Link} to="logout">
+              Logout
+            </NavDropdown.Item> 
+            
+          </NavDropdown>
+               )}
+            {(isuserLoggedin  && type == 1) && (
+          <NavDropdown title="Admin" id="navbarScrollingDropdown">
+            <NavDropdown.Item as={Link} to="getRoute">Pending Listings</NavDropdown.Item>
+            <NavDropdown.Item as={Link} to="getRoute">My Bids</NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item  onClick={logout} as={Link} to="logout">
+              Logout
+            </NavDropdown.Item>
+          </NavDropdown>
+            )}
+          </Nav>
+      
         </Navbar.Collapse>
+      
     </Navbar>
   );
 };

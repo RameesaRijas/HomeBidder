@@ -124,6 +124,34 @@ module.exports = (db) => {
       .then((result) => result.rows)
       .catch((err) => err);
   }
+  
+  
+    // add addbidlog
+    const addbidlog = (bidder_registration_id,amount) => {
+      const query = {
+        text: `INSERT INTO bid_logs
+        (bidder_registration_id,amount)
+          VALUES ($1, $2) RETURNING *`,
+        values: [bidder_registration_id,amount]
+      };
+  
+      return db
+        .query(query)
+        .then(result => result.rows[0])
+        .catch(err => err);
+    }
+    // add user registeration
+    const adduserRegistration =(bids_id,user_id)=> {
+      const query = {text: `INSERT INTO bidder_registrations
+      (bids_id,user_id)
+        VALUES ($1, $2) RETURNING *`,
+      values: [base_price_in_cents, bid_start_date,bid_end_date]
+    };
+    return db
+        .query(query)
+        .then(result => result.rows[0])
+        .catch(err => err);
+    }
 
   const addToFavorites = (user_id, property_id) => {
     const query = {
@@ -161,5 +189,7 @@ module.exports = (db) => {
     getAllFavorites,
     addToFavorites,
     removeFromFavorites
+    addbidlog,
+    adduserRegistration
   };
 };

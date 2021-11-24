@@ -92,7 +92,7 @@ module.exports = ({
 
   })
 
-  //add ad remove from fav
+  //add and remove from fav
   router.post('/favorites/new', (req, res) => {
     const user_id = req.body.user_id;
     const property_id = req.body.property_id;
@@ -108,7 +108,24 @@ module.exports = ({
       .then(result => res.json(result))
       .catch(error => res.json(error))
   })
+  
+ //add post bid 
+ router.post('/bidder',(req,res)=> {
+    const{
+      bidder_registration_id,
+      amount
+    } = req.body
+  addbidlog(bidder_registration_id,amount).then((bid) => res.json(bid))
+  .catch((error) => res.status(500).send(error.message));
+ });
 
+ router.post('/userRegisteration',(req,res)=>{
+   const{bids_id,
+    user_id}
+    =req.body
+   adduserRegistration(bids_id,user_id).then((register) => res.json(register))
+   .catch((error) => res.status(500).send(error.message));
+    });
 
 
   return router;
