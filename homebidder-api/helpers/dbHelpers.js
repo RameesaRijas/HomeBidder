@@ -83,8 +83,7 @@ module.exports = (db) => {
   //
   const getRegisteredUsersAndBids = () => {
     const query = {
-      text: `SELECT * FROM bidder_registrations
-           `,
+      text: `SELECT * FROM bidder_registrations`,
   };
 
   return db
@@ -113,7 +112,42 @@ module.exports = (db) => {
       .query(query)
       .then((result) => result.rows[0])
       .catch((err) => err);
+  };
+
+  const getAllFavorites = () => {
+    const query = {
+      text: `SELECT * FROM favorites`
+    };
+
+  return db
+      .query(query)
+      .then((result) => result.rows)
+      .catch((err) => err);
   }
+
+  const addToFavorites = (user_id, property_id) => {
+    const query = {
+      text: `INSERT INTO favorites (user_id, property_id) VALUES ($1::integer, $2::integer)
+      RETURNING *`,
+      values: [user_id, property_id]
+    }
+      return db
+      .query(query)
+      .then((result) => result.rows[0])
+      .catch((err) => err);
+    };
+
+    const removeFromFavorites = (user_id, property_id) => {
+      const query = {
+        text: `DELETE FROM favorites WHERE user_id = $1::integer AND property_id = $2::integer
+        RETURNING *`,
+        values: [user_id, property_id]
+      }
+        return db
+        .query(query)
+        .then((result) => result.rows[0])
+        .catch((err) => err);
+      };
 
   return {
     getUsers,
@@ -123,6 +157,9 @@ module.exports = (db) => {
     addProperty,
     getPropertiesPhotos,
     getRegisteredUsersAndBids,
-    getPropertyDetailsById
+    getPropertyDetailsById,
+    getAllFavorites,
+    addToFavorites,
+    removeFromFavorites
   };
 };
