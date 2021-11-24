@@ -9,9 +9,14 @@ export default function NavBar() {
   const isuserLoggedin = localStorage.getItem("token") !== ""
   const useremail = localStorage.getItem("email")
   const type = localStorage.getItem("usertype")
+  const userid= localStorage.getItem("userid")
+
   const logout =()=> {
+  
     localStorage.setItem("token","")
     localStorage.setItem("email","")
+    localStorage.setItem("usertype","")
+    localStorage.setItem("userid","")
     window.location.reload(false);
 }
 
@@ -30,10 +35,11 @@ export default function NavBar() {
        
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="ms-auto">
-          <Nav.Link as={Link} to="/">Listings</Nav.Link>
           
-          {!isuserLoggedin && ( 
+        <Nav className="ms-auto">
+       
+          <Nav.Link as={Link} to="/">Listings</Nav.Link>
+        
             <div>
               <ul> <li className="nav">
 
@@ -41,12 +47,11 @@ export default function NavBar() {
             <Nav.Link href="/register">Register</Nav.Link>
             </li></ul>
             </div>
-          
-           )}
-           {isuserLoggedin &&  (
-             <div>
-             <p> welcome{useremail}</p>
+            {isuserLoggedin &&  (
+             <div className="ms-auto">
+             <p className="text-white bg-dark"> welcome{useremail}</p>
                </div> )}
+        
                {(isuserLoggedin  && type == 2) && (
           <NavDropdown title="User" id="navbarScrollingDropdown">
             <NavDropdown.Item as={Link} to="getRoute">My Favourites</NavDropdown.Item>
@@ -71,6 +76,8 @@ export default function NavBar() {
             </NavDropdown.Item>
           </NavDropdown>
             )}
+
+           
           </Nav>
       
         </Navbar.Collapse>
