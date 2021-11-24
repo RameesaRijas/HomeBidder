@@ -22,7 +22,7 @@ module.exports = ({
                 return {...property ,'thumbnail':images}
             })
           )))
-        }  
+        }
         getData().then(data => {
           res.json(data)
         })
@@ -38,7 +38,7 @@ module.exports = ({
       .then(result => res.json(result))
       .catch(error => res.json(error));
   })
-  
+
   ///get bidder registrations and bids
   router.get('/bidder', (req, res) => {
     getRegisteredUsersAndBids()
@@ -56,7 +56,7 @@ module.exports = ({
         return new Promise(resolve => {
             getPropertiesPhotos(id)
               .then(images =>  {
-                if (images) { 
+                if (images) {
                   property['thumbnail'] = images;
                 }
                 resolve(property)
@@ -73,9 +73,8 @@ module.exports = ({
   router.post('/new', (req, res) => {
     console.log('Hello from the backend!')
 
-    const owner_id = 2;
-
     const {
+      owner_id,
       number_of_bathrooms,
       number_of_bedrooms,
       parking_spaces,
@@ -110,8 +109,8 @@ module.exports = ({
       .then(result => res.json(result))
       .catch(error => res.json(error))
   })
-  
- //add post bid 
+
+ //add post bid
  router.post('/bidder',(req,res)=> {
     const{
       bidder_registration_id,

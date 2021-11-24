@@ -1,7 +1,3 @@
-// make an axios call
-// set up controlled inputs similar to the interview form in Scheduler
-
-
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Form, Row, Col, Button, Container, Modal } from 'react-bootstrap';
@@ -18,6 +14,9 @@ export default function PostListingForm() {
   const [squareFootage, setSquareFootage] = useState("");
   const [yearBuilt, setYearBuilt] = useState("");
 
+  const userid = localStorage.getItem('userid');
+  console.log('userid from localStorage: ==> ', userid)
+
   const newListing = (e) => {
     e.preventDefault()
     axios.post('/api/properties/new', {
@@ -30,7 +29,8 @@ export default function PostListingForm() {
       number_of_bathrooms: numBaths,
       parking_spaces: numParking,
       square_footage: squareFootage,
-      year_built: yearBuilt
+      year_built: yearBuilt,
+      owner_id: 2,
     })
     .then((response) => {
       console.log(response);
@@ -221,6 +221,14 @@ export default function PostListingForm() {
           <Form.Label>Upload property images</Form.Label>
           <Form.Control type="file" multiple />
         </Form.Group>
+
+        <Form.Group as={Col} controlId="formGridOwnerId">
+            <Form.Control
+              type="hidden"
+              value={yearBuilt}
+              onChange={(e) => setYearBuilt(e.target.value)}
+              />
+          </Form.Group>
 
         <Button className="me-4" variant="secondary">
           Cancel

@@ -20,8 +20,9 @@ export default function Login() {
           if (!response.data.auth) {
             setLoginStatus(false);
           } else {
-        
+
               localStorage.setItem("user",response.data.user)
+              localStorage.setItem("userid",response.data.user.id)
               localStorage.setItem("usertype",response.data.user.user_type)
               localStorage.setItem("email",userEmail)
               localStorage.setItem("token",response.data.token)
@@ -31,7 +32,7 @@ export default function Login() {
           }
         });
       };
-      
+
       useEffect(() => {
         axios.get("api/users/").then((response) => {
           if (response.data.loggedIn === true) {
@@ -50,22 +51,22 @@ export default function Login() {
 
     //  const logout =()=> {
     //      setLoginStatus(false)
-         
+
     //      localStorage.setItem("token","")
-        
+
     //  }
      const history = useHistory();
-      
+
       const handleClick = () => history.push("/login");
-      
+
       const [show, setShow] = useState(false);
-  
+
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
   return(
     <div className="login">
-        
-         {!loginStatus && "please login to continue"} 
+
+         {!loginStatus && "please login to continue"}
          <Button variant="primary" onClick={handleShow}>
               login
            </Button>
@@ -74,13 +75,13 @@ export default function Login() {
         <Modal.Title>log in to continue</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-       
+
     <form className="loginform" onSubmit={login} >
         <div className="form-group ">
         <label >Email </label>
-        <input type="email" 
-               className="form-control" 
-               id="email" 
+        <input type="email"
+               className="form-control"
+               id="email"
                placeholder="Enter email"
                value={userEmail}
                onChange={(e) => {
@@ -89,23 +90,23 @@ export default function Login() {
         </div>
         <div className="form-group">
             <label >Password</label>
-            <input type="password" 
-                className="form-control" 
-                id="password" 
+            <input type="password"
+                className="form-control"
+                id="password"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => {
                     setPassword(e.target.value)}}
             />
         </div>
-       
+
         <div className="form-group">
         <button
-            type="submit" 
-       
+            type="submit"
+
             className="login-button" >
             Submit
-        </button>  
+        </button>
         </div>
     </form>
     </Modal.Body>
@@ -113,11 +114,11 @@ export default function Login() {
             <Button className="regiter-button" onClick={handleClose}>
               cancel
             </Button>
-           
-           
+
+
           </Modal.Footer>
     </Modal>
-    
+
     {/* <button onClick={userAuth}>check auth </button> */}
 </div>
 )
