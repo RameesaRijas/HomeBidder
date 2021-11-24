@@ -6,11 +6,17 @@ import Header from '../Header';
 
 
 export default function PropertyList(props) {
-  const { list } = props;
+  const { list, addToYourFav, removeFromFav } = props;
+
+  const userFav = list.fav && list.fav.map(item => item.user_id === 2 ? item.property_id : 0);
+
   const propertylist = list.properties.map(item => 
                       <PropertListItem 
                         key={item.id} 
                         properties={item}
+                        fav={userFav}
+                        addToFav={addToYourFav}
+                        removeFav={removeFromFav}
                       />)
   
   return (
