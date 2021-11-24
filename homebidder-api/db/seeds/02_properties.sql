@@ -8,6 +8,7 @@ VALUES
     (3,3,5,4,'19 CONSTANTINEAU STREET.','Limoges','Ontario','K0A2M0',5620,'Detached',2011,TRUE,TRUE),
     (4,2,2,1,'2 Allen Ave','Toronto','Ontario','M8V1R8',4200,'Detached',1985,TRUE,FALSE),
     (5,3,1,1,'41 Rue Jeanne-dArc','tGatineau','Quebec','J8Y2H3',4000,'Detached',1941,TRUE,TRUE),
+    (6,3,3,3,'408 8 Street NE','Calgary,','Alberta','T2E4G9',4050,'Detached',1914,TRUE,TRUE),
     (6,3,3,3,'408 8 Street NE','Calgary,','Alberta','T2E4G9',4050,'Detached',1914,TRUE,TRUE);
    
    

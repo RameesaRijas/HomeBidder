@@ -1,4 +1,8 @@
+.body{
+  width: auto;
+}
+
 .homebidder-nav {
-  background-color: dodgerblue;
+  padding:2em;
 
 }
