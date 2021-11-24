@@ -15,7 +15,7 @@ export default function PostListingForm() {
   const [yearBuilt, setYearBuilt] = useState("");
 
   const userid = localStorage.getItem('userid');
-  console.log('userid from localStorage: ==> ', userid)
+  // console.log('userid from localStorage: ==> ', userid)
 
   const newListing = (e) => {
     e.preventDefault()
@@ -30,7 +30,7 @@ export default function PostListingForm() {
       parking_spaces: numParking,
       square_footage: squareFootage,
       year_built: yearBuilt,
-      owner_id: 2,
+      owner_id: userid,
     })
     .then((response) => {
       console.log(response);
@@ -222,13 +222,12 @@ export default function PostListingForm() {
           <Form.Control type="file" multiple />
         </Form.Group>
 
-        <Form.Group as={Col} controlId="formGridOwnerId">
+        {/* <Form.Group as={Col} controlId="formGridOwnerId">
             <Form.Control
               type="hidden"
-              value={yearBuilt}
-              onChange={(e) => setYearBuilt(e.target.value)}
+              value={localStorage.getItem('userid')}
               />
-          </Form.Group>
+          </Form.Group> */}
 
         <Button className="me-4" variant="secondary">
           Cancel
