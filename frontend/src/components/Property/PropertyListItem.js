@@ -2,10 +2,11 @@ import {Link} from 'react-router-dom';
 import './PropertyListItem.css';
 import 'font-awesome/css/font-awesome.min.css';
 import { Carousel, Col } from 'react-bootstrap';
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function PropertListItem(props) {
-  const { properties } = props
+  const { properties, fav, addToFav, removeFav } = props
 
   const imgUrl = properties.thumbnail && properties.thumbnail.map(item =>
                         <Carousel.Item>
@@ -16,12 +17,24 @@ export default function PropertListItem(props) {
                             />
                         </Carousel.Item>
                   );
-    const formatter = new Intl.NumberFormat('en-CA', {
-      style: 'currency',
-      currency: 'CAD',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0
-    });
+  const formatter = new Intl.NumberFormat('en-CA', {
+    style: 'currency',
+    currency: 'CAD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
+  });
+
+  const save = () =>{
+    addToFav(2, properties.id)
+      .then(toast.success("Property added to Fav"))
+      .catch(error => console.log(error))
+  }
+
+  const remove = () => {
+    removeFav(2, properties.id)
+    .then(toast.success("Property Removed From Fav"))
+    .catch(error => console.log(error))
+  }
     
   return (
     <Col sm>
@@ -35,9 +48,14 @@ export default function PropertListItem(props) {
               {imgUrl}
             </Carousel>
           </Link>
-          <span className="fav">
-            <i className="fa fa-heart"></i>
-          </span>
+          
+          { (fav && fav.includes(properties.id)) ?
+          <div className="fav" onClick={remove}>
+            <i className="fa fa-star" style={{color:"red"}}></i> 
+          </div>: 
+          <div className="fav" onClick={save}>
+            <i className="fa fa-star" style={{color:"white"}}></i> 
+          </div>}
         </div>
         <div className="bottom">
           <h3>{properties.street}</h3>

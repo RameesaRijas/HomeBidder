@@ -6,7 +6,10 @@ module.exports = ({
   addProperty,
   getPropertiesPhotos,
   getRegisteredUsersAndBids,
-  getPropertyDetailsById
+  getPropertyDetailsById,
+  getAllFavorites,
+  addToFavorites,
+  removeFromFavorites
 }) => {
   /* GET properties listing. */
   router.get('/', (req, res) => {
@@ -28,6 +31,13 @@ module.exports = ({
           error: err.message
       }));
   });
+
+      //to get fav
+  router.get("/favorites/all", (req, res) => {
+    getAllFavorites()
+      .then(result => res.json(result))
+      .catch(error => res.json(error));
+  })
   
   ///get bidder registrations and bids
   router.get('/bidder', (req, res) => {
@@ -82,6 +92,23 @@ module.exports = ({
 
   })
 
+  //add and remove from fav
+  router.post('/favorites/new', (req, res) => {
+    const user_id = req.body.user_id;
+    const property_id = req.body.property_id;
+    addToFavorites(user_id, property_id)
+      .then(result => res.json(result))
+      .catch(error => res.json(error))
+  })
+
+  router.delete('/favorites/:property_id', (req, res) => {
+    const user_id = req.body.data;
+    const property_id = req.params.property_id;
+    removeFromFavorites(user_id, property_id)
+      .then(result => res.json(result))
+      .catch(error => res.json(error))
+  })
+  
  //add post bid 
  router.post('/bidder',(req,res)=> {
     const{
