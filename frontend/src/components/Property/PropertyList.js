@@ -6,6 +6,7 @@ import Header from '../Header';
 
 
 export default function PropertyList(props) {
+ 
   const { list, addToYourFav, removeFromFav } = props;
 
   const userFav = list.fav && list.fav.map(item => item.user_id === 2 ? item.property_id : 0);

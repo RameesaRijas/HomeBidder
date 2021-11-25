@@ -28,10 +28,10 @@ function App() {
               <PropertyList list={state} addToYourFav={addToYourFav} removeFromFav={removeFromFav}/>
             </Route>
             <Route path="/listing/:propertyId" >
-              <Property />
+              <Property  addToFav={addToYourFav} removeFav ={removeFromFav}/>
             </Route>
             <Route exact path="/login" >
-              <Login />
+             
             </Route>
             <Route exact path="/register" >
               <Register />

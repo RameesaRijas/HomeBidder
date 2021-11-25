@@ -22,6 +22,7 @@ export default function Login(props) {
             console.log(response.data)
           if (!response.data.auth) {
             setLoginStatus(false);
+            alert('Sorrrrrry !!!! Un-authenticated User !!!!!') 
           } else {
         
               localStorage.setItem("user",response.data.user)
@@ -36,7 +37,7 @@ export default function Login(props) {
       };
       
       useEffect(() => {
-        axios.get("api/users/").then((response) => {
+        axios.get("api/users/login").then((response) => {
           if (response.data.loggedIn === true) {
             setLoginStatus(response.data.email);
           }
@@ -50,9 +51,13 @@ export default function Login(props) {
             console.log(response)
          })
      }
-     const history = useHistory();
+    //  const hi=()=>{
+    //    const history = useHistory();
+    //    this.props.history.push('/register')
+
+    //  }
       
-      const handleClick = () => history.push("/login");
+      // const handleClick = () => history.push("/login");
       
       const [show, setShow] = useState(false);
   
@@ -95,10 +100,11 @@ export default function Login(props) {
        
         <div className="form-group">
         <button
+        
             type="submit" 
        
             className="login-button" >
-            Submit
+            Submit 
         </button>  
         </div>
     </form>

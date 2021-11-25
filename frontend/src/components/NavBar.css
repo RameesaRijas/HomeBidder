@@ -6,3 +6,16 @@
   padding:2em;
 
 }
+a{text-decoration: none}
+
+.details {
+  width:900px;
+  height:50px;
+  /* margin: auto; */
+}
+@media (max-width: 900px) {
+  .details {
+    width:auto;
+    height:auto;
+  }
+}
