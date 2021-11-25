@@ -13,6 +13,10 @@ export default function PostListingForm() {
   const [numParking, setNumParking] = useState("");
   const [squareFootage, setSquareFootage] = useState("");
   const [yearBuilt, setYearBuilt] = useState("");
+  const [bidStartDate, setBidStartDate] = useState("");
+  const [bidEndDate, setBidEndDate] = useState("");
+  const [basePrice, setBasePrice] = useState("");
+
 
   const userid = localStorage.getItem('userid');
   // console.log('userid from localStorage: ==> ', userid)
@@ -40,7 +44,7 @@ export default function PostListingForm() {
 
   return (
 
-  <Modal.Dialog>
+  <Modal.Dialog size="lg">
     <Modal.Header>
       <Modal.Title className="m-auto">Create a New Listing</Modal.Title>
     </Modal.Header>
@@ -216,6 +220,38 @@ export default function PostListingForm() {
               />
           </Form.Group>
         </Row>
+
+        <Row className="mb-3">
+          <Form.Group as={Col} controlId="formGridBidStart">
+            <Form.Label>Bid Start Date</Form.Label>
+            <Form.Control
+              type="bidStartDate"
+              placeholder="YYYY-MM-DD"
+              value={squareFootage}
+              onChange={(e) => setBidStartDate(e.target.value)}
+              />
+          </Form.Group>
+
+          <Form.Group as={Col} controlId="formGridBidEnd">
+            <Form.Label>Bid End Date</Form.Label>
+            <Form.Control
+              type="bidEndDate"
+              placeholder="YYYY-MM-DD"
+              value={yearBuilt}
+              onChange={(e) => setBidEndDate(e.target.value)}
+              />
+          </Form.Group>
+        </Row>
+
+        <Form.Group as={Col} controlId="formGridBidBasePrice" className="mb-3">
+            <Form.Label>Bid Base Price</Form.Label>
+            <Form.Control
+              type="bidBasePrice"
+              placeholder="$"
+              value={basePrice}
+              onChange={(e) => setBasePrice(e.target.value)}
+              />
+          </Form.Group>
 
         <Form.Group controlId="formFileMultiple" className="mb-3">
           <Form.Label>Upload property images</Form.Label>
