@@ -1,13 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Carousel, Col, Image, Table, Card, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
-
+import { useParams,Link  } from "react-router-dom";
+import { Carousel, Col, Card, Button } from "react-bootstrap";
 import "./Property.css";
 import "font-awesome/css/font-awesome.min.css";
 import Confirm from "./ConfirmModal";
 import { toast } from "react-toastify";
+import PropertyDetails from "./PropertyDetails";
+import PropertyHistory from "./PropertyHistory";
+
 export default function Property(props) {
   const { properties, fav, addToFav, removeFav } = props;
 
@@ -34,6 +35,7 @@ export default function Property(props) {
       })
       .catch((error) => console.log(error));
   }, []);
+
   const formatter = new Intl.NumberFormat("en-CA", {
     style: "currency",
     currency: "CAD",
@@ -81,7 +83,7 @@ export default function Property(props) {
             <div className="col-sm-12">
               <Card>
                 <Card.Body>
-                  <Button variant="primary">
+                  <Button  className="btn btn-dark" className="bid-button">
                     <Confirm></Confirm>{" "}
                   </Button>
                 </Card.Body>
@@ -90,10 +92,10 @@ export default function Property(props) {
           </div>
           <div className="container-fluid">
           <div className="text-center text-md-left  d-flex justify-content-between">
-            <div> <p className="text-center text-md-left">
-            {state.properties.street} </p>
+            <div className="text-center text-md-left"> <p >
+               {state.properties.street} </p>
             <p>
-              {state.properties.city},{state.properties.province}
+              {state.properties.city},{state.properties.province},
             {state.properties.post_code}
           </p></div>
           {fav && fav.includes(state.properties.id) ? (
@@ -120,7 +122,6 @@ export default function Property(props) {
                     </span>
                   </div>
                   <div>
-                     
                     <p>
                     <i className="fa fa-bath"> </i> 
                       <p> Bath: {state.properties.number_of_bedrooms}</p>
@@ -140,64 +141,18 @@ export default function Property(props) {
                 <div className="col-md-16">
                   <p><hr></hr></p>
                   </div>
-                <div className="details">
-                  
-                <h2>Property details</h2>
-                  <div>
-                   
-                    <span>
-                      Number of BedRooms: {state.properties.number_of_bedrooms}
-                    </span>
-                  </div>
-                  <div>
-                    <p>
-                     Number of Bathrooms:{state.properties.number_of_bedrooms}
-                    </p>
-                  </div>
-                  <div>
-                  <p> Number of Parking Spots: {state.properties.parking_spaces}</p>
-                  </div>
-                  <div>
-                  <p> property_type: {state.properties.property_type}</p>
-                  </div>
-
-                  <div>
-                    <p>Area: {state.properties.square_footage}Sq Ft</p>
-                  </div>
-                  <div>
-                    <p>Year Built: {state.properties.year_built}</p>
-                  </div>
-                  <div><h2>Prpoerty history</h2></div>
-                  <div className="container-fluid">
-                  <Table>
-                    <thead>
-                     <tr>
-                     <th scope="col">#</th>
-                     <th scope="col">year</th>
-                     <th scope="col">Amount Sold</th>
-                     </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>2011</td>
-                      <td>2,380000</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>2013</td>
-                      <td>2,380080</td>
-                    </tr>
-                    </tbody>
-                  </Table>
-                  
-                  </div>
+                    <div>
+                      <PropertyDetails></PropertyDetails>
+                      </div>
+                 <div>
+                 <PropertyHistory></PropertyHistory>
+                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+     
     </Col>
   );
 }
