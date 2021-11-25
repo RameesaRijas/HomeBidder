@@ -5,17 +5,20 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import {Button} from 'react-bootstrap'
 import { Modal } from 'react-bootstrap'
-export default function Login() {
+
+export default function Login(props) {
     const [userEmail, setUserEmail] = useState("");
     const [password, setPassword] = useState("");
     const [loginStatus, setLoginStatus] = useState(false);
-    // const [type,setType]= useState("");
+   
+
     const login = (e) => {
         e.preventDefault()
         axios.post("api/users/login", {
           email: userEmail,
           password: password,
         }).then((response) => {
+            props.toggleLoginModal()
             console.log(response.data)
           if (!response.data.auth) {
             setLoginStatus(false);
@@ -25,7 +28,7 @@ export default function Login() {
               localStorage.setItem("usertype",response.data.user.user_type)
               localStorage.setItem("email",userEmail)
               localStorage.setItem("token",response.data.token)
-               window.location.reload(false);
+              window.location.reload(false);
              setLoginStatus(true);
 
           }
@@ -47,13 +50,6 @@ export default function Login() {
             console.log(response)
          })
      }
-
-    //  const logout =()=> {
-    //      setLoginStatus(false)
-         
-    //      localStorage.setItem("token","")
-        
-    //  }
      const history = useHistory();
       
       const handleClick = () => history.push("/login");
@@ -66,16 +62,14 @@ export default function Login() {
     <div className="login">
         
          {!loginStatus && "please login to continue"} 
-         <Button variant="primary" onClick={handleShow}>
-              login
-           </Button>
-           <Modal show={show} onHide={handleClose} animation={false}>
+      
+           <Modal show={props.show} onHide={props.toggleLoginModal} animation={false}>
         <Modal.Header closeButton>
         <Modal.Title>log in to continue</Modal.Title>
           </Modal.Header>
           <Modal.Body>
        
-    <form className="loginform" onSubmit={login} >
+    <form className="loginform"  onSubmit={login} >
         <div className="form-group ">
         <label >Email </label>
         <input type="email" 
@@ -110,7 +104,7 @@ export default function Login() {
     </form>
     </Modal.Body>
                <Modal.Footer>
-            <Button className="regiter-button" onClick={handleClose}>
+            <Button className="regiter-button" onClick={props.toggleLoginModal}>
               cancel
             </Button>
            
