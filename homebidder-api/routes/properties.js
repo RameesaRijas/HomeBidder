@@ -9,7 +9,8 @@ module.exports = ({
   getPropertyDetailsById,
   getAllFavorites,
   addToFavorites,
-  removeFromFavorites
+  removeFromFavorites,
+  addBidSession
 }) => {
   /* GET properties listing. */
   router.get('/', (req, res) => {
@@ -85,11 +86,17 @@ module.exports = ({
       post_code,
       square_footage,
       property_type,
-      year_built
+      year_built,
+      base_price_in_cents,
+      bid_start_date,
+      bid_end_date
     } = req.body;
 
     addProperty(owner_id, number_of_bathrooms, number_of_bedrooms, parking_spaces, street, city, province, post_code, square_footage, property_type, year_built)
-      .then((property) => res.json(property))
+      .then((property) => {
+        addBidSession(property.id, base_price_in_cents, bid_start_date, bid_end_date)
+        .then((response) => res.json(response))
+      })
       .catch((error) => res.status(500).send(error.message));
 
   })

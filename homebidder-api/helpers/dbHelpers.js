@@ -68,12 +68,12 @@ module.exports = (db) => {
   };
 
   // CREATE A NEW BID SESSION
-  const addBidSession = (basePrice, bidStartDate, bidEndDate) => {
+  const addBidSession = (propertyId, basePrice, bidStartDate, bidEndDate) => {
     const query = {
       text: `INSERT INTO bids
         (property_id, base_price_in_cents, bid_start_date, bid_end_date)
-        VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-      values: [basePrice * 100, bidStartDate, bidEndDate]
+        VALUES ($1, $2, $3, $4) RETURNING *`,
+      values: [propertyId, basePrice * 100, bidStartDate, bidEndDate]
     }
 
     return db
@@ -206,6 +206,7 @@ module.exports = (db) => {
     addToFavorites,
     removeFromFavorites,
     addbidlog,
-    adduserRegistration
+    adduserRegistration,
+    addBidSession
   };
 };

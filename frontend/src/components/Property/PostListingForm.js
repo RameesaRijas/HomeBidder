@@ -59,6 +59,7 @@ export default function PostListingForm() {
     .catch((error) => console.log(error));
   };
 
+
   return (
 
   <Modal.Dialog size="lg">
@@ -277,13 +278,6 @@ export default function PostListingForm() {
           <Form.Label>Upload property images</Form.Label>
           <Form.Control type="file" multiple />
         </Form.Group>
-
-        {/* <Form.Group as={Col} controlId="formGridOwnerId">
-            <Form.Control
-              type="hidden"
-              value={localStorage.getItem('userid')}
-              />
-          </Form.Group> */}
 
         <Button className="me-4" variant="secondary">
           Cancel
