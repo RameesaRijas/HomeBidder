@@ -225,9 +225,9 @@ export default function PostListingForm() {
           <Form.Group as={Col} controlId="formGridBidStart">
             <Form.Label>Bid Start Date</Form.Label>
             <Form.Control
-              type="bidStartDate"
+              type="date"
               placeholder="YYYY-MM-DD"
-              value={squareFootage}
+              value={bidStartDate}
               onChange={(e) => setBidStartDate(e.target.value)}
               />
           </Form.Group>
@@ -235,9 +235,9 @@ export default function PostListingForm() {
           <Form.Group as={Col} controlId="formGridBidEnd">
             <Form.Label>Bid End Date</Form.Label>
             <Form.Control
-              type="bidEndDate"
+              type="date"
               placeholder="YYYY-MM-DD"
-              value={yearBuilt}
+              value={bidEndDate}
               onChange={(e) => setBidEndDate(e.target.value)}
               />
           </Form.Group>
