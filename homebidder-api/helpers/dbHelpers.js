@@ -186,6 +186,8 @@ module.exports = (db) => {
     getPropertiesPhotos,
     getRegisteredUsersAndBids,
     getPropertyDetailsById,
+    addbidlog,
+    adduserRegistration,
     getAllFavorites,
     addToFavorites,
     removeFromFavorites,

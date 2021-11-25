@@ -7,41 +7,42 @@ import {
   Switch,
   Route
 } from "react-router-dom";
-import PostListingForm from './components/Property/PostListingForm';
 import PropertyList from './components/Property/PropertyList';
 import Property from './components/Property/Property';
-import usePropertyData from './hooks/usePropertyData';
+import PostListingForm from './components/Property/PostListingForm';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PropertyProvider from './providers/PropertyProvider';
+
 
 function App() {
 
-  const {state, addToYourFav, removeFromFav} = usePropertyData();
-
   return (
+    <PropertyProvider>
         <BrowserRouter>
           <div className="App">
-          <NavBar />
+          <NavBar/>
           <ToastContainer position={toast.POSITION.TOP_RIGHT} autoClose={1700}/>
           <Switch>
             <Route exact path="/">
-              <PropertyList list={state} addToYourFav={addToYourFav} removeFromFav={removeFromFav}/>
+              <PropertyList />
             </Route>
-            <Route path="/listing/:propertyId" >
+            <Route exact path="/listing/:propertyId" >
               <Property />
             </Route>
-            <Route exact path="/login" >
+            <Route exact path="/login">
               <Login />
             </Route>
             <Route exact path="/register" >
               <Register />
             </Route>
             <Route exact path="/properties/new" >
-              <PostListingForm />
-            </Route>
+               <PostListingForm />
+             </Route>
           </Switch>
       </div>
     </BrowserRouter>
+    </PropertyProvider>
   );
 }
 

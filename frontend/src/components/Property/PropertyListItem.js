@@ -6,14 +6,14 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function PropertListItem(props) {
-  const { properties, fav, addToFav, removeFav } = props
+  const { properties, fav, addToFav, removeFav , user} = props
 
   const imgUrl = properties.thumbnail && properties.thumbnail.map(item =>
-                        <Carousel.Item>
+                        <Carousel.Item key={item.id}>
                           <img
                             className="d-block w-100"
                             src={item.image_url}
-                            alt="First slide"
+                            alt={item.id}
                             />
                         </Carousel.Item>
                   );
@@ -25,13 +25,13 @@ export default function PropertListItem(props) {
   });
 
   const save = () =>{
-    addToFav(2, properties.id)
+    addToFav(user.id, properties.id)
       .then(toast.success("Property added to Fav"))
       .catch(error => console.log(error))
   }
 
   const remove = () => {
-    removeFav(2, properties.id)
+    removeFav(user.id, properties.id)
     .then(toast.success("Property Removed From Fav"))
     .catch(error => console.log(error))
   }
@@ -40,23 +40,24 @@ export default function PropertListItem(props) {
     <Col sm>
       <div className="box">
         <div className="top">
-          <Link
-              to={{
-                pathname:`/listing/${properties.id}`, 
-                key: properties.id}}>
+          
             <Carousel interval={null}>
               {imgUrl}
             </Carousel>
-          </Link>
-          
-          { (fav && fav.includes(properties.id)) ?
+          { user.id && (
+            (fav && fav.includes(properties.id)) ?
           <div className="fav" onClick={remove}>
             <i className="fa fa-star" style={{color:"red"}}></i> 
           </div>: 
           <div className="fav" onClick={save}>
             <i className="fa fa-star" style={{color:"white"}}></i> 
-          </div>}
+          </div>
+          )}
         </div>
+        <Link className="link_to_details"
+              to={{
+                pathname:`/listing/${properties.id}`, 
+                key: properties.id}}>
         <div className="bottom">
           <h3>{properties.street}</h3>
           <p>
@@ -89,6 +90,7 @@ export default function PropertListItem(props) {
             <span>{formatter.format(properties.base_price_in_cents / 100)}</span>
           </div>
         </div>
+        </Link>
       </div>
       </Col>
   );

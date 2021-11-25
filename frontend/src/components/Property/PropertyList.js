@@ -3,18 +3,24 @@ import './PropertyList.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row } from 'react-bootstrap';
 import Header from '../Header';
+import { useContext } from 'react';
+import { propertyContext } from '../../providers/PropertyProvider';
 
 
-export default function PropertyList(props) {
-  const { list, addToYourFav, removeFromFav } = props;
 
-  const userFav = list.fav && list.fav.map(item => item.user_id === 2 ? item.property_id : 0);
+export default function PropertyList() {
+  
+  const {addToYourFav, removeFromFav, state} = useContext(propertyContext);
+  const user = state.loggedUser;
+  const Userid = user && user.id
+  const userFav = state.fav && state.fav.map(item => item.user_id ===  Userid ? item.property_id : 0);
 
-  const propertylist = list.properties.map(item => 
+  const propertylist = state.properties.map(item => 
                       <PropertListItem 
                         key={item.id} 
                         properties={item}
                         fav={userFav}
+                        user={user}
                         addToFav={addToYourFav}
                         removeFav={removeFromFav}
                       />)
@@ -24,11 +30,11 @@ export default function PropertyList(props) {
     <Header />
     <Container>
       <h2><hr/></h2>
-    <div className="property-list">
-      <Row>
-        {propertylist}
-      </Row>
-    </div>
+      <div className="property-list">
+        <Row>
+          {propertylist}
+        </Row>
+      </div>
     </Container>
     </>
   );

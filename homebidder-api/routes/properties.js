@@ -94,6 +94,16 @@ module.exports = ({
 
   })
 
+ //add post bid 
+ router.post('/bidder',(req,res)=> {
+    const{
+      bidder_registration_id,
+      amount
+    } = req.body
+  addbidlog(bidder_registration_id,amount).then((bid) => res.json(bid))
+  .catch((error) => res.status(500).send(error.message));
+ });
+  //add ad remove from fav
   //add and remove from fav
   router.post('/favorites/new', (req, res) => {
     const user_id = req.body.user_id;
