@@ -1,6 +1,7 @@
 export const SET_PROPERTY_DATA = "SET_PROPERTY_DATA";
 export const SET_PROPERTY_ID = "SET_PROPERTY_ID";
 export const SET_FAV = "SET_FAV";
+export const SET_LOGGED_USER = "SET_LOGGED_USER";
 
 
 function reducer(state, action) {
@@ -10,6 +11,7 @@ function reducer(state, action) {
         ...state,
         properties: action.properties,
         fav: action.fav,
+        loggedUser: action.loggedUser
       }
 
       case SET_PROPERTY_ID:
@@ -29,6 +31,12 @@ function reducer(state, action) {
         return {
           ...state,
           fav: favCopy
+        }
+
+      case SET_LOGGED_USER:
+        return {
+          ...state,
+          loggedUser: action.user,
         }
 
     default:
