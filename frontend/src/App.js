@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import PropertyList from './components/Property/PropertyList';
 import Property from './components/Property/Property';
+import PostListingForm from './components/Property/PostListingForm';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PropertyProvider from './providers/PropertyProvider';
@@ -35,6 +36,9 @@ function App() {
             <Route exact path="/register" >
               <Register />
             </Route>
+            <Route exact path="/properties/new" >
+               <PostListingForm />
+             </Route>
           </Switch>
       </div>
     </BrowserRouter>
