@@ -72,6 +72,7 @@ module.exports = ({
   // Add a property to the listings
   router.post('/new', (req, res) => {
     console.log('Hello from the backend!')
+    // const owner_id = req.body.user_id
 
     const {
       owner_id,

@@ -3,6 +3,12 @@ import axios from 'axios';
 import { Form, Row, Col, Button, Container, Modal } from 'react-bootstrap';
 
 export default function PostListingForm() {
+
+  // Setting the initial minimum bid start date
+  const minStart = new Date()
+  minStart.setDate(minStart.getDate() + 3);
+
+
   const [street, setStreet] = useState("");
   const [city, setCity] = useState("");
   const [province, setProvince] = useState("");
@@ -13,24 +19,21 @@ export default function PostListingForm() {
   const [numParking, setNumParking] = useState("");
   const [squareFootage, setSquareFootage] = useState("");
   const [yearBuilt, setYearBuilt] = useState("");
-  const [bidStartDate, setBidStartDate] = useState("");
+  const [bidStartDate, setBidStartDate] = useState(minStart.toISOString().slice(0, 10));
   const [bidEndDate, setBidEndDate] = useState("");
   const [basePrice, setBasePrice] = useState("");
 
-
   const userid = localStorage.getItem('userid');
-  // console.log('userid from localStorage: ==> ', userid)
 
-  const minTime = new Date()
-  minTime.setDate(minTime.getDate() + 3);
 
-  const maxTime = new Date(bidStartDate);
-  maxTime.setDate(maxTime.getDate() + 5);
+  // Setting the minimum bid end date
+  const minEnd = new Date(bidStartDate);
+  minEnd.setDate(minEnd.getDate() + 5);
 
-  console.log(new Date());
-  console.log("bidStartPrice ==> ", bidStartDate)
-  console.log("minTime ==> ", minTime)
-  console.log("maxTime ==> ", maxTime)
+  // Setting the maximmum bid end date
+  const maxEnd = new Date(bidStartDate);
+  maxEnd.setDate(maxEnd.getDate() + 7);
+
 
   const newListing = (e) => {
     e.preventDefault()
@@ -237,7 +240,7 @@ export default function PostListingForm() {
             <Form.Label>Bid Start Date</Form.Label>
             <Form.Control
               type="date"
-              min={minTime.toISOString().slice(0, 10)}
+              min={minStart.toISOString().slice(0, 10)}
               placeholder="YYYY-MM-DD"
               value={bidStartDate}
               onChange={(e) => setBidStartDate(e.target.value)}
@@ -248,7 +251,8 @@ export default function PostListingForm() {
             <Form.Label>Bid End Date</Form.Label>
             <Form.Control
               type="date"
-              min={maxTime.toISOString().slice(0, 10)}
+              min={minEnd.toISOString().slice(0, 10)}
+              max={maxEnd.toISOString().slice(0, 10)}
               placeholder="YYYY-MM-DD"
               value={bidEndDate}
               onChange={(e) => setBidEndDate(e.target.value)}
