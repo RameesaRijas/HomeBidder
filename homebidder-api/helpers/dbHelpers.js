@@ -82,6 +82,21 @@ module.exports = (db) => {
       .catch(err => err);
   };
 
+  // ADD PROPERTY IMAGES
+  const addPropertyImage = (propertyId, imageUrl) => {
+    const query = {
+      text: `INSERT INTO property_images
+        (property_id, image_url)
+        VALUES ($1, $2) RETURNING *`,
+      values: [propertyId, imageUrl]
+    }
+
+    return db
+      .query(query)
+      .then(result => result.rows[0])
+      .catch(err => err);
+  }
+
   //get all the photos
   const getPropertiesPhotos = (property_id) => {
     const query = {
@@ -207,6 +222,7 @@ module.exports = (db) => {
     removeFromFavorites,
     addbidlog,
     adduserRegistration,
-    addBidSession
+    addBidSession,
+    addPropertyImage
   };
 };

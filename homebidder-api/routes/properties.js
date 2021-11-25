@@ -10,7 +10,8 @@ module.exports = ({
   getAllFavorites,
   addToFavorites,
   removeFromFavorites,
-  addBidSession
+  addBidSession,
+  addPropertyImage
 }) => {
   /* GET properties listing. */
   router.get('/', (req, res) => {
