@@ -13,6 +13,7 @@ import PostListingForm from './components/Property/PostListingForm';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PropertyProvider from './providers/PropertyProvider';
+import Favorites from './components/Property/Favorites';
 
 
 function App() {
@@ -39,6 +40,9 @@ function App() {
             <Route exact path="/properties/new" >
                <PostListingForm />
              </Route>
+            <Route exact path="/properties/favorites">
+              <Favorites />
+            </Route>
           </Switch>
       </div>
     </BrowserRouter>
