@@ -23,8 +23,8 @@ export default function PostListingForm() {
   const [bidEndDate, setBidEndDate] = useState("");
   const [basePrice, setBasePrice] = useState("");
 
+  // Temporarily getting the userid from localStorage until backend finalized
   const userid = localStorage.getItem('userid');
-
 
   // Setting the minimum bid end date
   const minEnd = new Date(bidStartDate);
@@ -49,6 +49,9 @@ export default function PostListingForm() {
       square_footage: squareFootage,
       year_built: yearBuilt,
       owner_id: userid,
+      bid_start_date: bidStartDate,
+      bid_end_date: bidEndDate,
+      base_price_in_cents: basePrice
     })
     .then((response) => {
       console.log(response);

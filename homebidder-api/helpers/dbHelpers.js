@@ -42,7 +42,7 @@ module.exports = (db) => {
   const getProperties = () => {
     const query = {
         text: `SELECT bids.id as bid_id, * FROM properties
-           JOIN bids 
+           JOIN bids
            ON properties.id = property_id`,
     };
 
@@ -65,7 +65,23 @@ module.exports = (db) => {
       .query(query)
       .then(result => result.rows[0])
       .catch(err => err);
-  }
+  };
+
+  // CREATE A NEW BID SESSION
+  const addBidSession = (basePrice, bidStartDate, bidEndDate) => {
+    const query = {
+      text: `INSERT INTO bids
+        (property_id, base_price_in_cents, bid_start_date, bid_end_date)
+        VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+      values: [basePrice * 100, bidStartDate, bidEndDate]
+    }
+
+    return db
+      .query(query)
+      .then(result => result.rows[0])
+      .catch(err => err);
+  };
+
   //get all the photos
   const getPropertiesPhotos = (property_id) => {
     const query = {
@@ -97,7 +113,7 @@ module.exports = (db) => {
 
   const getPropertyDetailsById= (id) => {
     const query = {
-      text: `SELECT bids.id as bid_id, 
+      text: `SELECT bids.id as bid_id,
                 property_bid_histories.id as history_id,
                 property_bid_histories.bid_amount as offer_amount,
                 property_bid_histories.seller_response,
@@ -124,8 +140,8 @@ module.exports = (db) => {
       .then((result) => result.rows)
       .catch((err) => err);
   }
-  
-  
+
+
     // add addbidlog
     const addbidlog = (bidder_registration_id,amount) => {
       const query = {
@@ -134,7 +150,7 @@ module.exports = (db) => {
           VALUES ($1, $2) RETURNING *`,
         values: [bidder_registration_id,amount]
       };
-  
+
       return db
         .query(query)
         .then(result => result.rows[0])
