@@ -21,6 +21,17 @@ export default function PostListingForm() {
   const userid = localStorage.getItem('userid');
   // console.log('userid from localStorage: ==> ', userid)
 
+  const minTime = new Date()
+  minTime.setDate(minTime.getDate() + 3);
+
+  const maxTime = new Date(bidStartDate);
+  maxTime.setDate(maxTime.getDate() + 5);
+
+  console.log(new Date());
+  console.log("bidStartPrice ==> ", bidStartDate)
+  console.log("minTime ==> ", minTime)
+  console.log("maxTime ==> ", maxTime)
+
   const newListing = (e) => {
     e.preventDefault()
     axios.post('/api/properties/new', {
@@ -226,6 +237,7 @@ export default function PostListingForm() {
             <Form.Label>Bid Start Date</Form.Label>
             <Form.Control
               type="date"
+              min={minTime.toISOString().slice(0, 10)}
               placeholder="YYYY-MM-DD"
               value={bidStartDate}
               onChange={(e) => setBidStartDate(e.target.value)}
@@ -236,6 +248,7 @@ export default function PostListingForm() {
             <Form.Label>Bid End Date</Form.Label>
             <Form.Control
               type="date"
+              min={maxTime.toISOString().slice(0, 10)}
               placeholder="YYYY-MM-DD"
               value={bidEndDate}
               onChange={(e) => setBidEndDate(e.target.value)}
