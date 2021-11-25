@@ -13,7 +13,18 @@
   height: 20em !important;
   width: 100% !important;
 }
-
+.link_to_details {
+  text-decoration: none;
+  color: black;
+}
+.link_to_details:hover {
+  text-decoration: none;
+  color: black;
+}
+.search {
+  margin-right: 3%;
+  margin-left:3%;
+}
 .property-list .box .top {
   position: relative;
   background-color: white;
