@@ -33,12 +33,10 @@ module.exports = ({
     getUserByEmail(email)
       .then(user => {
           if (user) {
-
               res.json({
                   msg: 'Sorry, a user account with this email already exists'
               });
           } else {
-
               const passwordHashed = bcrypt.hashSync(password, salt);
               console.log("pass",passwordHashed)
               return addUser(first_name, last_name, email, passwordHashed)
@@ -59,17 +57,15 @@ module.exports = ({
     getUserByEmail(email)
       .then(user => {
         if (user) {
-
           if (bcrypt.compareSync(password, user.password)) {
-
             console.log("password match")
             const token = jwt.sign({
               email : req.body.email,},"secret123")
-
+              req.session.userId = user.id;
+              req.session.email = user.email;
             res.json({auth:true,token:token,user:user})
           } else {
             res.json({ auth :false,
-
               msg: 'Wrong Credentials'
             });
           }
@@ -93,10 +89,30 @@ module.exports = ({
         }
     })
     }
-};
+  };
 
-router.get('/userAuth',verfiyjwt,(req,res) => {
-  res.send("you are  authenticated")
-})
+  router.get('/userAuth',verfiyjwt,(req,res) => {
+    res.send("you are  authenticated")
+  })
+
+  router.get('/getUser', (req, res) => {
+    const email = req.session.email;
+    console.log("hete is email", email);
+    console.log("hello");
+    if (email) {
+      getUserByEmail(email)
+        .then(result =>   { console.log(result); res.json(result) })
+        .catch(error => res.json(error));
+    } else {
+      res.json({});
+    }
+  })
+
+  router.post('/logout', (req, res) => {
+    req.session = null;
+    res.status(201).send("user successfully logout");
+  })
+
+
   return router;
 }
