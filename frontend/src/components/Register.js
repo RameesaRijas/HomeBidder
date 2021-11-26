@@ -1,13 +1,15 @@
-import React, {useState} from 'react';
+import React, {useState,useContext} from 'react';
 import axios from 'axios';
 import './Register.css';
 import { useHistory } from 'react-router-dom';
 import {Button} from 'react-bootstrap'
 import { Modal } from 'react-bootstrap'
+import { propertyContext } from '../providers/PropertyProvider';
 
 
 
-export default function RegisterModal(props) {
+export default function Register(props) {
+  const { setLoggedInUser } = useContext(propertyContext);
   const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
    const [userEmailReg, setUseEmailReg] = useState("");
@@ -15,7 +17,7 @@ export default function RegisterModal(props) {
   const handleClose = () => setShow(false);
   const register = (e) => {
     e.preventDefault()
-    axios.post("api/users/register", {
+    axios.post("/api/users/register", {
       first_name:firstName,
       last_name:lastName,
       email:userEmailReg,
@@ -23,6 +25,7 @@ export default function RegisterModal(props) {
       
     }).then((response) => {
       props.toggleRegisterModal()
+      setLoggedInUser(response.data);
       console.log(response);
     });
   };

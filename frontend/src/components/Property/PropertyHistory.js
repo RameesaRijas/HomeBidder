@@ -14,7 +14,6 @@ export default function PropertyHistory() {
     bids: {},
   });
   
-
   useEffect(() => {
     Promise.all([
       axios.get(`/api/properties/${params.propertyId}`),

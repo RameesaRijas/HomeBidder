@@ -52,8 +52,12 @@ display:inline-block  !important;
 }
 .bidding-div{
   display: flex;
-  justify-content:right ;
+  justify-content:right;
 
+}
+
+.div-orginize{
+  display: flex;
 }
 @media only screen and  (max-width: 900px)  {
   .bid-info{
