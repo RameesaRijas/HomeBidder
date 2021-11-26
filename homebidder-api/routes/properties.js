@@ -72,9 +72,18 @@ module.exports = ({
       }));
   });
 
+  // Get all the property listings for a specific user
+  router.get('/mylistings', (req, res) => {
+    const owner_id = req.session.userId;
+    console.log('owner_id from the backend ==> ', owner_id);
+
+    getMyListings(owner_id)
+      .then(result => res.json(result))
+      .catch(error => res.json(error));
+  });
+
   // Add a property to the listings
   router.post('/new', (req, res) => {
-    console.log('Hello from the backend!')
     // const owner_id = req.session.userId
 
     const {
