@@ -8,17 +8,34 @@ import Confirm from "./ConfirmModal";
 import { toast } from "react-toastify";
 import PropertyDetails from "./PropertyDetails";
 import PropertyHistory from "./PropertyHistory";
+import { useContext } from 'react';
+import { propertyContext } from '../../providers/PropertyProvider';
 
 export default function Property(props) {
-  const { properties, fav, addToFav, removeFav } = props;
-
+  // const { properties, fav, addToFav, removeFav } = props;
+  const { addToYourFav, removeFromFav,state:contextState} = useContext(propertyContext);
   const params = useParams();
   const [state, setState] = useState({
     properties: {},
     bidders: {},
     bids: {},
   });
-  console.log("bids", state.bidders);
+  const user = contextState.loggedUser;
+  const Userid = user && user.id
+  const fav = contextState.fav
+  const isfav = ()=> {
+    const result =fav.filter((fav)=> {
+       console.log("fav1",fav)
+       return fav.user_id === Userid && String(fav.property_id) === params.propertyId
+      
+    }).length
+    console.log("result",result)
+    return result
+  }
+  console.log("userid",Userid,"prams",params.propertyId)
+  // console.log("fav",fav)
+
+  // console.log("bids", state.bidders);
 
   useEffect(() => {
     Promise.all([
@@ -35,7 +52,10 @@ export default function Property(props) {
       })
       .catch((error) => console.log(error));
   }, []);
+   
 
+  console.log("biddrs",state.bidders)
+  console.log("bidds",state.bids)
   const formatter = new Intl.NumberFormat("en-CA", {
     style: "currency",
     currency: "CAD",
@@ -56,16 +76,34 @@ export default function Property(props) {
     ));
 
   const save = () => {
-    addToFav(2, params.propertyId)
+    addToYourFav(Userid, params.propertyId)
       .then(toast.success("Property added to Fav"))
       .catch((error) => console.log(error));
   };
 
   const remove = () => {
-    removeFav(2, params.propertyId)
+    console.log("remove",Userid,"params",params)
+    removeFromFav(Userid, params.propertyId)
       .then(toast.success("Property Removed From Fav"))
       .catch((error) => console.log(error));
   };
+
+  const addAndRemoveFav=()=>{
+    if(!Userid){
+    return null 
+    }else {
+     return fav && isfav() ? (
+      <div className="favlist" onClick={remove}>
+        <i className="fa fa-heart" style={{ color: "red" }}></i>
+      </div>
+    ) : (
+      <div className="favlist" onClick={save}>
+        <i className="fa fa-heart" style={{ color: "black" }}></i>
+      </div>
+    )}
+    }
+    
+  
   return (
     <Col sm-12>
       <div className="container-fluid">
@@ -97,16 +135,10 @@ export default function Property(props) {
             <p>
               {state.properties.city},{state.properties.province},
             {state.properties.post_code}
-          </p></div>
-          {fav && fav.includes(state.properties.id) ? (
-                <div className="favlist" onClick={remove}>
-                  <i className="fa fa-heart" style={{ color: "black" }}></i>
-                </div>
-              ) : (
-                <div className="favlist" onClick={save}>
-                  <i className="fa fa-heart" style={{ color: "red" }}></i>
-                </div>
-              )}
+          </p></div>  
+          
+              {addAndRemoveFav()}
+    
           
          </div>
          </div>
