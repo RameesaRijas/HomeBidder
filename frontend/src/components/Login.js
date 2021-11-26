@@ -47,7 +47,7 @@ export default function Login(props) {
           }
         });
       };
-      
+
 ///can be removed ?
     //   useEffect(() => {
     //     axios.get("api/users/login").then((response) => {
@@ -81,9 +81,9 @@ export default function Login(props) {
           <form className="loginform" onSubmit={login} >
             <div className="form-group ">
               <label >Email </label>
-              <input type="email" 
-                className="form-control" 
-                id="email" 
+              <input type="email"
+                className="form-control"
+                id="email"
                 placeholder="Enter email"
                 value={userEmail}
                 onChange={(e) => {
@@ -92,9 +92,9 @@ export default function Login(props) {
             </div>
             <div className="form-group">
               <label >Password</label>
-              <input type="password" 
-                  className="form-control" 
-                  id="password" 
+              <input type="password"
+                  className="form-control"
+                  id="password"
                   placeholder="Password"
                   value={password}
                   onChange={(e) => {
@@ -103,10 +103,10 @@ export default function Login(props) {
             </div>
             <div className="form-group">
               <button
-                type="submit" 
+                type="submit"
                 className="login-button" >
                 Submit
-              </button>  
+              </button>
             </div>
           </form>
         </Modal.Body>
