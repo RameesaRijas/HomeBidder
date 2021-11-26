@@ -56,7 +56,7 @@ export default function NavBar() {
                     clasName="p-3 mb-2 bg-white text-dark"
                     onClick={toggleLoginModal}
                   >
-                    
+
                     <Nav.Link className="text-white bg-dark">Login</Nav.Link>
                   </p>
                   <p
@@ -68,18 +68,18 @@ export default function NavBar() {
                   </p>
             </>
           )}
-        
+
           {(user  && user.user_type === 2) && (
           <NavDropdown title={user.email} id="navbarScrollingDropdown">
             <NavDropdown.Item as={Link} to="/properties/favorites">My Favourites</NavDropdown.Item>
             <NavDropdown.Item as={Link} to="getRoute">My Bids</NavDropdown.Item>
-            <NavDropdown.Item as={Link} to="getRoute">My Listings</NavDropdown.Item>
+            <NavDropdown.Item as={Link} to="/properties/mylistings">My Listings</NavDropdown.Item>
             <NavDropdown.Item as={Link} to="/properties/new">Create New Listing</NavDropdown.Item>
             <NavDropdown.Divider />
-            
+
             <NavDropdown.Item  onClick={logout} as={Link} to="logout">
               Logout
-            </NavDropdown.Item> 
+            </NavDropdown.Item>
           </NavDropdown>
           )}
 

@@ -11,6 +11,7 @@ import Favorites from './components/Property/Favorites';
 import { useContext } from 'react';
 import { propertyContext } from './providers/PropertyProvider';
 import Error from './components/Error';
+import MyListings from "./components/Property/MyListings";
 
 function App() {
 
@@ -42,7 +43,10 @@ const userType = state.loggedUser && state.loggedUser.user_type;
             <Route exact path="/properties/favorites">
             {(loggedIn && userType === 2) ?  <Favorites /> :<Error />}
             </Route>
-            
+                <Route exact path="/properties/mylistings" >
+                {(loggedIn && userType === 2) ? <MyListings /> : <Error />}
+              </Route>
+
           </Switch>
       </div>
     </BrowserRouter>

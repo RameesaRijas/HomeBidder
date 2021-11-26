@@ -27,7 +27,7 @@ export default function Login(props) {
              props.toggleLoginModal()
             console.log(response.data)
           if (!response.data.auth) {
-            alert('Sorrrrrry !!!! Un-authenticated User !!!!!') 
+            alert('Sorrrrrry !!!! Un-authenticated User !!!!!')
             // setLoginStatus(false);
           } else {
 
@@ -40,7 +40,7 @@ export default function Login(props) {
               // localStorage.setItem("token",response.data.token)
               // e.preventDefault();
 
-              //this can be removed //page refresh happening  
+              //this can be removed //page refresh happening
               // window.location = "/";
               // setLoginStatus(true);
 
@@ -65,14 +65,14 @@ export default function Login(props) {
     //      })
     //  }
 
-   
-  
-   
+
+
+
 
   return(
     <div className="login">
-      {!loginStatus && "please login to continue"} 
-      
+      {!loginStatus}
+
       <Modal show={props.show} onHide={props.toggleLoginModal} animation={false}>
         <Modal.Header closeButton>
         <Modal.Title>log in to continue</Modal.Title>
