@@ -40,7 +40,7 @@ export default function NavBar() {
         <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ms-auto">
           <Nav.Link as={Link} to="/">Listings</Nav.Link>
-          {!user.length && (
+          {!Object.keys(user).length && (
             <>
             <Nav.Link as={Link} to="/login" >Login</Nav.Link>
             <Nav.Link as={Link} to="/register">Register</Nav.Link>
@@ -49,7 +49,7 @@ export default function NavBar() {
         
           {(user  && user.user_type === 2) && (
           <NavDropdown title={user.email} id="navbarScrollingDropdown">
-            <NavDropdown.Item as={Link} to="getRoute">My Favourites</NavDropdown.Item>
+            <NavDropdown.Item as={Link} to="/properties/favorites">My Favourites</NavDropdown.Item>
             <NavDropdown.Item as={Link} to="getRoute">My Bids</NavDropdown.Item>
             <NavDropdown.Item as={Link} to="getRoute">My Listings</NavDropdown.Item>
             <NavDropdown.Item as={Link} to="/properties/new">Create New Listing</NavDropdown.Item>
