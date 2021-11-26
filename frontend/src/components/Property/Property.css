@@ -34,8 +34,10 @@ display:inline-block  !important;
 }
 .bid-button{
   color: #fff;
-  background-color: #0c0c0e;
+ 
   border-color: #161616;
+  margin: 0;
+  padding: 0;
 }
 
 .bidding{
@@ -55,9 +57,25 @@ display:inline-block  !important;
   justify-content:right;
 
 }
+.bid-info{
+  display: flex;
+  justify-content: center;
+  background-color: seashell;
+  align-items: center;
+}
 
+.card-header{
+  display: flex;
+    justify-content: center;
+}
 .div-orginize{
   display: flex;
+}
+.footer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 @media only screen and  (max-width: 900px)  {
   .bid-info{

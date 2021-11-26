@@ -11,7 +11,7 @@ export default function PropertyDetails() {
     bidders: {},
     bids: {},
   });
-
+ 
 
   useEffect(() => {
     Promise.all([

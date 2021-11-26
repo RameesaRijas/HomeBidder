@@ -120,10 +120,10 @@ export default function Property(props) {
           <div className="d-flex justify-content-center">
             <div className="col-sm-12">
               <Card>
-                <Card.Body>
-                  <Button  className="btn btn-dark" className="bid-button">
+                <Card.Body className="bid-info">
+                  <p  className="bid-button">
                     <Confirm></Confirm>{" "}
-                  </Button>
+                  </p>
                 </Card.Body>
               </Card>
             </div>

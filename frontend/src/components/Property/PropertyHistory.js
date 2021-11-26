@@ -60,7 +60,7 @@ export default function PropertyHistory() {
     <div>
     <Card>
   <Card.Header as="h5">Featured</Card.Header>
-  <Card.Body>
+  <Card.Body className="footer">
     <Card.Title></Card.Title>
     <Card.Text>
        you can find as in  
