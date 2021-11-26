@@ -53,17 +53,18 @@ module.exports = (db) => {
   };
 
   // GET ALL PROPERTIES FOR A SPECIFIC USER
-  const getMyListings = (userId) => {
-    const query = {
-      text: `SELECT * FROM properties WHERE owner_id = $1`,
-      values: [userId]
-    }
+  // ** Don't need this anymore as listings are called and filtered in frontend **
+  // const getMyListings = (userId) => {
+  //   const query = {
+  //     text: `SELECT * FROM properties WHERE owner_id = $1`,
+  //     values: [userId]
+  //   }
 
-    return db
-      .query(query)
-      .then((result) => result.rows)
-      .catch((err) => err);
-  }
+  //   return db
+  //     .query(query)
+  //     .then((result) => result.rows)
+  //     .catch((err) => err);
+  // }
 
   //ADD A PROPERTY TO THE LISTINGS
   const addProperty = (ownerId, numBaths, numBeds, numParking, street, city, province, postCode, squareFootage, propertyType, yearBuilt) => {
@@ -239,6 +240,6 @@ module.exports = (db) => {
     adduserRegistration,
     addBidSession,
     addPropertyImage,
-    getMyListings
+    // getMyListings
   };
 };
