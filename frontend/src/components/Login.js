@@ -21,6 +21,7 @@ export default function Login() {
           email: userEmail,
           password: password,
         }).then((response) => {
+            props.toggleLoginModal()
             console.log(response.data)
           if (!response.data.auth) {
             // setLoginStatus(false);
@@ -45,7 +46,7 @@ export default function Login() {
       
 ///can be removed ?
       useEffect(() => {
-        axios.get("api/users/").then((response) => {
+        axios.get("api/users/login").then((response) => {
           if (response.data.loggedIn === true) {
             setLoginStatus(response.data.email);
           }

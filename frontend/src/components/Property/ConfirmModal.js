@@ -3,9 +3,16 @@ import React from 'react'
 import {Button} from 'react-bootstrap'
 import { Modal } from 'react-bootstrap'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { Route } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
-
+import { useHistory } from "react-router-dom";
 export default function Confirm() {
+  function HomeButton() {
+    let history = useHistory();
+     history.push('/login') 
+  };
   
     const [show, setShow] = useState(false);
   
@@ -14,7 +21,7 @@ export default function Confirm() {
   
     return (
       <>
-        <Button variant="primary" onClick={handleShow}>
+        <Button  className ="btn btn-dark" onClick={handleShow}>
           Register for the bid
         </Button>
         <Modal show={show} onHide={handleClose} animation={false}>
@@ -29,7 +36,7 @@ export default function Confirm() {
             <Button variant="secondary" onClick={handleClose}>
               cancel
             </Button>
-            <Button variant="primary" onClick={handleClose}>
+            <Button variant="primary"  onClick={handleClose}>
               confirm
             </Button>
           </Modal.Footer>
