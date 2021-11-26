@@ -11,7 +11,8 @@ module.exports = ({
   addToFavorites,
   removeFromFavorites,
   addBidSession,
-  addPropertyImage
+  addPropertyImage,
+  getMyListings
 }) => {
   /* GET properties listing. */
   router.get('/', (req, res) => {
@@ -102,7 +103,7 @@ module.exports = ({
 
   })
 
- //add post bid 
+ //add post bid
  router.post('/bidder',(req,res)=> {
     const{
       bidder_registration_id,
