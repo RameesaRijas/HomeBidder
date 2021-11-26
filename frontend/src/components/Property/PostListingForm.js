@@ -1,12 +1,14 @@
-// make an axios call
-// set up controlled inputs similar to the interview form in Scheduler
-
-
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Form, Row, Col, Button, Container, Modal } from 'react-bootstrap';
 
 export default function PostListingForm() {
+
+  // Setting the initial minimum bid start date
+  const minStart = new Date()
+  minStart.setDate(minStart.getDate() + 3);
+
+
   const [street, setStreet] = useState("");
   const [city, setCity] = useState("");
   const [province, setProvince] = useState("");
@@ -17,6 +19,22 @@ export default function PostListingForm() {
   const [numParking, setNumParking] = useState("");
   const [squareFootage, setSquareFootage] = useState("");
   const [yearBuilt, setYearBuilt] = useState("");
+  const [bidStartDate, setBidStartDate] = useState(minStart.toISOString().slice(0, 10));
+  const [bidEndDate, setBidEndDate] = useState("");
+  const [basePrice, setBasePrice] = useState("");
+  const [imageUrl, setImageUrl] = useState([]);
+
+  // Temporarily getting the userid from localStorage until backend finalized
+  const userid = localStorage.getItem('userid');
+
+  // Setting the minimum bid end date
+  const minEnd = new Date(bidStartDate);
+  minEnd.setDate(minEnd.getDate() + 5);
+
+  // Setting the maximmum bid end date
+  const maxEnd = new Date(bidStartDate);
+  maxEnd.setDate(maxEnd.getDate() + 7);
+
 
   const newListing = (e) => {
     e.preventDefault()
@@ -30,7 +48,12 @@ export default function PostListingForm() {
       number_of_bathrooms: numBaths,
       parking_spaces: numParking,
       square_footage: squareFootage,
-      year_built: yearBuilt
+      year_built: yearBuilt,
+      owner_id: userid,
+      bid_start_date: bidStartDate,
+      bid_end_date: bidEndDate,
+      base_price_in_cents: basePrice,
+      image_url: imageUrl
     })
     .then((response) => {
       console.log(response);
@@ -38,9 +61,12 @@ export default function PostListingForm() {
     .catch((error) => console.log(error));
   };
 
+
+
+
   return (
 
-  <Modal.Dialog>
+  <Modal.Dialog size="lg">
     <Modal.Header>
       <Modal.Title className="m-auto">Create a New Listing</Modal.Title>
     </Modal.Header>
@@ -217,10 +243,58 @@ export default function PostListingForm() {
           </Form.Group>
         </Row>
 
+        <Row className="mb-3">
+          <Form.Group as={Col} controlId="formGridBidStart">
+            <Form.Label>Bid Start Date</Form.Label>
+            <Form.Control
+              type="date"
+              min={minStart.toISOString().slice(0, 10)}
+              placeholder="YYYY-MM-DD"
+              value={bidStartDate}
+              onChange={(e) => setBidStartDate(e.target.value)}
+              />
+          </Form.Group>
+
+          <Form.Group as={Col} controlId="formGridBidEnd">
+            <Form.Label>Bid End Date</Form.Label>
+            <Form.Control
+              type="date"
+              min={minEnd.toISOString().slice(0, 10)}
+              max={maxEnd.toISOString().slice(0, 10)}
+              placeholder="YYYY-MM-DD"
+              value={bidEndDate}
+              onChange={(e) => setBidEndDate(e.target.value)}
+              />
+          </Form.Group>
+        </Row>
+
+        <Form.Group as={Col} controlId="formGridBidBasePrice" className="mb-3">
+            <Form.Label>Bid Base Price</Form.Label>
+            <Form.Control
+              type="bidBasePrice"
+              placeholder="$"
+              value={basePrice}
+              onChange={(e) => setBasePrice(e.target.value)}
+              />
+          </Form.Group>
+
+
+
+
+
         <Form.Group controlId="formFileMultiple" className="mb-3">
           <Form.Label>Upload property images</Form.Label>
-          <Form.Control type="file" multiple />
+          <Form.Control
+            type="file" multiple
+            // value={imageUrl}
+            // For each image uploaded, I need to append to imageUrl using spread operator
+            onChange={(e) => {console.log(e.target.files)}}
+          />
         </Form.Group>
+
+
+
+
 
         <Button className="me-4" variant="secondary">
           Cancel

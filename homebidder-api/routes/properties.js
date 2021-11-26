@@ -9,7 +9,9 @@ module.exports = ({
   getPropertyDetailsById,
   getAllFavorites,
   addToFavorites,
-  removeFromFavorites
+  removeFromFavorites,
+  addBidSession,
+  addPropertyImage
 }) => {
   /* GET properties listing. */
   router.get('/', (req, res) => {
@@ -22,7 +24,7 @@ module.exports = ({
                 return {...property ,'thumbnail':images}
             })
           )))
-        }  
+        }
         getData().then(data => {
           res.json(data)
         })
@@ -38,7 +40,7 @@ module.exports = ({
       .then(result => res.json(result))
       .catch(error => res.json(error));
   })
-  
+
   ///get bidder registrations and bids
   router.get('/bidder', (req, res) => {
     getRegisteredUsersAndBids()
@@ -56,7 +58,7 @@ module.exports = ({
         return new Promise(resolve => {
             getPropertiesPhotos(id)
               .then(images =>  {
-                if (images) { 
+                if (images) {
                   property['thumbnail'] = images;
                 }
                 resolve(property)
@@ -72,10 +74,10 @@ module.exports = ({
   // Add a property to the listings
   router.post('/new', (req, res) => {
     console.log('Hello from the backend!')
-
-    const owner_id = 2;
+    // const owner_id = req.session.userId
 
     const {
+      owner_id,
       number_of_bathrooms,
       number_of_bedrooms,
       parking_spaces,
@@ -85,11 +87,17 @@ module.exports = ({
       post_code,
       square_footage,
       property_type,
-      year_built
+      year_built,
+      base_price_in_cents,
+      bid_start_date,
+      bid_end_date
     } = req.body;
 
     addProperty(owner_id, number_of_bathrooms, number_of_bedrooms, parking_spaces, street, city, province, post_code, square_footage, property_type, year_built)
-      .then((property) => res.json(property))
+      .then((property) => {
+        addBidSession(property.id, base_price_in_cents, bid_start_date, bid_end_date)
+        .then((response) => res.json(response))
+      })
       .catch((error) => res.status(500).send(error.message));
 
   })
@@ -120,8 +128,8 @@ module.exports = ({
       .then(result => res.json(result))
       .catch(error => res.json(error))
   })
-  
- //add post bid 
+
+ //add post bid
  router.post('/bidder',(req,res)=> {
     const{
       bidder_registration_id,

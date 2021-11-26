@@ -31,19 +31,20 @@ export default function Login() {
 
             //this item can be removed
               localStorage.setItem("user",response.data.user)
+              localStorage.setItem("userid",response.data.user.id)
               localStorage.setItem("usertype",response.data.user.user_type)
               localStorage.setItem("email",userEmail)
               localStorage.setItem("token",response.data.token)
               e.preventDefault();
 
-              //this can be removed //page refresh happening  
+              //this can be removed //page refresh happening
               window.location = "/";
               setLoginStatus(true);
 
           }
         });
       };
-      
+
 ///can be removed ?
       useEffect(() => {
         axios.get("api/users/login").then((response) => {
@@ -63,22 +64,22 @@ export default function Login() {
 ///delete all codes commented and unwanted
     //  const logout =()=> {
     //      setLoginStatus(false)
-         
+
     //      localStorage.setItem("token","")
-        
+
     //  }
      //const history = useHistory();
-      
+
       // const handleClick = () => history.push("/login");
-      
+
     const [show, setShow] = useState(false);
-  
+
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
   return(
     <div className="login">
-      {!loginStatus && "please login to continue"} 
+      {!loginStatus && "please login to continue"}
       < Button variant="primary" onClick={handleShow}>
           login
         </Button>
@@ -90,9 +91,9 @@ export default function Login() {
           <form className="loginform" onSubmit={login} >
             <div className="form-group ">
               <label >Email </label>
-              <input type="email" 
-                className="form-control" 
-                id="email" 
+              <input type="email"
+                className="form-control"
+                id="email"
                 placeholder="Enter email"
                 value={userEmail}
                 onChange={(e) => {
@@ -101,9 +102,9 @@ export default function Login() {
             </div>
             <div className="form-group">
               <label >Password</label>
-              <input type="password" 
-                  className="form-control" 
-                  id="password" 
+              <input type="password"
+                  className="form-control"
+                  id="password"
                   placeholder="Password"
                   value={password}
                   onChange={(e) => {
@@ -112,17 +113,17 @@ export default function Login() {
             </div>
             <div className="form-group">
               <button
-                type="submit" 
+                type="submit"
                 className="login-button" >
                 Submit
-              </button>  
+              </button>
             </div>
           </form>
         </Modal.Body>
         <Modal.Footer>
           <Button className="regiter-button" onClick={handleClose}>
             cancel
-          </Button> 
+          </Button>
         </Modal.Footer>
       </Modal>
     </div>
