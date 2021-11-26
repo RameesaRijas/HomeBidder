@@ -3,7 +3,7 @@ import { propertyContext } from '../../providers/PropertyProvider';
 import PropertListItem from './PropertyListItem';
 import './PropertyList.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Alert,Container, Row } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
 
 
 export default function Favorites() {
@@ -30,10 +30,6 @@ export default function Favorites() {
     <>
     <Container className="col-lg-10">
       <h2><hr/></h2>
-      { Object.keys(user).length === 0 && (<Alert variant="danger">
-                          Please Login to continue
-                      </Alert>
-      )}
       <div className="property-list">
         <Row>
           {propertylist}
