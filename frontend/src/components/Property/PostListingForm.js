@@ -22,7 +22,7 @@ export default function PostListingForm() {
   const [bidStartDate, setBidStartDate] = useState(minStart.toISOString().slice(0, 10));
   const [bidEndDate, setBidEndDate] = useState("");
   const [basePrice, setBasePrice] = useState("");
-  // const [imageUrl, setImageUrl] = useState([]);
+  const [imageUrl, setImageUrl] = useState([]);
 
   // Temporarily getting the userid from localStorage until backend finalized
   const userid = localStorage.getItem('userid');
@@ -52,7 +52,8 @@ export default function PostListingForm() {
       owner_id: userid,
       bid_start_date: bidStartDate,
       bid_end_date: bidEndDate,
-      base_price_in_cents: basePrice
+      base_price_in_cents: basePrice,
+      image_url: imageUrl
     })
     .then((response) => {
       console.log(response);
@@ -60,7 +61,7 @@ export default function PostListingForm() {
     .catch((error) => console.log(error));
   };
 
-  // console.log('imageUrl ==> ', imageUrl)
+
 
 
   return (
@@ -277,15 +278,23 @@ export default function PostListingForm() {
               />
           </Form.Group>
 
+
+
+
+
         <Form.Group controlId="formFileMultiple" className="mb-3">
           <Form.Label>Upload property images</Form.Label>
           <Form.Control
             type="file" multiple
-            value={imageUrl}
+            // value={imageUrl}
             // For each image uploaded, I need to append to imageUrl using spread operator
-            // onChange={(e) => setImageUrl([...imageUrl, e])}
+            onChange={(e) => {console.log(e.target.files)}}
           />
         </Form.Group>
+
+
+
+
 
         <Button className="me-4" variant="secondary">
           Cancel
