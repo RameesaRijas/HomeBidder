@@ -4,6 +4,7 @@ import PropertListItem from './PropertyListItem';
 import './PropertyList.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row } from 'react-bootstrap';
+import AlertListing from './AlertListing';
 
 
 export default function MyListings() {
@@ -18,9 +19,15 @@ export default function MyListings() {
       properties={item}
       user={user}
     />
-    }
-  })
+    };
+  });
 
+  let isEmpty = true;
+  for (let i = 0; i < state.properties.length; i++) {
+    if (Userid === state.properties[i].owner_id) {
+      isEmpty = false;
+    };
+  };
 
   return (
     <>
@@ -28,11 +35,11 @@ export default function MyListings() {
       <h5><hr/>My Property Listings</h5>
       <div className="property-list">
         <Row>
+          {isEmpty && <AlertListing/>}
           {propertylist}
         </Row>
       </div>
     </Container>
     </>
   );
-
-}
+};

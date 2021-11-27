@@ -8,5 +8,5 @@ export default function AlertListing() {
   <Alert variant="info">
     You have no property listings posted at this time.
   </Alert>
-  )
-}
+  );
+};
