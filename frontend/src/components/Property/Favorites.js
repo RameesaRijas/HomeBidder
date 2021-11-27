@@ -14,8 +14,8 @@ export default function Favorites() {
 
   const propertylist = state.properties.map(item => {
     if (userFav && userFav.includes(item.id)) {
-     return <PropertListItem 
-      key={item.id} 
+     return <PropertListItem
+      key={item.id}
       properties={item}
       fav={userFav}
       user={user}
@@ -29,7 +29,7 @@ export default function Favorites() {
   return (
     <>
     <Container className="col-lg-10">
-      <h2><hr/></h2>
+      <h5><hr/>My Favourites</h5>
       <div className="property-list">
         <Row>
           {propertylist}

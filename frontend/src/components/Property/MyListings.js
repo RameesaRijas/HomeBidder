@@ -25,7 +25,7 @@ export default function MyListings() {
   return (
     <>
     <Container className="col-lg-10">
-      <h2><hr/>My Property Listings</h2>
+      <h5><hr/>My Property Listings</h5>
       <div className="property-list">
         <Row>
           {propertylist}
