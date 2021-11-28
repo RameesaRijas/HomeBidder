@@ -45,14 +45,12 @@ export default function PropertyDetails() {
         <div className="col-md-6">
           <div className="details">
             <h2>Property details</h2>
-            <p>Number of BedRooms: {state.properties.number_of_bedrooms}</p>
-            <p>Number of Bathrooms: {state.properties.number_of_bedrooms}</p>
-            <p> Number of Parking Spots: {state.properties.parking_spaces}</p>
-            <p> property_type: {state.properties.property_type}</p>
+            <p> Number of Parking Spots: <b>{state.properties.parking_spaces}</b></p>
+            <p> Property Type: <b>{state.properties.property_type}</b></p>
 
-            <p>Area: {state.properties.square_footage}Sq Ft</p>
+            <p>Area: <b>{state.properties.square_footage}</b>Sq Ft</p>
 
-            <p>Year Built: {state.properties.year_built}</p>
+            <p>Year Built: <b>{state.properties.year_built}</b></p>
           </div>
         </div>
         <div className="col-sm-6">

@@ -9,9 +9,12 @@ const jwt = require("jsonwebtoken");
 module.exports = ({
   getUsers,
   getUserByEmail,
-  addUser
+  addUser,
+  registerBidder,
+  getPropertyBidsLog,
+  addUserBids
 
-}) => {
+}, updateBids, updateBidders ) => {
   /* GET users listing. */
   router.get('/', (req, res) => {
     getUsers()
@@ -97,8 +100,6 @@ module.exports = ({
 
   router.get('/getUser', (req, res) => {
     const email = req.session.email;
-    console.log("hete is email", email);
-    console.log("hello");
     if (email) {
       getUserByEmail(email)
         .then(result =>   { console.log(result); res.json(result) })
@@ -111,6 +112,40 @@ module.exports = ({
   router.post('/logout', (req, res) => {
     req.session = null;
     res.status(201).send("user successfully logout");
+  })
+
+  router.post('/bidder', (req, res) => {
+    const user_id = req.session.userId
+    const { bidId } = req.body;
+    registerBidder(user_id, bidId)
+    .then((result) => {
+      setTimeout(() => {
+        console.log("may be this wil ebeco " ,result);
+        res.json({});
+        updateBidders(result);
+      }, 500);
+    })
+      .catch(error => res.json(error))
+  })
+
+  router.get('/bids/:propertyId' , (req, res) => {
+    const propertyId = req.params.propertyId;
+
+    getPropertyBidsLog(propertyId)
+    .then(result => { console.log("here iam ", result); res.json(result) } )
+  })
+
+  router.post('/bid', (req, res) => {
+    const {data } = req.body;
+    const registrationId = data.registrationId;
+    const amount = data.amount;
+    addUserBids(registrationId, amount)
+    .then((result) => {
+      setTimeout(() => {
+        updateBids(result);
+      }, 1000);
+    })
+    .catch(error => res.json(error));
   })
 
 

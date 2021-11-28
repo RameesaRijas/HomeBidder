@@ -22,27 +22,47 @@ app.use(cookieSession({
   maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }));
 
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use (cors())
-app.use('/api/users', usersRouter(dbHelpers));
+
 app.use('/api/properties', propertyRouter(dbHelpers));
 
 
 app.sockIO = sockIO;
 
 sockIO.on('connection', function(socket){
-    console.log('A user connected!'+ socket.id);
-    socket.on('send message', (data) => {
-      socket.join(data);
-      console.log("messg" + data);
-    })  
-    socket.on('disconnect',()=>{
-      console.log("socket disconnected")
-    })
+    socket.onmessage = event => {
+      if (event.data === "ping") {
+        socket.send(JSON.stringify("pong"));
+      }
+    }
 });
+
+
+  const updateBids = (bids) => {
+    sockIO.emit("bid",
+      JSON.stringify({
+        type: "SET_BIDS",
+        bids
+      })
+    );
+  }
+  
+  const updateBidders = (bidder) => {
+    sockIO.emit("bidders",
+      JSON.stringify({
+        type: "SET_BIDDER",
+        bidder
+      })
+    );
+  }
+  app.use('/api/users', usersRouter(dbHelpers, updateBids, updateBidders));
+
+
 
 
 module.exports = app;

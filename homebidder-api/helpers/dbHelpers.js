@@ -126,9 +126,12 @@ module.exports = (db) => {
   };
 
   //
-  const getRegisteredUsersAndBids = () => {
+  const getRegisteredUsersAndBids = (propertyId) => {
     const query = {
-      text: `SELECT * FROM bidder_registrations`,
+      text: `SELECT br.id,br.user_id, br.bids_id FROM bidder_registrations AS br
+              JOIN bids ON bids.id = bids_id
+              WHERE bids.property_id = $1`,
+      values: [propertyId]
   };
 
   return db
@@ -208,36 +211,105 @@ module.exports = (db) => {
       .query(query)
       .then((result) => result.rows[0])
       .catch((err) => err);
+  };
+
+  const removeFromFavorites = (user_id, property_id) => {
+    const query = {
+      text: `DELETE FROM favorites WHERE user_id = $1::integer AND property_id = $2::integer
+      RETURNING *`,
+      values: [user_id, property_id]
+    }
+      return db
+      .query(query)
+      .then((result) => result.rows[0])
+      .catch((err) => err);
     };
 
-    const removeFromFavorites = (user_id, property_id) => {
-      const query = {
-        text: `DELETE FROM favorites WHERE user_id = $1::integer AND property_id = $2::integer
-        RETURNING *`,
-        values: [user_id, property_id]
-      }
-        return db
-        .query(query)
-        .then((result) => result.rows[0])
-        .catch((err) => err);
-      };
-
-      const getBidsbyUser = (id)=> {
-      
-        
-        const query = {
-          
-          text: `SELECT * FROM  bidder_registrations 
-          join bids on bids.id = bidder_registrations.bids_id
-          join properties  on bids.property_id = properties.id 
-          where bidder_registrations.user_id =$1`,
-          values: [id]
-        }
+  const registerBidder = (user_id, bidId) => {
+    const query = {
+      text: `INSERT INTO bidder_registrations (bids_id, user_id) VALUES (
+        $1, $2)
+      RETURNING *`,
+      values: [bidId , user_id]
+    }
       return db
-          .query(query)
-          .then((result) => result.rows)
-          .catch((err) => err);
-      }
+      .query(query)
+      .then((result) => result.rows[0])
+      .catch((err) => err);
+  }
+
+  const getPropertyBidsLog = (id) => {
+    const query = {
+      text: `SELECT bid_logs.id, bid_logs.amount, bid_logs.bidder_registration_id,
+            bid_logs.bids_at
+            FROM bid_logs 
+            JOIN bidder_registrations ON bidder_registrations.id =    bidder_registration_id
+            JOIN bids ON bids.id = bidder_registrations.bids_id
+            WHERE bids.property_id = $1
+            ORDER BY bid_logs.id DESC`,
+        values: [id]
+    };
+
+  return db
+      .query(query)
+      .then((result) => result.rows)
+      .catch((err) => err);
+  };
+
+  const addUserBids = (registration_id, amount) => {
+    const query = {
+      text: `INSERT INTO bid_logs(bidder_registration_id, amount) VALUES ($1, $2)
+              RETURNING *`,
+        values: [registration_id, amount]
+    };
+
+  return db
+      .query(query)
+      .then((result) => result.rows[0])
+      .catch((err) => err);
+  }
+
+  const addToBidHistory = (amount, property_id, user_id) => {
+    const query = {
+      text: `INSERT INTO property_bid_histories (property_id, bid_amount, user_id)
+         VALUES ($1, $2, $3)
+              RETURNING *`,
+        values: [property_id, amount, user_id]
+    };
+
+  return db
+      .query(query)
+      .then((result) => result.rows[0])
+      .catch((err) => err);
+  }
+
+  const addNotification = (user_id, message) => {
+    const query = {
+      text: `INSERT INTO notifications (user_id, message)
+         VALUES ($1, $2)
+              RETURNING *`,
+        values: [user_id, message]
+    };
+
+  return db
+      .query(query)
+      .then((result) => result.rows[0])
+      .catch((err) => err);
+  }
+
+  const getBidsbyUser = (id)=> {
+    const query = {
+      text: `SELECT * FROM  bidder_registrations 
+      join bids on bids.id = bidder_registrations.bids_id
+      join properties  on bids.property_id = properties.id 
+      where bidder_registrations.user_id =$1`,
+      values: [id]
+    }
+    return db
+      .query(query)
+      .then((result) => result.rows)
+      .catch((err) => err);
+  }
   
   return {
     getUsers,
@@ -257,6 +329,8 @@ module.exports = (db) => {
     adduserRegistration,
     addBidSession,
     addPropertyImage,
-    getBidsbyUser
+    getBidsbyUser,
+    registerBidder, getPropertyBidsLog, addUserBids, addToBidHistory,
+    addNotification
   };
 };

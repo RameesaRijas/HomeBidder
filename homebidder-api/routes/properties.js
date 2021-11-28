@@ -15,8 +15,10 @@ module.exports = ({
   // getMyListings
   addbidlog,
   adduserRegistration,
-  getBidsbyUser
+  getBidsbyUser,
   
+  addToBidHistory,
+  addNotification
 }) => {
   /* GET properties listing. */
   router.get('/', (req, res) => {
@@ -47,9 +49,10 @@ module.exports = ({
   })
 
   ///get bidder registrations and bids
-  router.get('/bidder', (req, res) => {
-    getRegisteredUsersAndBids()
-      .then((bidders) => res.json(bidders))
+  router.get('/bidder/:propertyId', (req, res) => {
+    const propertyId = req.params.propertyId;
+    getRegisteredUsersAndBids(propertyId)
+      .then((bidders) => { console.log("if you have then i have", bidders); res.json(bidders)})
       .catch((err) => res.json({
           error: err.message
       }));
@@ -175,16 +178,34 @@ module.exports = ({
   .catch((error) => res.status(500).send(error.message));
  });
 
- router.post('/userRegisteration',(req,res)=>{
-   const{bids_id,
-    user_id}
-    =req.body
-   adduserRegistration(bids_id,user_id).then((register) => res.json(register))
-   .catch((error) => res.status(500).send(error.message));
-    });
+  router.post('/userRegisteration',(req,res)=>{
+    const{bids_id,
+      user_id}
+      =req.body
+    adduserRegistration(bids_id,user_id).then((register) => res.json(register))
+    .catch((error) => res.status(500).send(error.message));
+  });
 
+  //add to propertyHistory
+  router.post('/bids/history', (req, res) => {
+    const { data } = req.body;
+    const { amount , property_id , userId , owner_id} = data;
 
-    
+    addToBidHistory(amount, property_id, userId)
+    .then(result => {
+      return new Promise(resolve => {
+        addNotification(userId, "You Won The Bid, Wait for the sellers Response, You will get a notification when seller accept your offer!")
+        .then(result =>  {
+          addNotification(owner_id, "Your Listted Property's Bidding is Over, Please go to My Listing and check the details, and Review the offer price");  
+          resolve(result)
+        })
+      })
+      .then(result => res.json(result))
+    })
+    .catch(error => res.json(error))
+  })
+  
+ 
   
 
   return router;
