@@ -10,7 +10,13 @@ export default function PendingListItem(props) {
 
 
   const approveListing = (e) => {
-    const data = {is_approved: true, property_id:  properties.id}
+    const data = {
+      is_approved: true,
+      property_id: properties.id,
+      street: properties.street,
+      user_id: properties.owner_id,
+      first_name: properties.first_name
+    }
     e.preventDefault()
     axios.patch('/api/properties/admin/pending/', {data})
     .then((response) => {
@@ -24,10 +30,12 @@ export default function PendingListItem(props) {
 
     <Accordion>
       <Accordion.Item eventKey="0">
-        <Accordion.Header>{properties.street}</Accordion.Header>
+        <Accordion.Header>
+          {properties.street} -- {properties.city}, {properties.province}, {properties.post_code}
+        </Accordion.Header>
         <Accordion.Body>
           <p>
-            Seller:  {properties.first_name}
+            Seller:  {properties.first_name} {properties.last_name}
           </p>
           <p>
             <Button variant="primary" type="button" onClick={approveListing}>

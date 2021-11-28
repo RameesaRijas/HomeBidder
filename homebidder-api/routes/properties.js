@@ -12,6 +12,7 @@ module.exports = ({
   removeFromFavorites,
   addBidSession,
   addPropertyImage,
+  addNotification,
   getAllPending,
   updateApproved
 }) => {
@@ -112,14 +113,20 @@ module.exports = ({
 // Update the is_approved status of a pending listing
   router.patch('/admin/pending', (req, res) => {
     const data = req.body.data;
-    const property_id = data.property_id;
     const isApproved = data.is_approved;
+    const propertyId = data.property_id;
+    const address = data.street;
+    const userId = data.user_id;
+    const userName = data.first_name;
+    const message = `Hi ${userName}! Your property at ${address} has been approved and is now posted in the listings.`;
 
-    console.log('property_id ==> ', property_id);
-    console.log('req.body ==> ', data)
+    console.log('message ==> ', message)
 
-    updateApproved(property_id)
-      .then(result => res.json(result))
+    updateApproved(propertyId)
+      .then((result) => {
+        addNotification(userId, message)
+          .then((result) => res.json(result))
+      })
       .catch(error => res.json(error));
   });
 

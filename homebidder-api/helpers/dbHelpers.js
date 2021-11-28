@@ -208,11 +208,26 @@ module.exports = (db) => {
         .catch((err) => err);
       };
 
+      const addNotification = (user_id, message) => {
+        const query = {
+          text: `INSERT INTO notifications (user_id, message)
+             VALUES ($1, $2)
+                  RETURNING *`,
+            values: [user_id, message]
+        };
+
+        return db
+            .query(query)
+            .then((result) => result.rows[0])
+            .catch((err) => err);
+      };
+
       const getAllPending = () => {
         const query = {
           text: `SELECT users.first_name, users.last_name, users.email, properties.* FROM properties
                  JOIN users on properties.owner_id = users.id
-                 WHERE is_approved = FALSE`
+                 WHERE is_approved = FALSE
+                 ORDER BY properties.id`
         }
 
         return db
@@ -253,6 +268,7 @@ module.exports = (db) => {
     adduserRegistration,
     addBidSession,
     addPropertyImage,
+    addNotification,
     getAllPending,
     updateApproved
   };
