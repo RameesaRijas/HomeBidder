@@ -221,6 +221,20 @@ module.exports = (db) => {
           .catch(err => err);
       };
 
+      const updateApproved = (id) => {
+        const query = {
+          text: `UPDATE properties
+                 SET is_approved = true
+                 WHERE id = $1 RETURNING *`,
+          values: [id]
+        }
+
+        return db
+          .query(query)
+          .then(result => result.rows)
+          .catch(err => err);
+      };
+
   return {
     getUsers,
     addUser,
@@ -239,6 +253,7 @@ module.exports = (db) => {
     adduserRegistration,
     addBidSession,
     addPropertyImage,
-    getAllPending
+    getAllPending,
+    updateApproved
   };
 };

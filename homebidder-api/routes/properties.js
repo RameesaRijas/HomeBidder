@@ -12,7 +12,8 @@ module.exports = ({
   removeFromFavorites,
   addBidSession,
   addPropertyImage,
-  getAllPending
+  getAllPending,
+  updateApproved
 }) => {
   /* GET properties listing. */
   router.get('/', (req, res) => {
@@ -82,7 +83,6 @@ module.exports = ({
 
   // Add a property to the listings
   router.post('/new', (req, res) => {
-    // console.log('req session.userId ==> ', req.session.userId)
     const owner_id = req.session.userId
 
     const {
@@ -107,8 +107,21 @@ module.exports = ({
         .then((response) => res.json(response))
       })
       .catch((error) => res.status(500).send(error.message));
+  });
 
-  })
+// Update the is_approved status of a pending listing
+  router.patch('/admin/pending', (req, res) => {
+    const data = req.body.data;
+    const property_id = data.property_id;
+    const isApproved = data.is_approved;
+
+    console.log('property_id ==> ', property_id);
+    console.log('req.body ==> ', data)
+
+    updateApproved(property_id)
+      .then(result => res.json(result))
+      .catch(error => res.json(error));
+  });
 
  //add post bid
  router.post('/bidder',(req,res)=> {
