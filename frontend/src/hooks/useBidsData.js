@@ -28,7 +28,6 @@ const useBidsData = (propertyId) => {
       axios.get('/api/users/')
     ])
       .then(([{ data: properties }, { data: bidders }, {data : bids}, {data : users}]) => {
-        console.log("data", properties);
         dispatch({
           type:SET_BIDS_DATA,
           properties,
@@ -46,7 +45,6 @@ const useBidsData = (propertyId) => {
     const socket = socketRef.current
     socket.on('bid', function(data) {
       const dataParsed = JSON.parse(data);
-      console.log(dataParsed);
       if (dataParsed.type === SET_BIDS && typeof dataParsed === "object") {
         dispatch(dataParsed);
       }
@@ -54,7 +52,6 @@ const useBidsData = (propertyId) => {
 
     socket.on('bidders', function(data) {
       const dataParsed = JSON.parse(data);
-      console.log(dataParsed);
       if (dataParsed.type === SET_BIDDER && typeof dataParsed === "object") {
         dispatch(dataParsed);
       }
@@ -64,7 +61,6 @@ const useBidsData = (propertyId) => {
 
   }, [dispatch])
 
-console.log(state);
 
   const formatter = new Intl.NumberFormat("en-CA", {
     style: "currency",
