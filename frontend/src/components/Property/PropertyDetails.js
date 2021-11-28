@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import "./Property.css";
 import "font-awesome/css/font-awesome.min.css";
 
+
 export default function PropertyDetails() {
   const params = useParams();
   const [state, setState] = useState({
@@ -11,7 +12,6 @@ export default function PropertyDetails() {
     bidders: {},
     bids: {},
   });
- 
 
   useEffect(() => {
     Promise.all([
@@ -19,7 +19,6 @@ export default function PropertyDetails() {
       axios.get(`/api/properties/bidder`),
     ])
       .then(([{ data: properties }, { data: bidders }]) => {
-        console.log("data", properties);
         setState({
           ...state,
           properties: properties,
@@ -33,11 +32,17 @@ export default function PropertyDetails() {
     const d = new Date(date);
     return d.toLocaleString("en-US", { timeZone: "America/New_York" });
   };
+  const formatter = new Intl.NumberFormat("en-CA", {
+    style: "currency",
+    currency: "CAD",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });
 
   return (
     <div>
-       <div className="div-orginize"> 
-         <div className="col-md-6"> 
+      <div className="div-orginize">
+        <div className="col-md-6">
           <div className="details">
             <h2>Property details</h2>
             <p>Number of BedRooms: {state.properties.number_of_bedrooms}</p>
@@ -49,13 +54,15 @@ export default function PropertyDetails() {
 
             <p>Year Built: {state.properties.year_built}</p>
           </div>
-        </div> 
+        </div>
         <div className="col-sm-6">
           <div className="bidding-div">
             <div className="bid-info">
               <button className="bidding">
                 <p className="p-2 mb-2  text-light">
-                  bidding price:{state.properties.base_price_in_cents} $CA
+                  bidding price:{formatter.format(
+                          state.properties.base_price_in_cents / 100
+                        )} $CA
                 </p>
               </button>
               <p className="p-3 mb-3 text-black">
@@ -67,7 +74,7 @@ export default function PropertyDetails() {
                 {dateFormater(state.properties.bid_end_date)}
               </p>
             </div>
-           </div> 
+          </div>
         </div>
       </div>
 
@@ -76,6 +83,7 @@ export default function PropertyDetails() {
           <hr></hr>
         </p>
       </div>
+     
     </div>
   );
 }

@@ -11,8 +11,12 @@ import Favorites from './components/Property/Favorites';
 import { useContext } from 'react';
 import { propertyContext } from './providers/PropertyProvider';
 import Error from './components/Error';
+<<<<<<< HEAD
 import MyListings from "./components/Property/MyListings";
 
+=======
+import MyBids from "./components/Property/MyBids";
+>>>>>>> mybids
 function App() {
 
 const { state } = useContext(propertyContext);
@@ -47,6 +51,10 @@ const userType = state.loggedUser && state.loggedUser.user_type;
                 {(loggedIn && userType === 2) ? <MyListings /> : <Error />}
               </Route>
 
+            <Route exact path="/properties/Mybids">
+            {(loggedIn && userType === 2) ? <MyBids/>:<Error />}
+            </Route>
+            
           </Switch>
       </div>
     </BrowserRouter>

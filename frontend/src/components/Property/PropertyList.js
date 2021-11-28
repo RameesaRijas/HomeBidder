@@ -6,7 +6,7 @@ import Header from '../Header';
 import { useContext } from 'react';
 import { propertyContext } from '../../providers/PropertyProvider';
 
-
+import Footer from '../Footer';
 
 export default function PropertyList() {
   
@@ -14,7 +14,7 @@ export default function PropertyList() {
   const user = state.loggedUser;
   const Userid = user && user.id
   const userFav = state.fav && state.fav.map(item => item.user_id ===  Userid ? item.property_id : 0);
-
+  
   const propertylist = state.properties.map(item => 
                       <PropertListItem 
                         key={item.id} 
@@ -36,6 +36,7 @@ export default function PropertyList() {
         </Row>
       </div>
     </Container>
+    <Footer></Footer>
     </>
   );
 

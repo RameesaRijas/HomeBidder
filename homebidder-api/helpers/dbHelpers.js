@@ -149,7 +149,7 @@ module.exports = (db) => {
                 bids.*, properties.* FROM properties
                 JOIN bids ON properties.id = bids.property_id
                 LEFT JOIN property_bid_histories ON properties.id = property_bid_histories.property_id
-                WHERE properties.id = $1`,
+                WHERE properties.id = $1 `,
       values: [id]
   };
 
@@ -222,6 +222,23 @@ module.exports = (db) => {
         .catch((err) => err);
       };
 
+      const getBidsbyUser = (id)=> {
+      
+        
+        const query = {
+          
+          text: `SELECT * FROM  bidder_registrations 
+          join bids on bids.id = bidder_registrations.bids_id
+          join properties  on bids.property_id = properties.id 
+          where bidder_registrations.user_id =$1`,
+          values: [id]
+        }
+      return db
+          .query(query)
+          .then((result) => result.rows)
+          .catch((err) => err);
+      }
+  
   return {
     getUsers,
     addUser,
@@ -240,6 +257,6 @@ module.exports = (db) => {
     adduserRegistration,
     addBidSession,
     addPropertyImage,
-    // getMyListings
+    getBidsbyUser
   };
 };
