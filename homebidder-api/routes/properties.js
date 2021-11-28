@@ -37,7 +37,6 @@ module.exports = ({
 
   // Get all the pending listings for Admin
   router.get('/admin/pending', (req, res) => {
-    console.log('Hello from admin/pending ==>  Hi!')
     getAllPending()
       .then(result => res.json(result))
       .catch(error => res.json(error));
@@ -85,7 +84,6 @@ module.exports = ({
   router.post('/new', (req, res) => {
     // console.log('req session.userId ==> ', req.session.userId)
     const owner_id = req.session.userId
-    console.log('Current session user_id is ==> ', req.session.userId)
 
     const {
       number_of_bathrooms,

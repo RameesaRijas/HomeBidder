@@ -26,13 +26,11 @@ export default function PendingList() {
     />
   });
 
-
-  console.log("pendingList ==> ", pendingList)
-
   return (
     <>
     <Container className="col-lg-10">
-      <h5><hr/>This is the Admin Pending List Page</h5>
+      <h4><hr/>Admin &raquo; Pending Listings for Approval</h4>
+      <hr/>
       {pendingList.length === 0 && <AlertPending />}
       {pendingList}
     </Container>
