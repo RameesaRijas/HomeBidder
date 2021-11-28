@@ -12,6 +12,8 @@ import { useContext } from 'react';
 import { propertyContext } from './providers/PropertyProvider';
 import Error from './components/Error';
 import MyListings from "./components/Property/MyListings";
+import PendingList from "./components/Admin/PendingList";
+
 
 function App() {
 
@@ -45,6 +47,9 @@ const userType = state.loggedUser && state.loggedUser.user_type;
             </Route>
                 <Route exact path="/properties/mylistings" >
                 {(loggedIn && userType === 2) ? <MyListings /> : <Error />}
+              </Route>
+                <Route exact path="/admin/pending" >
+                {(loggedIn && userType === 1) ? <PendingList /> : <Error />}
               </Route>
 
           </Switch>

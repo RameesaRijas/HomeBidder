@@ -6,6 +6,7 @@ import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { propertyContext } from '../providers/PropertyProvider';
 import Login from './Login';
 import Register from './Register';
+
 export default function NavBar() {
   const [showRegister, setShowRegister] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
@@ -77,18 +78,17 @@ export default function NavBar() {
             <NavDropdown.Item as={Link} to="/properties/new">Create New Listing</NavDropdown.Item>
             <NavDropdown.Divider />
 
-            <NavDropdown.Item  onClick={logout} as={Link} to="logout">
+            <NavDropdown.Item  onClick={logout}>
               Logout
             </NavDropdown.Item>
           </NavDropdown>
           )}
 
-          {(user  && user.user_type === 1) && (
+          {(user && user.user_type === 1) && (
           <NavDropdown title={user.email} id="navbarScrollingDropdown">
-            <NavDropdown.Item as={Link} to="getRoute">Pending Listings</NavDropdown.Item>
-            <NavDropdown.Item as={Link} to="getRoute">My Bids</NavDropdown.Item>
+            <NavDropdown.Item as={Link} to="/admin/pending">Pending Listings</NavDropdown.Item>
             <NavDropdown.Divider />
-            <NavDropdown.Item  onClick={logout} as={Link} to="logout">
+            <NavDropdown.Item  onClick={logout}>
               Logout
             </NavDropdown.Item>
           </NavDropdown>
