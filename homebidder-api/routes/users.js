@@ -120,7 +120,6 @@ module.exports = ({
     registerBidder(user_id, bidId)
     .then((result) => {
       setTimeout(() => {
-        console.log("may be this wil ebeco " ,result);
         res.json({});
         updateBidders(result);
       }, 500);
@@ -132,7 +131,7 @@ module.exports = ({
     const propertyId = req.params.propertyId;
 
     getPropertyBidsLog(propertyId)
-    .then(result => { console.log("here iam ", result); res.json(result) } )
+    .then(result => res.json(result))
   })
 
   router.post('/bid', (req, res) => {

@@ -52,7 +52,7 @@ module.exports = ({
   router.get('/bidder/:propertyId', (req, res) => {
     const propertyId = req.params.propertyId;
     getRegisteredUsersAndBids(propertyId)
-      .then((bidders) => { console.log("if you have then i have", bidders); res.json(bidders)})
+      .then((bidders) => res.json(bidders))
       .catch((err) => res.json({
           error: err.message
       }));
