@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "axios";
 import PendingListItem from "./PendingListItem";
+import AlertPending from "./AlertPending";
 import { Container } from 'react-bootstrap';
 
 
@@ -18,20 +19,21 @@ export default function PendingList() {
       console.log(error))
   }, []);
 
-  const pendingList = pending.map(item => {
+  const pendingList = pending.map((item, index) => {
     return <PendingListItem
-      key={item.id}
+      key={index}
       properties={item}
     />
   });
 
 
-  console.log("pending ==> ", pending)
+  console.log("pendingList ==> ", pendingList)
 
   return (
     <>
     <Container className="col-lg-10">
       <h5><hr/>This is the Admin Pending List Page</h5>
+      {pendingList.length === 0 && <AlertPending />}
       {pendingList}
     </Container>
     </>
