@@ -10,8 +10,6 @@ import reducer, {
 
 export const propertyContext = createContext();
 
-
-
 export default function PropertyProvider(props) {
   const [state, dispatch] = useReducer(reducer, {
     propertyId: 0,
@@ -20,7 +18,7 @@ export default function PropertyProvider(props) {
     loggedUser: {}
   });
 
-console.log("state", state);
+
   const setPropertyId = id => dispatch({ type: SET_PROPERTY_ID, id});
   const setLoggedInUser = (user) => {
     if (!user) {

@@ -19,20 +19,11 @@ export default function NavBar() {
 
   const { setLoggedInUser, state } = useContext(propertyContext);
   const user = state.loggedUser;
-  ///can be removed
-  // const isuserLoggedin = localStorage.getItem("token") !== ""
-  // const useremail = localStorage.getItem("email")
-  // const type = localStorage.getItem("usertype")
-  // const userid= localStorage.getItem("userid")
+
 
   const logout = () => {
     setLoggedInUser("");
-    ///can be removed
-    // localStorage.setItem("token","")
-    // localStorage.setItem("email","")
-    // localStorage.setItem("usertype","")
-    // localStorage.setItem("userid","")
-    // window.location.reload(false);
+    
   };
   return (
     <Navbar
@@ -96,9 +87,7 @@ export default function NavBar() {
               <NavDropdown.Item as={Link} to="getRoute">
                 Pending Listings
               </NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="getRoute">
-                My Bids
-              </NavDropdown.Item>
+            
               <NavDropdown.Divider />
               <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
             </NavDropdown>

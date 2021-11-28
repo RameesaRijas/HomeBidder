@@ -99,7 +99,7 @@ export default function Login(props) {
                   className="login-button"
                   onClick={props.toggleLoginModal}
                 >
-                  cancel
+                  Cancel
                 </Button>
               </div>
               <div className="form-group">
