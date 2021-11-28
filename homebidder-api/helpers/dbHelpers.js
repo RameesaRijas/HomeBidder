@@ -210,12 +210,14 @@ module.exports = (db) => {
 
       const getAllPending = () => {
         const query = {
-          text: `SELECT * FROM properties WHERE is_approved = FALSE`
+          text: `SELECT users.first_name, users.last_name, users.email, * FROM properties
+                 JOIN users on properties.owner_id = users.id
+                 WHERE is_approved = FALSE`
         }
 
         return db
           .query(query)
-          .then(result => result.rows[0])
+          .then(result => result.rows)
           .catch(err => err);
       };
 

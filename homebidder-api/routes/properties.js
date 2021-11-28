@@ -84,10 +84,10 @@ module.exports = ({
   // Add a property to the listings
   router.post('/new', (req, res) => {
     // console.log('req session.userId ==> ', req.session.userId)
-    // const owner_id = req.session.userId
+    const owner_id = req.session.userId
+    console.log('Current session user_id is ==> ', req.session.userId)
 
     const {
-      owner_id,
       number_of_bathrooms,
       number_of_bedrooms,
       parking_spaces,
