@@ -11,12 +11,8 @@ import Favorites from './components/Property/Favorites';
 import { useContext } from 'react';
 import { propertyContext } from './providers/PropertyProvider';
 import Error from './components/Error';
-<<<<<<< HEAD
 import MyListings from "./components/Property/MyListings";
-
-=======
 import MyBids from "./components/Property/MyBids";
->>>>>>> mybids
 function App() {
 
 const { state } = useContext(propertyContext);
