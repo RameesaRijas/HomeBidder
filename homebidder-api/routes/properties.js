@@ -11,7 +11,11 @@ module.exports = ({
   addToFavorites,
   removeFromFavorites,
   addBidSession,
-  addPropertyImage
+  addPropertyImage,
+  addbidlog,
+  adduserRegistration,
+  getBidsbyUser
+  
 }) => {
   /* GET properties listing. */
   router.get('/', (req, res) => {
@@ -50,7 +54,7 @@ module.exports = ({
       }));
   });
 
-  //get all the details by passing id
+  // get all the details by passing id
   router.get('/:id', (req, res) => {
     const id = req.params.id
     getPropertyDetailsById(id)
@@ -73,9 +77,6 @@ module.exports = ({
 
   // Add a property to the listings
   router.post('/new', (req, res) => {
-    console.log('Hello from the backend!')
-    // const owner_id = req.session.userId
-
     const {
       owner_id,
       number_of_bathrooms,
@@ -101,6 +102,28 @@ module.exports = ({
       .catch((error) => res.status(500).send(error.message));
 
   })
+   //git bids from db
+  router.get("/properties/myBids", (req, res) => {
+   
+   getBidsbyUser(req.session.userId)
+   
+     .then(properties => {
+      const getData = async () => {
+        return Promise.all(properties.map(property => (
+          getPropertiesPhotos(property.id)
+            .then(images =>  {
+              return {...property ,'thumbnail':images}
+          })
+        )))
+      }
+      getData().then(data => {
+        res.json(data)
+      })
+    
+      })
+     .catch(error => res.json(error));
+   
+ })
 
  //add post bid 
  router.post('/bidder',(req,res)=> {
@@ -111,7 +134,7 @@ module.exports = ({
   addbidlog(bidder_registration_id,amount).then((bid) => res.json(bid))
   .catch((error) => res.status(500).send(error.message));
  });
-  //add ad remove from fav
+ 
   //add and remove from fav
   router.post('/favorites/new', (req, res) => {
     const user_id = req.body.user_id;
@@ -147,6 +170,9 @@ module.exports = ({
    .catch((error) => res.status(500).send(error.message));
     });
 
+
+    
+  
 
   return router;
 };
