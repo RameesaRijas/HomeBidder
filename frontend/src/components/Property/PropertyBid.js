@@ -64,11 +64,16 @@ export default function PropertyBid(props) {
               <span> {state.bidders.length} Bidders</span>
             </th>
             <th width="30%">
+            {(userType !== 1 && state.properties.owner_id !== user_id) ? (
+              <>
               <input type="number" min={minBidAmount}
                 value={amount}
                 onChange={e => setAmount(e.target.value)}
                 required className="amount_input"></input>
               <section style={{ color: "red" }}>{error}</section>
+              </>
+            ) : <tr className="amount_digit">
+            { (userDetails && userDetails[0]) ? userDetails[0].first_name + " " + userDetails[0].last_name+":" : "Last Bid :"}  {maxAmount}</tr>}
             </th>
             <th width="30%">
               {(userType !== 1 && state.properties.owner_id !== user_id) &&
@@ -78,8 +83,10 @@ export default function PropertyBid(props) {
           </tr>
         </thead>
         <tbody>
+        {(userType !== 1 && state.properties.owner_id !== user_id) &&
           <tr className="amount_digit">
             { (userDetails && userDetails[0]) ? userDetails[0].first_name + " " + userDetails[0].last_name+":" : "Last Bid :"}  {maxAmount}</tr>
+        }
           <tr>
           </tr>
         </tbody>
