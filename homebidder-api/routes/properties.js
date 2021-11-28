@@ -35,7 +35,15 @@ module.exports = ({
       }));
   });
 
-      //to get fav
+  // Get all the pending listings for Admin
+  router.get('/admin/pending', (req, res) => {
+    console.log('Hello from admin/pending ==>  Hi!')
+    getAllPending()
+      .then(result => res.json(result))
+      .catch(error => res.json(error));
+  });
+
+  //to get fav
   router.get("/favorites/all", (req, res) => {
     getAllFavorites()
       .then(result => res.json(result))

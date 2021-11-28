@@ -38,7 +38,7 @@ sockIO.on('connection', function(socket){
     socket.on('send message', (data) => {
       socket.join(data);
       console.log("messg" + data);
-    })  
+    })
     socket.on('disconnect',()=>{
       console.log("socket disconnected")
     })
