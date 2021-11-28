@@ -12,14 +12,11 @@ module.exports = ({
   removeFromFavorites,
   addBidSession,
   addPropertyImage,
-<<<<<<< HEAD
   // getMyListings
-=======
   addbidlog,
   adduserRegistration,
   getBidsbyUser
   
->>>>>>> mybids
 }) => {
   /* GET properties listing. */
   router.get('/', (req, res) => {
@@ -93,12 +90,6 @@ module.exports = ({
 
   // Add a property to the listings
   router.post('/new', (req, res) => {
-<<<<<<< HEAD
-    // console.log('req session.userId ==> ', req.session.userId)
-    // const owner_id = req.session.userId
-
-=======
->>>>>>> mybids
     const {
       owner_id,
       number_of_bathrooms,
