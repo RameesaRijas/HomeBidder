@@ -4,39 +4,42 @@ import PropertListItem from './PropertyListItem';
 import './PropertyList.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row } from 'react-bootstrap';
+import AlertListing from './AlertListing';
 
 
-export default function Favorites() {
-  const {addToYourFav, removeFromFav, state} = useContext(propertyContext);
+export default function MyListings() {
+  const {state} = useContext(propertyContext);
   const user = state.loggedUser;
   const Userid = user && user.id;
-  const userFav = state.fav && state.fav.map(item => item.user_id ===  Userid ? item.property_id : 0);
 
   const propertylist = state.properties.map(item => {
-    if (userFav && userFav.includes(item.id)) {
+    if (Userid === item.owner_id) {
      return <PropertListItem
       key={item.id}
       properties={item}
-      fav={userFav}
       user={user}
-      addToFav={addToYourFav}
-      removeFav={removeFromFav}
     />
-    }
-  })
+    };
+  });
 
+  let isEmpty = true;
+  for (let i = 0; i < state.properties.length; i++) {
+    if (Userid === state.properties[i].owner_id) {
+      isEmpty = false;
+    };
+  };
 
   return (
     <>
     <Container className="col-lg-10">
-      <h5><hr/>My Favourites</h5>
+      <h5><hr/>My Property Listings</h5>
       <div className="property-list">
         <Row>
+          {isEmpty && <AlertListing/>}
           {propertylist}
         </Row>
       </div>
     </Container>
     </>
   );
-
-}
+};

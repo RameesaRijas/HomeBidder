@@ -19,20 +19,11 @@ export default function NavBar() {
 
   const { setLoggedInUser, state } = useContext(propertyContext);
   const user = state.loggedUser;
-  ///can be removed
-  // const isuserLoggedin = localStorage.getItem("token") !== ""
-  // const useremail = localStorage.getItem("email")
-  // const type = localStorage.getItem("usertype")
-  // const userid= localStorage.getItem("userid")
+ 
 
   const logout = () => {
     setLoggedInUser("");
-    ///can be removed
-    // localStorage.setItem("token","")
-    // localStorage.setItem("email","")
-    // localStorage.setItem("usertype","")
-    // localStorage.setItem("userid","")
-    // window.location.reload(false);
+ 
   };
   return (
     <Navbar
@@ -61,6 +52,7 @@ export default function NavBar() {
           </Nav.Link>
           {!Object.keys(user).length && (
             <>
+
               <p onClick={toggleLoginModal}>
                 <Nav.Link className="text-white bg-dark">Login</Nav.Link>
               </p>
@@ -79,9 +71,7 @@ export default function NavBar() {
               <NavDropdown.Item as={Link} to="/properties/myBids">
                 My Bids
               </NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="getRoute">
-                My Listings
-              </NavDropdown.Item>
+               <NavDropdown.Item as={Link} to="/properties/mylistings">My Listings</NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/properties/new">
                 Create New Listing
               </NavDropdown.Item>
@@ -89,15 +79,13 @@ export default function NavBar() {
 
               <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
             </NavDropdown>
+
           )}
 
           {user && user.user_type === 1 && (
             <NavDropdown title={user.email} id="navbarScrollingDropdown">
               <NavDropdown.Item as={Link} to="getRoute">
                 Pending Listings
-              </NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="getRoute">
-                My Bids
               </NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>

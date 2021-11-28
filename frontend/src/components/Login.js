@@ -23,12 +23,29 @@ export default function Login(props) {
       .then((response) => {
         props.toggleLoginModal();
 
+
         if (!response.data.auth) {
           if (password === "") {
             toast("please enter password");
             return;
           } else {
             toast("Sorrrrrry !!!! Un-authenticated User !!!!!");
+
+    const login = (e) => {
+        e.preventDefault();
+        axios.post("/api/users/login", {
+          email: userEmail,
+          password: password,
+        }).then((response) => {
+             props.toggleLoginModal()
+            console.log(response.data)
+          if (!response.data.auth) {
+            alert('Sorrrrrry !!!! Un-authenticated User !!!!!')
+            // setLoginStatus(false);
+          } else {
+
+              setLoggedInUser(response.data.user)
+
           }
         } else {
           setLoggedInUser(response.data.user);
@@ -43,6 +60,7 @@ export default function Login(props) {
     }
   }
 
+
   const userAuth = () => {
     axios
       .get("api/users/userAuth", {
@@ -55,13 +73,21 @@ export default function Login(props) {
       });
   };
 
+
+
   return (
     <div className="login">
+
       <Modal
         show={props.show}
         onHide={props.toggleLoginModal}
         animation={false}
       >
+
+    
+
+      <Modal show={props.show} onHide={props.toggleLoginModal} animation={false}>
+
         <Modal.Header closeButton>
           <Modal.Title>log in to continue</Modal.Title>
         </Modal.Header>
@@ -99,7 +125,7 @@ export default function Login(props) {
                   className="login-button"
                   onClick={props.toggleLoginModal}
                 >
-                  cancel
+                  Cancel
                 </Button>
               </div>
               <div className="form-group">
