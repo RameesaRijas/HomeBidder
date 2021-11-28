@@ -12,7 +12,7 @@ module.exports = ({
   removeFromFavorites,
   addBidSession,
   addPropertyImage,
-  // getMyListings
+  getAllPending
 }) => {
   /* GET properties listing. */
   router.get('/', (req, res) => {
@@ -72,17 +72,6 @@ module.exports = ({
       }));
   });
 
-  // Get all the property listings for a specific user
-  // ** Don't need this route anymore since we're using React router on frontend **
-  // router.get('/mylistings', (req, res) => {
-  //   const owner_id = req.session.userId;
-  //   console.log('owner_id from the backend ==> ', owner_id);
-  //   console.log('req.session.userId ==> ', req.session.userId)
-
-  //   getMyListings(owner_id)
-  //     .then(listings => res.json(listings))
-  //     .catch(error => res.json(error));
-  // });
 
   // Add a property to the listings
   router.post('/new', (req, res) => {

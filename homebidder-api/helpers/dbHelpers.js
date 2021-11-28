@@ -52,20 +52,6 @@ module.exports = (db) => {
         .catch((err) => err);
   };
 
-  // GET ALL PROPERTIES FOR A SPECIFIC USER
-  // ** Don't need this anymore as listings are called and filtered in frontend **
-  // const getMyListings = (userId) => {
-  //   const query = {
-  //     text: `SELECT * FROM properties WHERE owner_id = $1`,
-  //     values: [userId]
-  //   }
-
-  //   return db
-  //     .query(query)
-  //     .then((result) => result.rows)
-  //     .catch((err) => err);
-  // }
-
   //ADD A PROPERTY TO THE LISTINGS
   const addProperty = (ownerId, numBaths, numBeds, numParking, street, city, province, postCode, squareFootage, propertyType, yearBuilt) => {
     const query = {
@@ -222,6 +208,17 @@ module.exports = (db) => {
         .catch((err) => err);
       };
 
+      const getAllPending = () => {
+        const query = {
+          text: `SELECT * FROM properties WHERE is_approved = FALSE`
+        }
+
+        return db
+          .query(query)
+          .then(result => result.rows[0])
+          .catch(err => err);
+      };
+
   return {
     getUsers,
     addUser,
@@ -240,6 +237,6 @@ module.exports = (db) => {
     adduserRegistration,
     addBidSession,
     addPropertyImage,
-    // getMyListings
+    getAllPending
   };
 };
