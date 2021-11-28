@@ -1,122 +1,120 @@
 import "./Login.css";
-import React, {useState,useEffect, useContext} from 'react';
-import axios from 'axios';
-import {Button} from 'react-bootstrap';
-import { Modal } from 'react-bootstrap';
-import { propertyContext } from '../providers/PropertyProvider';
-
+import React, { useState, useContext } from "react";
+import axios from "axios";
+import { Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
+import { propertyContext } from "../providers/PropertyProvider";
+import { toast } from "react-toastify";
+import { Alart } from "react-bootstrap";
 
 export default function Login(props) {
+  const { setLoggedInUser } = useContext(propertyContext);
 
-    const { setLoggedInUser } = useContext(propertyContext);
+  const [userEmail, setUserEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-    const [userEmail, setUserEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-    const [show, setShow] = useState(false);
-    //can be removed
-    const [loginStatus, setLoginStatus] = useState(false);
+  const login = (e) => {
+    e.preventDefault();
+    axios
+      .post("/api/users/login", {
+        email: userEmail,
+        password: password,
+      })
+      .then((response) => {
+        props.toggleLoginModal();
 
-    const login = (e) => {
-        e.preventDefault();
-        axios.post("/api/users/login", {
-          email: userEmail,
-          password: password,
-        }).then((response) => {
-             props.toggleLoginModal()
-            console.log(response.data)
-          if (!response.data.auth) {
-            alert('Sorrrrrry !!!! Un-authenticated User !!!!!') 
-            // setLoginStatus(false);
+        if (!response.data.auth) {
+          if (password === "") {
+            toast("please enter password");
+            return;
           } else {
-
-              setLoggedInUser(response.data.user);
-
-            //this item can be removed
-              // localStorage.setItem("user",response.data.user)
-              // localStorage.setItem("usertype",response.data.user.user_type)
-              // localStorage.setItem("email",userEmail)
-              // localStorage.setItem("token",response.data.token)
-              // e.preventDefault();
-
-              //this can be removed //page refresh happening  
-              // window.location = "/";
-              // setLoginStatus(true);
-
+            toast("Sorrrrrry !!!! Un-authenticated User !!!!!");
           }
-        });
-      };
+        } else {
+          setLoggedInUser(response.data.user);
+        }
+      });
+  };
 
-///can be removed ?
-    //   useEffect(() => {
-    //     axios.get("api/users/login").then((response) => {
-    //       if (response.data.loggedIn === true) {
-    //         setLoginStatus(response.data.email);
-    //       }
-    //     });
-    //   }, []);
-    //  const userAuth = ()=>{
-    //      axios.get("api/users/userAuth",{
-    //         headers:{
-    //       'x-access-token':localStorage.getItem("token")
-    //      }}).then((response)=>{
-    //         console.log(response)
-    //      })
-    //  }
+  function validate() {
+    if (userEmail === "") {
+      toast("email cannot be blank");
+      return;
+    }
+  }
 
-   
-  
-   
+  const userAuth = () => {
+    axios
+      .get("api/users/userAuth", {
+        headers: {
+          "x-access-token": localStorage.getItem("token"),
+        },
+      })
+      .then((response) => {
+        console.log("mays", response);
+      });
+  };
 
-  return(
+  return (
     <div className="login">
-      {!loginStatus && "please login to continue"} 
-      
-      <Modal show={props.show} onHide={props.toggleLoginModal} animation={false}>
+      <Modal
+        show={props.show}
+        onHide={props.toggleLoginModal}
+        animation={false}
+      >
         <Modal.Header closeButton>
-        <Modal.Title>log in to continue</Modal.Title>
-          </Modal.Header>
+          <Modal.Title>log in to continue</Modal.Title>
+        </Modal.Header>
         <Modal.Body>
-          <form className="loginform" onSubmit={login} >
+          <form className="loginform" onSubmit={login}>
             <div className="form-group ">
-              <label >Email </label>
-              <input type="email"
+              <label>Email </label>
+              <input
+                type="email"
                 className="form-control"
                 id="email"
                 placeholder="Enter email"
                 value={userEmail}
                 onChange={(e) => {
-                setUserEmail(e.target.value)}}
+                  setUserEmail(e.target.value);
+                }}
               />
             </div>
             <div className="form-group">
-              <label >Password</label>
-              <input type="password"
-                  className="form-control"
-                  id="password"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => {
-                      setPassword(e.target.value)}}
+              <label>Password</label>
+              <input
+                type="password"
+                className="form-control"
+                id="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
               />
             </div>
-            <div className="form-group">
-              <button
-                type="submit"
-                className="login-button" >
-                Submit
-              </button>
+            <div className="button-login">
+              <div className="form-group">
+                <Button
+                  className="login-button"
+                  onClick={props.toggleLoginModal}
+                >
+                  cancel
+                </Button>
+              </div>
+              <div className="form-group">
+                <Button
+                  type="submit"
+                  className="login-button"
+                  onClick={validate}
+                >
+                  Login
+                </Button>
+              </div>
             </div>
           </form>
         </Modal.Body>
-        <Modal.Footer>
-        <Button className="regiter-button" onClick={props.toggleLoginModal}>
-              cancel
-            </Button>
-        </Modal.Footer>
       </Modal>
     </div>
-);
-
+  );
 }
