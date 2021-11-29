@@ -24,7 +24,7 @@ export default function MyBids() {
   }, []);
 
   const bidList = bids.map((item, index) => (
-    <PropertListItem key={index} properties={item} user={user} />
+    <PropertListItem key={index} properties={item} user={user} myList={false}/>
   ));
 
   return (

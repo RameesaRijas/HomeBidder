@@ -1,5 +1,5 @@
 import { useParams,Link  } from "react-router-dom";
-import { Carousel, Col, Card, Alert, Button } from "react-bootstrap";
+import { Carousel, Col, Card, Alert, Button, Badge } from "react-bootstrap";
 import "./Property.css";
 import "font-awesome/css/font-awesome.min.css";
 import Confirm from "./ConfirmModal";
@@ -21,7 +21,9 @@ export default function Property() {
     formatter,
     userRegisterationForBid, 
     userSetBid,
-    addBidTohistory
+    addBidTohistory,
+    acceptOffer,
+    rejectOffer
   } = useBidsData(params.propertyId);
 
   const user = contextState.loggedUser;
@@ -36,7 +38,7 @@ export default function Property() {
     return result
   }
 
-
+console.log(state.properties);
   const isRegistredUser = state.bidders.filter(item => (item.user_id === Userid && state.properties.bid_id === item.bids_id) ? item : "");
 
   const today = new Date();
@@ -123,6 +125,20 @@ export default function Property() {
                         <Alert variant="warning"> Bid Is closed</Alert>
                     : "")}
                   </p>
+                  <span>
+                    { (state.properties.owner_id === Userid) && 
+                    
+                    ((state.properties.offer_amount && state.properties.bid_active ) ? (
+                      <>
+                      <b>{formatter.format(state.properties.offer_amount)}</b>
+                      <Button variant="success" onClick={(e) => acceptOffer(state.properties.id, state.properties.buyer_id)}>Accept Offer</Button>
+                      <Button variant="danger" onClick={(e) => rejectOffer(state.properties.id, state.properties.buyer_id)}>Reject Offer</Button>
+                      </>) : 
+                      ((state.properties.offer_amount && state.properties.seller_response === "Accepted") 
+                      ? <Badge bg="success">You Accepted An offer of{formatter.format(state.properties.offer_amount)}</Badge> : 
+                      <Badge bg="danger">You Rejected An offer of{formatter.format(state.properties.offer_amount)}</Badge>))}
+                    
+                  </span>
                 </Card.Body>
               </Card>
             </div>
