@@ -41,9 +41,11 @@ module.exports = (db) => {
   //GET ALL PROPERTIES
   const getProperties = () => {
     const query = {
-        text: `SELECT bids.id as bid_id, * FROM properties
-           JOIN bids
-           ON properties.id = property_id`,
+        text: `SELECT bids.id as bid_id,ph.bid_amount,ph.user_id as buyer_id, ph.is_active as bid_active, properties.*, bids.* FROM properties
+           JOIN bids ON properties.id = property_id
+           LEFT JOIN property_bid_histories AS ph ON properties.id = ph.property_id
+           WHERE properties.is_active = true
+          ORDER BY properties.id DESC`,
     };
 
     return db
@@ -148,6 +150,8 @@ module.exports = (db) => {
       text: `SELECT bids.id as bid_id,
                 property_bid_histories.id as history_id,
                 property_bid_histories.bid_amount as offer_amount,
+                property_bid_histories.is_active as bid_active,
+                property_bid_histories.user_id as buyer_id,
                 property_bid_histories.seller_response,
                 bids.*, properties.* FROM properties
                 JOIN bids ON properties.id = bids.property_id
@@ -284,6 +288,7 @@ module.exports = (db) => {
   }
 
   const addNotification = (user_id, message) => {
+    console.log(user_id, message, "fdsfsdfsdfs");
     const query = {
       text: `INSERT INTO notifications (user_id, message)
          VALUES ($1, $2)
@@ -310,6 +315,41 @@ module.exports = (db) => {
       .then((result) => result.rows)
       .catch((err) => err);
   }
+
+
+  const updateBidStatusAccepted = (property_id) => {
+
+    const query = {
+      text: `UPDATE property_bid_histories
+              SET
+              seller_response = $1,
+              is_active = $2
+              WHERE property_id = $3
+              RETURNING *;`,
+      values: ['Accepted', 'FALSE', property_id]
+    }
+    return db
+      .query(query)
+      .then((result) => result.rows[0])
+      .catch((err) => err);
+  }
+
+  const updateBidStatusRejected = (property_id) => {
+    const query = {
+      text: `UPDATE property_bid_histories
+              SET
+              seller_response = $1,
+              is_active = $2
+              WHERE property_id = $3
+              RETURNING *;`,
+      values: ['Rejected', 'FALSE', property_id]
+    }
+    return db
+      .query(query)
+      .then((result) => result.rows[0])
+      .catch((err) => err);
+  }
+
   
   return {
     getUsers,
@@ -331,6 +371,8 @@ module.exports = (db) => {
     addPropertyImage,
     getBidsbyUser,
     registerBidder, getPropertyBidsLog, addUserBids, addToBidHistory,
-    addNotification
+    addNotification,
+    updateBidStatusAccepted,
+    updateBidStatusRejected
   };
 };

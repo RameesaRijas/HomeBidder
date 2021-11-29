@@ -23,7 +23,7 @@ module.exports = ({
   /* GET properties listing. */
   router.get('/', (req, res) => {
     getProperties()
-      .then(properties => {
+      .then(properties => {console.log(properties);
         const getData = async () => {
           return Promise.all(properties.map(property => (
             getPropertiesPhotos(property.property_id)
