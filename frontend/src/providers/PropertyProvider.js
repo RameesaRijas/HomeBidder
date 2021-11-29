@@ -15,7 +15,8 @@ export default function PropertyProvider(props) {
     propertyId: 0,
     properties: [],
     fav:[],
-    loggedUser: {}
+    loggedUser: {},
+    hasRead: []
   });
 
 
@@ -32,15 +33,18 @@ export default function PropertyProvider(props) {
     Promise.all([
       axios.get('/api/properties'),
       axios.get('/api/properties/favorites/all'),
-      axios.get('/api/users/getUser')
+      axios.get('/api/users/getUser'),
+      axios.get('/api/users/notifications')
+      // get has_read = false   ==> '/api/users/notifications/unread'
     ])
     .then(
-      ([{ data: properties }, { data: fav }, {data:loggedUser}]) =>
+      ([{ data: properties }, { data: fav }, {data:loggedUser}, {data: hasRead}]) =>
         dispatch({
           type: SET_PROPERTY_DATA,
           properties,
           fav,
-          loggedUser
+          loggedUser,
+          hasRead
         })
       )
     .catch(e => console.log(e));
@@ -61,7 +65,7 @@ export default function PropertyProvider(props) {
   const removeFromFav = (user_id, property_id) => {
     return axios.delete(`/api/properties/favorites/${property_id}`, {data : {data : user_id}})
       .then(res => {
-        const fav = res.data; 
+        const fav = res.data;
         const id = fav.id;
         dispatch({type:SET_FAV, id, fav});
       })

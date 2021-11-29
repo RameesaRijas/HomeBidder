@@ -51,7 +51,7 @@ sockIO.on('connection', function(socket){
       })
     );
   }
-  
+
   const updateBidders = (bidder) => {
     sockIO.emit("bidders",
       JSON.stringify({

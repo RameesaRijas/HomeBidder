@@ -13,9 +13,11 @@ module.exports = ({
   registerBidder,
   getPropertyBidsLog,
   addUserBids,
-  addNotification,
   updateBidStatusAccepted,
-  updateBidStatusRejected
+  updateBidStatusRejected,
+  getNotifications,
+  getUnreadNotifications,
+  confirmNotificationRead
 
 }, updateBids, updateBidders ) => {
   /* GET users listing. */
@@ -173,6 +175,35 @@ module.exports = ({
       }).catch(err => res.json(err));
   })
 
+  // Get all the notifications for a specific user
+  router.get('/notifications', (req, res) => {
+    const userId = req.session.userId
+
+    getNotifications(userId)
+      .then(result => res.json(result))
+      .catch(error => res.json(error));
+  });
+
+  // Get all unread notifications for a specific user
+  router.get('/notifications/unread', (req, res) => {
+    const userId = req.session.userId
+
+    getUnReadNotifications(userId)
+      .then(result => res.json(result))
+      .catch(error => res.json(error));
+  });
+
+  // Update notification has_read = true
+  router.patch('/notifications', (req, res) => {
+    const data = req.body.data;
+    const notificationId = data.messageId;
+
+    console.log('backend notificationId ==> ', data)
+
+    confirmNotificationRead(notificationId)
+      .then((result) => res.json(result))
+      .catch(error => res.json(error));
+  });
 
   return router;
 }

@@ -16,9 +16,10 @@ module.exports = ({
   addbidlog,
   adduserRegistration,
   getBidsbyUser,
-  
   addToBidHistory,
-  addNotification
+  addNotification,
+  getAllPending,
+  updateApproved
 }) => {
   /* GET properties listing. */
   router.get('/', (req, res) => {
@@ -41,7 +42,14 @@ module.exports = ({
       }));
   });
 
-      //to get fav
+  // Get all the pending listings for Admin
+  router.get('/admin/pending', (req, res) => {
+    getAllPending()
+      .then(result => res.json(result))
+      .catch(error => res.json(error));
+  });
+
+  //to get fav
   router.get("/favorites/all", (req, res) => {
     getAllFavorites()
       .then(result => res.json(result))
@@ -79,22 +87,12 @@ module.exports = ({
       }));
   });
 
-  // Get all the property listings for a specific user
-  // ** Don't need this route anymore since we're using React router on frontend **
-  // router.get('/mylistings', (req, res) => {
-  //   const owner_id = req.session.userId;
-  //   console.log('owner_id from the backend ==> ', owner_id);
-  //   console.log('req.session.userId ==> ', req.session.userId)
-
-  //   getMyListings(owner_id)
-  //     .then(listings => res.json(listings))
-  //     .catch(error => res.json(error));
-  // });
 
   // Add a property to the listings
   router.post('/new', (req, res) => {
+    const owner_id = req.session.userId
+
     const {
-      owner_id,
       number_of_bathrooms,
       number_of_bedrooms,
       parking_spaces,
@@ -116,30 +114,47 @@ module.exports = ({
         .then((response) => res.json(response))
       })
       .catch((error) => res.status(500).send(error.message));
+  });
 
-  })
+// Update the is_approved status of a pending listing
+  router.patch('/admin/pending', (req, res) => {
+    const data = req.body.data;
+    // const isApproved = data.is_approved;
+    const propertyId = data.property_id;
+    const address = data.street;
+    const userId = data.user_id;
+    const userName = data.first_name;
+    const message = `Hi ${userName}! Your property at ${address} has been approved and is now posted in the listings.`;
+
+    updateApproved(propertyId)
+      .then((result) => {
+        addNotification(userId, message)
+          .then((result) => res.json(result))
+      })
+      .catch(error => res.json(error));
+  });
+
    //git bids from db
-  router.get("/properties/myBids", (req, res) => {
-   
-   getBidsbyUser(req.session.userId)
-   
-     .then(properties => {
-      const getData = async () => {
-        return Promise.all(properties.map(property => (
-          getPropertiesPhotos(property.id)
-            .then(images =>  {
-              return {...property ,'thumbnail':images}
-          })
-        )))
-      }
-      getData().then(data => {
-        res.json(data)
-      })
-    
-      })
-     .catch(error => res.json(error));
-   
- })
+   router.get("/properties/myBids", (req, res) => {
+
+    getBidsbyUser(req.session.userId)
+
+      .then(properties => {
+       const getData = async () => {
+         return Promise.all(properties.map(property => (
+           getPropertiesPhotos(property.id)
+             .then(images =>  {
+               return {...property ,'thumbnail':images}
+           })
+         )))
+       }
+       getData().then(data => {
+         res.json(data)
+       })
+
+       })
+      .catch(error => res.json(error));
+  });
 
  //add post bid
  router.post('/bidder',(req,res)=> {
@@ -150,7 +165,7 @@ module.exports = ({
   addbidlog(bidder_registration_id,amount).then((bid) => res.json(bid))
   .catch((error) => res.status(500).send(error.message));
  });
- 
+
   //add and remove from fav
   router.post('/favorites/new', (req, res) => {
     const user_id = req.body.user_id;
@@ -196,7 +211,7 @@ module.exports = ({
       return new Promise(resolve => {
         addNotification(userId, "You Won The Bid, Wait for the sellers Response, You will get a notification when seller accept your offer!")
         .then(result =>  {
-          addNotification(owner_id, "Your Listted Property's Bidding is Over, Please go to My Listing and check the details, and Review the offer price");  
+          addNotification(owner_id, "Your Listted Property's Bidding is Over, Please go to My Listing and check the details, and Review the offer price");
           resolve(result)
         })
       })
@@ -204,9 +219,9 @@ module.exports = ({
     })
     .catch(error => res.json(error))
   })
-  
- 
-  
+
+
+
 
   return router;
 };
