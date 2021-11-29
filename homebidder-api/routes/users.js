@@ -9,7 +9,8 @@ const jwt = require("jsonwebtoken");
 module.exports = ({
   getUsers,
   getUserByEmail,
-  addUser
+  addUser,
+  getNotifications
 
 }) => {
   /* GET users listing. */
@@ -113,6 +114,14 @@ module.exports = ({
     res.status(201).send("user successfully logout");
   })
 
+  // Get all the notifications for a specific user
+  router.get('/notifications', (req, res) => {
+    const userId = req.session.userId
+
+    getNotifications(userId)
+      .then(result => res.json(result))
+      .catch(error => res.json(error));
+  });
 
   return router;
 }

@@ -14,8 +14,7 @@ module.exports = ({
   addPropertyImage,
   addNotification,
   getAllPending,
-  updateApproved,
-  getNotifications
+  updateApproved
 }) => {
   /* GET properties listing. */
   router.get('/', (req, res) => {
@@ -41,15 +40,6 @@ module.exports = ({
   // Get all the pending listings for Admin
   router.get('/admin/pending', (req, res) => {
     getAllPending()
-      .then(result => res.json(result))
-      .catch(error => res.json(error));
-  });
-
-  // Get all the notifications for a specific user
-  router.get('/notifications', (req, res) => {
-    const userId = req.session.userId
-
-    getNotifications(userId)
       .then(result => res.json(result))
       .catch(error => res.json(error));
   });

@@ -36,7 +36,7 @@ console.log("state", state);
       axios.get('/api/properties'),
       axios.get('/api/properties/favorites/all'),
       axios.get('/api/users/getUser'),
-      axios.get('/api/properties/notifications')
+      axios.get('/api/users/notifications')
       // get has_read = false
     ])
     .then(

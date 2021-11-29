@@ -13,7 +13,7 @@ export default function Notification(props) {
 
   useEffect(() => {
     axios
-    .get('/api/properties/notifications')
+    .get('/api/users/notifications')
     .then((response) => {
       setNotifications([...response.data])
     })
@@ -26,8 +26,6 @@ export default function Notification(props) {
       message={item.message}
     />
   })
-
-  console.log('notifications ==> ', notifications)
 
   return (
     <>

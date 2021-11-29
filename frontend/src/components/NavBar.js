@@ -39,6 +39,7 @@ export default function NavBar() {
   }
 
   const messages = hasRead && hasRead.length;
+  console.log('message legnth ==> ', hasRead)
 
   return (
     <Navbar className="homebidder-nav" variant="dark" bg="dark" sticky="top" collapseOnSelect expand="lg">
