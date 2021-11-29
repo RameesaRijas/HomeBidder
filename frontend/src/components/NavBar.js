@@ -91,22 +91,15 @@ export default function NavBar() {
           )}
 
           {(user && user.user_type === 2) && (
-            // <OverlayTrigger
-            //   key="top"
-            //   placement="top"
-            //   overlay={
-            //     <Tooltip id={`tooltip-"top"`}>
-            //       <strong>Notifications</strong>
-            //     </Tooltip>
-            //   }
-            // >
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip id="button-tooltip-2">Notifications</Tooltip>}
+              >
               <Nav.Link as={Link} to="/users/notifications">
                 <i className="fa fa-bell"></i>
                 {(messages > 0) && <Badge pill bg="danger">{messages}</Badge>}
-                {/* <Badge pill bg="danger">0</Badge> */}
-                {/* <span class="d-inline-block d-md-none">Notifications</span> */}
               </Nav.Link>
-            // </OverlayTrigger>
+            </OverlayTrigger>
           )}
 
           {(user && user.user_type === 1) && (
