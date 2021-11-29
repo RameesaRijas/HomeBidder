@@ -38,8 +38,11 @@ export default function NavBar() {
     // window.location.reload(false);
   }
 
-  const messages = hasRead && hasRead.length;
-  console.log('message legnth ==> ', hasRead)
+  // const messages = hasRead && hasRead.length;
+  // console.log('message legnth ==> ', hasRead)
+  const unRead = hasRead && hasRead.filter(item => item.has_read === false);
+  const messages = unRead && unRead.length;
+  // console.log('unRead ===> ', unRead)
 
   return (
     <Navbar className="homebidder-nav" variant="dark" bg="dark" sticky="top" collapseOnSelect expand="lg">
@@ -97,7 +100,8 @@ export default function NavBar() {
               >
               <Nav.Link as={Link} to="/users/notifications">
                 <i className="fa fa-bell"></i>
-                {(messages > 0) && <Badge pill bg="danger">{messages}</Badge>}
+                <Badge pill bg="danger">{messages}</Badge>
+                {/* {(messages > 0) && <Badge pill bg="danger">{messages}</Badge>} */}
               </Nav.Link>
             </OverlayTrigger>
           )}
