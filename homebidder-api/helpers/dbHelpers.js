@@ -224,8 +224,11 @@ module.exports = (db) => {
 
       const getAllPending = () => {
         const query = {
-          text: `SELECT users.first_name, users.last_name, users.email, properties.* FROM properties
+          text: `SELECT users.first_name, users.last_name, users.email,
+                        bids.base_price_in_cents, bids.bid_start_date, bids.bid_end_date,
+                        properties.* FROM properties
                  JOIN users on properties.owner_id = users.id
+                 JOIN bids on property_id = properties.id
                  WHERE is_approved = FALSE
                  ORDER BY properties.id`
         }

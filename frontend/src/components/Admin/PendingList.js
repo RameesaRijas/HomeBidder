@@ -26,6 +26,8 @@ export default function PendingList() {
     />
   });
 
+  console.log("pending ==> ", pending)
+
   return (
     <>
     <Container className="col-lg-10">
