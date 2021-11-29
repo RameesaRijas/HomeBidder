@@ -265,6 +265,18 @@ module.exports = (db) => {
           .catch(err => err);
       };
 
+      const getUnreadNotifications = (id) => {
+        const query = {
+          text: `SELECT * FROM notifications WHERE user_id = $1 AND has_read = FALSE`,
+          values: [id]
+        }
+
+        return db
+          .query(query)
+          .then(result => result.rows)
+          .catch(err => err);
+      };
+
   return {
     getUsers,
     addUser,
@@ -286,6 +298,7 @@ module.exports = (db) => {
     addNotification,
     getAllPending,
     updateApproved,
-    getNotifications
+    getNotifications,
+    getUnreadNotifications
   };
 };

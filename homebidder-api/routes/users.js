@@ -10,7 +10,8 @@ module.exports = ({
   getUsers,
   getUserByEmail,
   addUser,
-  getNotifications
+  getNotifications,
+  getUnreadNotifications
 
 }) => {
   /* GET users listing. */
@@ -119,6 +120,15 @@ module.exports = ({
     const userId = req.session.userId
 
     getNotifications(userId)
+      .then(result => res.json(result))
+      .catch(error => res.json(error));
+  });
+
+  // Get all unread notifications for a specific user
+  router.get('/notifications/unread', (req, res) => {
+    const userId = req.session.userId
+
+    getUnReadNotifications(userId)
       .then(result => res.json(result))
       .catch(error => res.json(error));
   });

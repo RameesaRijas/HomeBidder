@@ -37,7 +37,7 @@ console.log("state", state);
       axios.get('/api/properties/favorites/all'),
       axios.get('/api/users/getUser'),
       axios.get('/api/users/notifications')
-      // get has_read = false
+      // get has_read = false   ==> '/api/users/notifications/unread'
     ])
     .then(
       ([{ data: properties }, { data: fav }, {data:loggedUser}, {data: hasRead}]) =>
