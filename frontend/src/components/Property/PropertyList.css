@@ -69,6 +69,7 @@
 .property-list .box .bottom {
   padding: 20px 15px;
   position: relative;
+  text-align:center;
 }
 
 .property-list .box .bottom h3 {
@@ -123,14 +124,43 @@
   margin-top: 20px;
 }
 
-.property-list .box .bottom .price span:first-of-type {
+.property-list .box .bottom .price > span:first-of-type {
   display: block;
   font-size: 13px;
   font-weight: bold;
   margin-bottom: 5px;
 }
 
-.property-list .box .bottom .price span:last-of-type {
+.property-list .box .bottom .price > span:last-of-type {
   color: #3eaba1;
   font-size: 22px;
-} 
+}
+
+.bid_status {
+  display: inline;
+}
+
+/* .property-list .box:first-of-type:before {
+  content: "New Listing";
+  background-color: #ea723d;
+  color: white;
+  font-size: 13px;
+  padding: 4px 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.property-list .box:first-of-type:after {
+  content: "";
+  border-width: 12px;
+  border-style: solid;
+  border-color: transparent transparent transparent #ea723d;
+  position: absolute;
+  left: 72px;
+  top: 0;
+  transform: translateY(-50%);
+} */
+
