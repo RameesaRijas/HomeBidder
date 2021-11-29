@@ -49,7 +49,7 @@ const userType = state.loggedUser && state.loggedUser.user_type;
                 <Route exact path="/properties/mylistings" >
                 {(loggedIn && userType === 2) ? <MyListings /> : <Error />}
               </Route>
-                <Route exact path="/properties/notifications" >
+                <Route exact path="/users/notifications" >
                 {(loggedIn && userType === 2) ? <Notifications /> : <Error />}
               </Route>
                 <Route exact path="/admin/pending" >

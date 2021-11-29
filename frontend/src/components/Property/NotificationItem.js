@@ -1,35 +1,49 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
-import { Container, ListGroup, ListGroupItem, Badge, Alert, Button } from 'react-bootstrap';
+import axios from "axios";
+import { ListGroup, Badge } from 'react-bootstrap';
 
 export default function NotificationItem(props) {
-  const { message } = props;
+  const { message, readStatus, notificationId } = props;
 
-  // use className to conditionally set className="fw-bold" for unread messages
-  // and to render the 'new' badge based on the has_read field of the notification.
-
+  const confirmRead = (e) => {
+    const data = {
+      messageId: notificationId
+    }
+    e.preventDefault()
+    axios.patch('/api/users/notifications/', {data})
+    .then((response) => {
+      window.location = "/users/notifications"
+      console.log(response);
+    })
+    .catch((error) => console.log(error));
+  }
 
   return (
     <>
-      <ListGroup.Item
-        action
-        variant="primary"
-        className="d-flex justify-content-between align-items-start"
-        >
-        <div className="ms-2 me-auto">
-          <div className="fw-bold">{message}</div>
-        </div>
-        <Badge variant="primary" pill>
-          confirm
-        </Badge>
-      </ListGroup.Item>
+      {(readStatus === false) &&
+        <ListGroup.Item
+          action
+          variant="primary"
+          className="d-flex justify-content-between align-items-start"
+          >
+          <div className="ms-2 me-auto">
+            <div className="fw-bold">{message}</div>
+          </div>
+          <Badge variant="primary" pill onClick={confirmRead}>
+            confirm
+          </Badge>
+        </ListGroup.Item>
+      }
 
-      <ListGroup.Item>
-        <div className="ms-2 me-auto">
-          <div>{message}</div>
-        </div>
-      </ListGroup.Item>
+      {(readStatus === true) &&
+        <ListGroup.Item>
+          <div className="ms-2 me-auto">
+            <div>{message}</div>
+          </div>
+        </ListGroup.Item>
+      }
     </>
-  )
-}
+  );
+};

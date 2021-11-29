@@ -11,7 +11,8 @@ module.exports = ({
   getUserByEmail,
   addUser,
   getNotifications,
-  getUnreadNotifications
+  getUnreadNotifications,
+  confirmNotificationRead
 
 }) => {
   /* GET users listing. */
@@ -130,6 +131,18 @@ module.exports = ({
 
     getUnReadNotifications(userId)
       .then(result => res.json(result))
+      .catch(error => res.json(error));
+  });
+
+  // Update notification has_read = true
+  router.patch('/notifications', (req, res) => {
+    const data = req.body.data;
+    const notificationId = data.messageId;
+
+    console.log('backend notificationId ==> ', data)
+
+    confirmNotificationRead(notificationId)
+      .then((result) => res.json(result))
       .catch(error => res.json(error));
   });
 

@@ -8,7 +8,6 @@ import AlertNotification from "./AlertNotification";
 
 
 export default function Notification(props) {
-
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
@@ -23,7 +22,10 @@ export default function Notification(props) {
 
   const notificationList = notifications.map(item => {
     return <NotificationItem
+      key={item.id}
+      notificationId={item.id}
       message={item.message}
+      readStatus={item.has_read}
     />
   })
 

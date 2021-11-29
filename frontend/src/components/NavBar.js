@@ -100,7 +100,7 @@ export default function NavBar() {
             //     </Tooltip>
             //   }
             // >
-              <Nav.Link as={Link} to="/properties/notifications">
+              <Nav.Link as={Link} to="/users/notifications">
                 <i className="fa fa-bell"></i>
                 {(messages > 0) && <Badge pill bg="danger">{messages}</Badge>}
                 {/* <Badge pill bg="danger">0</Badge> */}

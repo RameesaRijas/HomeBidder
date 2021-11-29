@@ -277,6 +277,20 @@ module.exports = (db) => {
           .catch(err => err);
       };
 
+      const confirmNotificationRead = (id) => {
+        const query = {
+          text: `UPDATE notifications
+                 SET has_read = true
+                 WHERE id = $1 RETURNING *`,
+          values: [id]
+        }
+
+        return db
+          .query(query)
+          .then(result => result.rows)
+          .catch(err => err);
+      };
+
   return {
     getUsers,
     addUser,
@@ -299,6 +313,7 @@ module.exports = (db) => {
     getAllPending,
     updateApproved,
     getNotifications,
-    getUnreadNotifications
+    getUnreadNotifications,
+    confirmNotificationRead
   };
 };

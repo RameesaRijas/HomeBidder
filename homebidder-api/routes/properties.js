@@ -120,8 +120,6 @@ module.exports = ({
     const userName = data.first_name;
     const message = `Hi ${userName}! Your property at ${address} has been approved and is now posted in the listings.`;
 
-    console.log('message ==> ', message)
-
     updateApproved(propertyId)
       .then((result) => {
         addNotification(userId, message)
