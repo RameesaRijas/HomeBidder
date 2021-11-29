@@ -2,7 +2,8 @@ import React, { useContext,useState } from 'react';
 import { Link } from 'react-router-dom';
 import './NavBar.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import 'font-awesome/css/font-awesome.min.css';
+import { Navbar, Nav, NavDropdown, Badge, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { propertyContext } from '../providers/PropertyProvider';
 import Login from './Login';
 import Register from './Register';
@@ -20,7 +21,7 @@ export default function NavBar() {
 
   const {setLoggedInUser, state} = useContext(propertyContext);
   const user = state.loggedUser;
-///can be removed
+  ///can be removed
   // const isuserLoggedin = localStorage.getItem("token") !== ""
   // const useremail = localStorage.getItem("email")
   // const type = localStorage.getItem("usertype")
@@ -34,7 +35,10 @@ export default function NavBar() {
     // localStorage.setItem("usertype","")
     // localStorage.setItem("userid","")
     // window.location.reload(false);
-}
+  }
+
+  const messages = 2;
+
   return (
     <Navbar className="homebidder-nav" variant="dark" bg="dark" sticky="top" collapseOnSelect expand="lg">
         <Navbar.Brand as={Link} to="/">
@@ -84,6 +88,25 @@ export default function NavBar() {
           </NavDropdown>
           )}
 
+          {(user && user.user_type === 2) && (
+            // <OverlayTrigger
+            //   key="top"
+            //   placement="top"
+            //   overlay={
+            //     <Tooltip id={`tooltip-"top"`}>
+            //       <strong>Notifications</strong>
+            //     </Tooltip>
+            //   }
+            // >
+              <Nav.Link as={Link} to="/properties/notifications">
+                <i className="fa fa-bell"></i>
+                {(messages > 0) && <Badge pill bg="danger">{messages}</Badge>}
+                {/* <Badge pill bg="danger">0</Badge> */}
+                {/* <span class="d-inline-block d-md-none">Notifications</span> */}
+              </Nav.Link>
+            // </OverlayTrigger>
+          )}
+
           {(user && user.user_type === 1) && (
           <NavDropdown title={user.email} id="navbarScrollingDropdown">
             <NavDropdown.Item as={Link} to="/admin/pending">Pending Listings</NavDropdown.Item>
@@ -104,4 +127,4 @@ export default function NavBar() {
         </Login>
     </Navbar>
   );
-}
+};

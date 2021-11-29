@@ -11,7 +11,7 @@ export default function PendingListItem(props) {
 
   const approveListing = (e) => {
     const data = {
-      is_approved: true,
+      // is_approved: true,
       property_id: properties.id,
       street: properties.street,
       user_id: properties.owner_id,
@@ -20,6 +20,7 @@ export default function PendingListItem(props) {
     e.preventDefault()
     axios.patch('/api/properties/admin/pending/', {data})
     .then((response) => {
+      window.location = "/admin/pending"
       console.log(response);
     })
     .catch((error) => console.log(error));

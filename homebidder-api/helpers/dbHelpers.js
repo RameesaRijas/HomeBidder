@@ -250,6 +250,18 @@ module.exports = (db) => {
           .catch(err => err);
       };
 
+      const getNotifications = (id) => {
+        const query = {
+          text: `SELECT * FROM notifications WHERE user_id = $1`,
+          values: [id]
+        }
+
+        return db
+          .query(query)
+          .then(result => result.rows)
+          .catch(err => err);
+      };
+
   return {
     getUsers,
     addUser,
@@ -270,6 +282,7 @@ module.exports = (db) => {
     addPropertyImage,
     addNotification,
     getAllPending,
-    updateApproved
+    updateApproved,
+    getNotifications
   };
 };
