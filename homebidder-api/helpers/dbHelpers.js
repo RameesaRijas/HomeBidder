@@ -252,7 +252,7 @@ module.exports = (db) => {
 
       const getNotifications = (id) => {
         const query = {
-          text: `SELECT * FROM notifications WHERE user_id = $1`,
+          text: `SELECT * FROM notifications WHERE user_id = $1 ORDER BY id DESC`,
           values: [id]
         }
 

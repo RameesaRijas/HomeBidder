@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import axios from "axios";
-import { Container } from 'react-bootstrap';
+import { Container, ListGroup } from 'react-bootstrap';
 import NotificationItem from "./NotificationItem";
 import AlertNotification from "./AlertNotification";
 
@@ -27,12 +27,16 @@ export default function Notification(props) {
     />
   })
 
+  console.log('notifications ==> ', notifications)
+
   return (
     <>
       <Container className="col-lg-10">
         <h5><hr/>My Notifications</h5>
-        {notificationList.length === 0 && <AlertNotification />}
-        {notificationList}
+        {notifications.length === 0 && <AlertNotification />}
+        <ListGroup as="ul">
+          {notificationList}
+        </ListGroup>
       </Container>
     </>
   )
