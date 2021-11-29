@@ -25,4 +25,10 @@ VALUES
     (5,'/images/4_5.png'),
     (6,'/images/4_3.png'),
     (6,'/images/4_4.png'),
-    (6,'/images/4_5.png');
+    (6,'/images/4_5.png'),
+    (6,'/images/4_3.png'),
+    (6,'/images/4_4.png'),
+    (6,'/images/4_5.png'),
+    (7,'/images/4_3.png'),
+    (7,'/images/4_4.png'),
+    (7,'/images/4_5.png');
