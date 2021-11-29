@@ -20,6 +20,7 @@ export default function NavBar() {
   };
 
   const {setLoggedInUser, state} = useContext(propertyContext);
+  const hasRead = state.hasRead;
   const user = state.loggedUser;
   ///can be removed
   // const isuserLoggedin = localStorage.getItem("token") !== ""
@@ -37,7 +38,7 @@ export default function NavBar() {
     // window.location.reload(false);
   }
 
-  const messages = 2;
+  const messages = hasRead && hasRead.length;
 
   return (
     <Navbar className="homebidder-nav" variant="dark" bg="dark" sticky="top" collapseOnSelect expand="lg">
