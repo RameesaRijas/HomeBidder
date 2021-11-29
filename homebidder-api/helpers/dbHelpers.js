@@ -273,21 +273,6 @@ module.exports = (db) => {
       .catch((err) => err);
   }
 
-  const addNotification = (user_id, message) => {
-    console.log(user_id, message, "fdsfsdfsdfs");
-    const query = {
-      text: `INSERT INTO notifications (user_id, message)
-         VALUES ($1, $2)
-              RETURNING *`,
-        values: [user_id, message]
-    };
-
-  return db
-      .query(query)
-      .then((result) => result.rows[0])
-      .catch((err) => err);
-  }
-
   const getBidsbyUser = (id)=> {
     const query = {
       text: `SELECT * FROM  bidder_registrations
