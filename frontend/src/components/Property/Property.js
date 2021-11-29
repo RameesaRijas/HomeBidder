@@ -135,8 +135,9 @@ console.log(state.properties);
                       <Button variant="danger" onClick={(e) => rejectOffer(state.properties.id, state.properties.buyer_id)}>Reject Offer</Button>
                       </>) : 
                       ((state.properties.offer_amount && state.properties.seller_response === "Accepted") 
-                      ? <Badge bg="success">You Accepted An offer of{formatter.format(state.properties.offer_amount)}</Badge> : 
-                      <Badge bg="danger">You Rejected An offer of{formatter.format(state.properties.offer_amount)}</Badge>))}
+                      ? <Badge bg="success">You Accepted An offer of{formatter.format(state.properties.offer_amount)}</Badge> :
+
+                      ((state.properties.offer_amount && state.properties.seller_response === "Rejected") ? <Badge bg="danger">You Rejected An offer of{formatter.format(state.properties.offer_amount)}</Badge> : "")))}
                     
                   </span>
                 </Card.Body>
