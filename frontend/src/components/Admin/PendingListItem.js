@@ -2,12 +2,11 @@ import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import axios from "axios";
-import { Container, Accordion, Row, Button, Col } from 'react-bootstrap';
+import { Container, Accordion, Row, Button, Col, Stack } from 'react-bootstrap';
 
 
 export default function PendingListItem(props) {
   const { properties } = props;
-
 
   const approveListing = (e) => {
     const data = {
@@ -38,7 +37,6 @@ export default function PendingListItem(props) {
     return d.toLocaleString("en-US", { timeZone: "America/New_York" });
   };
 
-
   return (
 
     <Accordion>
@@ -55,7 +53,7 @@ export default function PendingListItem(props) {
               Seller: {properties.first_name} {properties.last_name}
             </Col>
             <Col>
-              <i className="fa fa-credit-card"></i> &nbsp;
+              <i className="fa fa-money"></i> &nbsp;
               Starting Price: {formatter.format(properties.base_price_in_cents / 100)}
             </Col>
           </Row>
@@ -106,15 +104,16 @@ export default function PendingListItem(props) {
 
         </Container>
 
-          <div className="p-2 mt-2">
-            <Button variant="primary" type="button" onClick={approveListing}>
+        {/* <Stack> */}
+          <div className="p-2 mt-2 ms-auto">
+            <Button className="ms-auto" variant="primary" type="button" onClick={approveListing}>
               Approve
             </Button>
           </div>
+        {/* </Stack> */}
 
         </Accordion.Body>
       </Accordion.Item>
     </Accordion>
-
-  )
-}
+  );
+};
