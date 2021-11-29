@@ -4,6 +4,7 @@ import 'font-awesome/css/font-awesome.min.css';
 import axios from "axios";
 import { Container } from 'react-bootstrap';
 import NotificationItem from "./NotificationItem";
+import AlertNotification from "./AlertNotification";
 
 
 export default function Notification(props) {
@@ -30,6 +31,7 @@ export default function Notification(props) {
     <>
       <Container className="col-lg-10">
         <h5><hr/>My Notifications</h5>
+        {notificationList.length === 0 && <AlertNotification />}
         {notificationList}
       </Container>
     </>
