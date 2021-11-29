@@ -99,10 +99,26 @@ const useBidsData = (propertyId) => {
       .then(result => console.log(result))
       .catch(err => console.log(err));
   }
-  
-  
 
-  return {state, formatter, userRegisterationForBid , userSetBid, addBidTohistory}
+  const acceptOffer = (property_id, buyer_id) => {
+    const data = {
+      property_id, buyer_id
+    }
+    axios.put('/api/users/seller/accept', { data })
+    .then(result => window.location.reload())
+    .catch(err => console.log(err))
+  }
+  
+  const rejectOffer = (property_id, buyer_id) => {
+    const data = {
+      property_id, buyer_id
+    }
+    axios.put('/api/users/seller/reject', { data})
+    .then(result => window.location.reload())
+  }
+   
+
+  return {state, formatter, userRegisterationForBid , userSetBid, addBidTohistory, acceptOffer, rejectOffer}
 }
 
 export default useBidsData;
