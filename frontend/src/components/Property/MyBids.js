@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { propertyContext } from "../../providers/PropertyProvider";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Alert } from "react-bootstrap";
 
 export default function MyBids() {
   const [bids, setBids] = useState([]);
@@ -34,9 +35,12 @@ export default function MyBids() {
         <h2>
           <hr />
         </h2>
+
         <div className="property-list">
           <Row>
-            {bidList.length === 0 && <div>nothing to show</div>}
+            {bidList.length === 0 && <Alert variant="dark">
+    you don't have any bids for the moment 
+  </Alert>}
             {bidList}
           </Row>
         </div>
