@@ -9,19 +9,9 @@ VALUES
     (4,2,2,1,'2 Allen Ave','Toronto','Ontario','M8V1R8',4200,'Detached',1985,TRUE,FALSE),
     (5,3,1,1,'41 Rue Jeanne-dArc','Gatineau','Quebec','J8Y2H3',4000,'Detached',1941,TRUE,TRUE),
     (6,3,3,3,'408 8 Street NE','Calgary,','Alberta','T2E4G9',4050,'Detached',1914,TRUE,TRUE),
-    (6,3,3,3,'408 8 Street NE','Calgary,','Alberta','T2E4G9',4050,'Detached',1914,TRUE,TRUE),
-
-    (6,3,3,3,'4085 82 Street NE','Calgary,','Alberta','T2E4G9',4050,'Detached',1914,TRUE,FALSE);
+    (7,3,3,3,'409 87 Street NE','Ontario,','Ottow','T2E4G9',4390,'Detached',212,TRUE,TRUE);
    
    
     
 
--- INSERT INTO
--- property_bid_histories(property_id,bid_amount,seller_response)
--- VALUES
---     (1,759780,'Pending'),
---      (2,1500890,'Pending'),
---      (3,560000,'Pending'),
---      (4,1980000,'Pending'),
---      (5,7600000,'Pending'),
     

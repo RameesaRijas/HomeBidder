@@ -54,7 +54,7 @@ export default function PropertListItem(props) {
             {imgUrl}
             
           </Carousel>
-          {user.id &&
+          {(user.id && user.user_type !== 1) &&
             (fav && fav.includes(properties.id) ? (
               <div className="fav" onClick={remove}>
                 <i className="fa fa-star" style={{ color: "red" }}></i>
