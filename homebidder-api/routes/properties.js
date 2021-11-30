@@ -30,8 +30,7 @@ module.exports = ({
               getPropertiesPhotos(property.property_id).then((images) => {
                 return { ...property, thumbnail: images };
               })
-            )
-          );
+            ));
         };
         getData().then((data) => {
           res.json(data);
@@ -87,6 +86,42 @@ module.exports = ({
       .catch((error) => res.status(500).send(error.message));
   });
 
+
+  // Add a property to the listings
+  router.post("/new", (req, res) => {
+    const owner_id = req.session.userId
+
+    const {
+      number_of_bathrooms,number_of_bedrooms, parking_spaces, street,
+      city,province,post_code,square_footage,property_type,year_built,
+      base_price_in_cents, bid_start_date,bid_end_date,image_url
+    } = req.body;
+
+     addProperty(
+      owner_id, number_of_bathrooms,number_of_bedrooms, parking_spaces,
+      street,city, province, post_code, square_footage, property_type,
+      year_built
+    )
+     .then((property) => {
+
+        return new Promise((resolve) => {
+
+          addBidSession(
+            property.id,base_price_in_cents,bid_start_date,bid_end_date
+          ).then((response) => {
+
+            addPropertyImage(property.id,req.body.image_Url).then((response) =>{
+
+            resolve(property)
+
+            }
+
+          )
+          });
+        }).then((result) => res.json(result));
+      }).catch((error) => res.status(500).send(error.message));
+    });
+
 // Update the is_approved status of a pending listing
   router.patch('/admin/pending', (req, res) => {
     const data = req.body.data;
@@ -139,39 +174,6 @@ module.exports = ({
 
 
 
-
-  // Add a property to the listings
-  router.post("/new", (req, res) => {
-    const {
-      owner_id,number_of_bathrooms,number_of_bedrooms, parking_spaces, street,
-      city,province,post_code,square_footage,property_type,year_built,
-      base_price_in_cents, bid_start_date,bid_end_date,image_url
-    } = req.body;
-
-     addProperty(
-      owner_id, number_of_bathrooms,number_of_bedrooms, parking_spaces,
-      street,city, province, post_code, square_footage, property_type,
-      year_built
-    )
-     .then((property) => {
-
-        return new Promise((resolve) => {
-
-          addBidSession(
-            property.id,base_price_in_cents,bid_start_date,bid_end_date
-          ).then((response) => {
-
-            addPropertyImage(property.id,req.body.image_Url).then((response) =>{
-
-            resolve(property)
-
-            }
-
-          )
-          });
-        }).then((result) => res.json(result));
-      }).catch((error) => res.status(500).send(error.message));
-    });
 
   //git bids from db
   router.get("/properties/myBids", (req, res) => {
