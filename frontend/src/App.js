@@ -13,6 +13,7 @@ import { propertyContext } from './providers/PropertyProvider';
 import Error from './components/Error';
 import MyListings from "./components/Property/MyListings";
 import MyBids from "./components/Property/MyBids";
+import Footer from "./components/Footer";
 function App() {
 
 const { state } = useContext(propertyContext);
@@ -52,6 +53,7 @@ const userType = state.loggedUser && state.loggedUser.user_type;
             </Route>
             
           </Switch>
+          <Footer/>
       </div>
     </BrowserRouter>
   );
