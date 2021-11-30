@@ -1,10 +1,12 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import "./Register.css";
-import { Button, Form, Modal } from "react-bootstrap";
-
+import { Button, Modal } from "react-bootstrap";
+import { Alert } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { propertyContext } from "../providers/PropertyProvider";
 import { toast } from "react-toastify";
+
 
 export default function Register(props) {
   const { setLoggedInUser } = useContext(propertyContext);
@@ -13,8 +15,11 @@ export default function Register(props) {
   const [userEmailReg, setUseEmailReg] = useState("");
   const [passwordReg, setPasswordReg] = useState("");
 
+  
+
   const register = (e) => {
     e.preventDefault();
+
     axios
       .post("/api/users/register", {
         first_name: firstName,
@@ -24,12 +29,25 @@ export default function Register(props) {
       })
       .then((response) => {
         props.toggleRegisterModal();
-        setLoggedInUser(response.data);
-        // console.log(response);
+ 
+        
+
+        // setLoggedInUser(response.data);
+
+        toast(
+          <Alert variant="dark">
+            you are register now
+            <Alert.Link as={Link} to="/login">
+              {" "}
+              please login
+            </Alert.Link>
+          </Alert>
+        );
       });
   };
+
   function validate() {
-    if (firstName === "") {
+    if (!firstName === "") {
       toast("first name  cannot be blank");
       return;
     }
@@ -45,7 +63,7 @@ export default function Register(props) {
       toast("password  cannot be empty");
       return;
     }
-   
+  
   }
 
   return (
@@ -63,22 +81,23 @@ export default function Register(props) {
             <label>First Name</label>
             <input
               type="firstName"
+              name="firstName"
               required
               className="form-control"
               id="firstName"
               placeholder="First Name"
+              value={firstName}
               onChange={(e) => {
                 setFirstName(e.target.value);
               }}
             />
-           
           </div>
           <div className="form-group">
             <label>Last Name</label>
             <input
               type="LastName"
               className="form-control"
-              required
+              name="lastName"
               id="lastName"
               placeholder="Last Name"
               onChange={(e) => {
@@ -91,6 +110,7 @@ export default function Register(props) {
             <label>Email </label>
             <input
               type="email"
+              name="email"
               className="form-control"
               id="email"
               required
@@ -106,6 +126,7 @@ export default function Register(props) {
             <label>Password</label>
             <input
               type="password"
+              name="password"
               className="form-control"
               id="password"
               placeholder="Password"
