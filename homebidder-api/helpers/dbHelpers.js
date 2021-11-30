@@ -97,12 +97,12 @@ module.exports = (db) => {
   };
 
   // ADD PROPERTY IMAGES
-  const addPropertyImage = (propertyId, imageUrl) => {
+  const addPropertyImage = (property_id, image_url) => {
     const query = {
       text: `INSERT INTO property_images
         (property_id, image_url)
         VALUES ($1, $2) RETURNING *`,
-      values: [propertyId, imageUrl]
+      values: [property_id,  image_url]
     }
 
     return db
