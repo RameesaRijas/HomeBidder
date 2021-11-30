@@ -1,4 +1,4 @@
-import { useParams,Link  } from "react-router-dom";
+import { useParams, Redirect, Link  } from "react-router-dom";
 import { Carousel, Col, Card, Alert, Button, Badge } from "react-bootstrap";
 import "./Property.css";
 import "font-awesome/css/font-awesome.min.css";
@@ -10,12 +10,14 @@ import { useContext } from 'react';
 import { propertyContext } from '../../providers/PropertyProvider';
 import PropertyBid from "./PropertyBid";
 import useBidsData from "../../hooks/useBidsData";
+import Error from "../Error";
 
 
 export default function Property() {
 
   const { addToYourFav, removeFromFav, state:contextState} = useContext(propertyContext);
   const params = useParams();
+
   const {
     state,
     formatter,
@@ -25,6 +27,7 @@ export default function Property() {
     acceptOffer,
     rejectOffer
   } = useBidsData(params.propertyId);
+
 
   const user = contextState.loggedUser;
   const userType = user && user.user_type;
@@ -38,7 +41,6 @@ export default function Property() {
     return result
   }
 
-console.log(state.properties);
   const isRegistredUser = state.bidders.filter(item => (item.user_id === Userid && state.properties.bid_id === item.bids_id) ? item : "");
 
   const today = new Date();
@@ -50,7 +52,7 @@ console.log(state.properties);
   const imgUrl =
     state.properties.thumbnail &&
     state.properties.thumbnail.map((item) => (
-      <Carousel.Item>
+      <Carousel.Item key={item.id}>
         <img
           className="carousel-image"
           src={item.image_url}
@@ -89,22 +91,24 @@ console.log(state.properties);
 
     
   return (
-    <Col className="sm-12">
+    <>
+    {(!(Object.keys(state.properties).length)) ? 
+      <Error/> :
+
+    <Col className="sm-12 Property_details">
       <div className="container-fluid">
         <div className="row">
           <div className="col-sm-8"></div>
           <div className="d-flex justify-content-center">
             <div className="col-sm-12">
-              <Link to={{ pathname: `/` }}>
                 <Carousel interval={null}>{imgUrl}</Carousel>
-              </Link>
             </div>
           </div>
-          <div className="d-flex justify-content-center">
+          <div className="d-flex justify-content-center top_details">
             <div className="col-sm-12">
               <Card>
                 <Card.Body className="bid-info">
-                  <p  className="bid-button">
+                  <span  className="bid-button">
                     {(userType === 2 ? 
                     ((diffStart > 0 || diffStart <= 0) && diffEnd > 0) ?
                         (state.properties.owner_id === Userid || isRegistredUser.length) ?
@@ -124,20 +128,24 @@ console.log(state.properties);
                       :
                         <Alert variant="warning"> Bid Is closed</Alert>
                     : "")}
-                  </p>
+                  </span>
                   <span>
-                    { (state.properties.owner_id === Userid) && 
+                    { (state.properties.owner_id === Userid) ? 
                     
                     ((state.properties.offer_amount && state.properties.bid_active ) ? (
                       <>
-                      <b>{formatter.format(state.properties.offer_amount)}</b>
+                      <b>{formatter.format(state.properties.offer_amount)}{" "}</b>
                       <Button variant="success" onClick={(e) => acceptOffer(state.properties.id, state.properties.buyer_id)}>Accept Offer</Button>
+                      {" "}
                       <Button variant="danger" onClick={(e) => rejectOffer(state.properties.id, state.properties.buyer_id)}>Reject Offer</Button>
                       </>) : 
                       ((state.properties.offer_amount && state.properties.seller_response === "Accepted") 
                       ? <Badge bg="success">You Accepted An offer of{formatter.format(state.properties.offer_amount)}</Badge> :
 
-                      ((state.properties.offer_amount && state.properties.seller_response === "Rejected") ? <Badge bg="danger">You Rejected An offer of{formatter.format(state.properties.offer_amount)}</Badge> : "")))}
+                      ((state.properties.offer_amount && state.properties.seller_response === "Rejected") ? <Badge bg="danger">You Rejected An offer of{formatter.format(state.properties.offer_amount)}</Badge> : ""))) :
+                      ((state.properties.offer_amount && state.properties.bid_active === false) && 
+                        <Badge bg="success">Sold</Badge>
+                      )}
                     
                   </span>
                 </Card.Body>
@@ -146,10 +154,10 @@ console.log(state.properties);
           </div>
           <div className="text-center text-md-left  d-flex justify-content-between">
             <div className="text-center text-md-left"> 
-            <h2>
+            <h2 className="property_street">
                {state.properties.street} </h2>
             <h6>
-              {state.properties.city},{state.properties.province},
+              {state.properties.city}, {" "}{state.properties.province},  {" "}
             {state.properties.post_code}
           </h6></div>  
               {addAndRemoveFav()}
@@ -162,33 +170,51 @@ console.log(state.properties);
                   <div>
                     <span>
                     <i className="fa fa-bed"> </i>
-                      <p>Beds: <b>{state.properties.number_of_bedrooms}</b> </p>
+                      <span> <b>Beds:{state.properties.number_of_bedrooms}</b> </span>
                     </span>
                   </div>
                   <div>
-                    <p>
+                    <span>
                       <i className="fa fa-bath"> </i>
-                      <p> Bath: {state.properties.number_of_bedrooms}</p>
-                    </p>
+                      <span><b> Bath: {state.properties.number_of_bedrooms}</b></span>
+                    </span>
                   </div>
                   <div>
-                    <div className="price">
+                  <div className="price">
+                    {((state.properties.owner_id !== Userid) &&
+                      ((state.properties.offer_amount && state.properties.bid_active === false) ?
+                      <>
+                      <span className="text">Sold:</span> {" "}
+                      <span>
+                      <strike> {formatter.format(
+                          state.properties.base_price_in_cents / 100
+                        )}
+                        </strike>
+                      </span>
+                      <span className="text-success">
+                        {formatter.format(
+                          state.properties.offer_amount
+                        )}
+                      </span>
+                      </>
+                      :
+                      <>
                       <span className="text-danger">For Sale:</span>
                       <span className="text-danger">
                         {formatter.format(
                           state.properties.base_price_in_cents / 100
                         )}
                       </span>
+                      </>
+                    ))}
                     </div>
                   </div>
                 </div>
                 <div className="col-md-16">
-                  <p>
                     <hr></hr>
-                  </p>
                 </div>
                     <div>
-                      <PropertyDetails></PropertyDetails>
+                      <PropertyDetails formatter={formatter} state={state} ></PropertyDetails>
                       </div>
                       {((state.properties.owner_id === Userid || isRegistredUser.length ||userType === 1) && ((diffStart <= 0 ) && diffEnd > 0)) && 
                         <PropertyBid 
@@ -207,5 +233,7 @@ console.log(state.properties);
             </div>
           </div>
     </Col>
+}
+    </>
   );
 }

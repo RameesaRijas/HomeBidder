@@ -1,10 +1,6 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Table, Card, Button } from "react-bootstrap";
+import { Table} from "react-bootstrap";
 import "./Property.css";
 import "font-awesome/css/font-awesome.min.css";
-import Footer from '../Footer';
 
 
 export default function PropertyHistory() {
@@ -39,7 +35,6 @@ export default function PropertyHistory() {
           </tbody>
         </Table>
         <div >
-         <Footer></Footer>
         </div>
       </div>
     </>

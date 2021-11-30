@@ -8,9 +8,10 @@ import AlertListing from './AlertListing';
 
 
 export default function MyListings() {
-  const {state} = useContext(propertyContext);
+  const {state, addToYourFav, removeFromFav} = useContext(propertyContext);
   const user = state.loggedUser;
   const Userid = user && user.id;
+  const userFav = state.fav && state.fav.map(item => item.user_id ===  Userid ? item.property_id : 0);
 
   const propertylist = state.properties.map(item => {
     if (Userid === item.owner_id) {
@@ -19,6 +20,9 @@ export default function MyListings() {
       properties={item}
       user={user}
       myList={true}
+      addToFav={addToYourFav}
+      removeFav={removeFromFav}
+      fav={userFav}
     />
     };
   });
