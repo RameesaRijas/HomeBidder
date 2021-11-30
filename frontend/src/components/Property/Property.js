@@ -50,7 +50,7 @@ console.log(state.properties);
   const imgUrl =
     state.properties.thumbnail &&
     state.properties.thumbnail.map((item) => (
-      <Carousel.Item>
+      <Carousel.Item key={item.id}>
         <img
           className="carousel-image"
           src={item.image_url}
@@ -89,22 +89,20 @@ console.log(state.properties);
 
     
   return (
-    <Col className="sm-12">
+    <Col className="sm-12 Property_details">
       <div className="container-fluid">
         <div className="row">
           <div className="col-sm-8"></div>
           <div className="d-flex justify-content-center">
             <div className="col-sm-12">
-              <Link to={{ pathname: `/` }}>
                 <Carousel interval={null}>{imgUrl}</Carousel>
-              </Link>
             </div>
           </div>
-          <div className="d-flex justify-content-center">
+          <div className="d-flex justify-content-center top_details">
             <div className="col-sm-12">
               <Card>
                 <Card.Body className="bid-info">
-                  <p  className="bid-button">
+                  <span  className="bid-button">
                     {(userType === 2 ? 
                     ((diffStart > 0 || diffStart <= 0) && diffEnd > 0) ?
                         (state.properties.owner_id === Userid || isRegistredUser.length) ?
@@ -124,14 +122,15 @@ console.log(state.properties);
                       :
                         <Alert variant="warning"> Bid Is closed</Alert>
                     : "")}
-                  </p>
+                  </span>
                   <span>
                     { (state.properties.owner_id === Userid) && 
                     
                     ((state.properties.offer_amount && state.properties.bid_active ) ? (
                       <>
-                      <b>{formatter.format(state.properties.offer_amount)}</b>
+                      <b>{formatter.format(state.properties.offer_amount)}{" "}</b>
                       <Button variant="success" onClick={(e) => acceptOffer(state.properties.id, state.properties.buyer_id)}>Accept Offer</Button>
+                      {" "}
                       <Button variant="danger" onClick={(e) => rejectOffer(state.properties.id, state.properties.buyer_id)}>Reject Offer</Button>
                       </>) : 
                       ((state.properties.offer_amount && state.properties.seller_response === "Accepted") 
@@ -146,10 +145,10 @@ console.log(state.properties);
           </div>
           <div className="text-center text-md-left  d-flex justify-content-between">
             <div className="text-center text-md-left"> 
-            <h2>
+            <h2 className="property_street">
                {state.properties.street} </h2>
             <h6>
-              {state.properties.city},{state.properties.province},
+              {state.properties.city}, {" "}{state.properties.province},  {" "}
             {state.properties.post_code}
           </h6></div>  
               {addAndRemoveFav()}
@@ -162,14 +161,14 @@ console.log(state.properties);
                   <div>
                     <span>
                     <i className="fa fa-bed"> </i>
-                      <p>Beds: <b>{state.properties.number_of_bedrooms}</b> </p>
+                      <span> <b>Beds:{state.properties.number_of_bedrooms}</b> </span>
                     </span>
                   </div>
                   <div>
-                    <p>
+                    <span>
                       <i className="fa fa-bath"> </i>
-                      <p> Bath: {state.properties.number_of_bedrooms}</p>
-                    </p>
+                      <span><b> Bath: {state.properties.number_of_bedrooms}</b></span>
+                    </span>
                   </div>
                   <div>
                     <div className="price">
@@ -183,12 +182,10 @@ console.log(state.properties);
                   </div>
                 </div>
                 <div className="col-md-16">
-                  <p>
                     <hr></hr>
-                  </p>
                 </div>
                     <div>
-                      <PropertyDetails></PropertyDetails>
+                      <PropertyDetails formatter={formatter} state={state} ></PropertyDetails>
                       </div>
                       {((state.properties.owner_id === Userid || isRegistredUser.length ||userType === 1) && ((diffStart <= 0 ) && diffEnd > 0)) && 
                         <PropertyBid 
