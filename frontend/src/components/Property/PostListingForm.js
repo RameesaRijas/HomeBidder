@@ -24,8 +24,7 @@ export default function PostListingForm() {
   const [bidEndDate, setBidEndDate] = useState("");
   const [basePrice, setBasePrice] = useState("");
   const [imageUrl, setImageUrl] = useState([]);
-  const [files, setFiles] = useState([]);
-  const [uploadfile, setUoloadFile] = useState({});
+ 
   const [url, setUrl] = useState("");
   const [image, setImage] = useState("");
   const [imageCheck,setImageCheck]=useState(false)
@@ -49,11 +48,10 @@ export default function PostListingForm() {
       .post("https://api.cloudinary.com/v1_1/dj8arn33b/image/upload", data)
       .then((response) => {
         setImageCheck(true)
+        console.log("++",response)
 
-        // console.log("res", response);
         setUrl(response.data.url);
-        console.log("da", response.data.url);
-        // window.location.reload(false);
+        
       });
   };
 
@@ -80,7 +78,7 @@ export default function PostListingForm() {
         image_url: url,
       })
       .then((response) => {
-        console.log(response);
+        console.log("ressss",response);
         window.location = '/properties/mylistings'
 
 
@@ -89,9 +87,7 @@ export default function PostListingForm() {
   };
 
 
-  // useEffect(()=>{
-
-  // },[files])
+ 
 
   return (
     <Modal.Dialog size="lg">
