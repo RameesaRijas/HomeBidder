@@ -29,7 +29,7 @@ export default function Property(props) {
   const isfav = () => {
     const result = fav.filter((fav) => {
       return (
-        fav.user_id === Userid && String(fav.property_id) === params.propertyId
+        fav.user_id === Userid && String(fav.property_id) === params.propertyId 
       );
     }).length;
 
@@ -83,7 +83,7 @@ export default function Property(props) {
   };
 
   const addAndRemoveFav = () => {
-    if (!Userid) {
+    if (!Userid || user.user_type === 1) {
       return null;
     } else {
       return fav && isfav() ? (
