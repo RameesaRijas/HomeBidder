@@ -1,4 +1,4 @@
-import { useParams,Link  } from "react-router-dom";
+import { useParams, Redirect, Link  } from "react-router-dom";
 import { Carousel, Col, Card, Alert, Button, Badge } from "react-bootstrap";
 import "./Property.css";
 import "font-awesome/css/font-awesome.min.css";
@@ -10,12 +10,14 @@ import { useContext } from 'react';
 import { propertyContext } from '../../providers/PropertyProvider';
 import PropertyBid from "./PropertyBid";
 import useBidsData from "../../hooks/useBidsData";
+import Error from "../Error";
 
 
 export default function Property() {
 
   const { addToYourFav, removeFromFav, state:contextState} = useContext(propertyContext);
   const params = useParams();
+
   const {
     state,
     formatter,
@@ -25,6 +27,7 @@ export default function Property() {
     acceptOffer,
     rejectOffer
   } = useBidsData(params.propertyId);
+
 
   const user = contextState.loggedUser;
   const userType = user && user.user_type;
@@ -38,7 +41,6 @@ export default function Property() {
     return result
   }
 
-console.log(state.properties);
   const isRegistredUser = state.bidders.filter(item => (item.user_id === Userid && state.properties.bid_id === item.bids_id) ? item : "");
 
   const today = new Date();
@@ -89,6 +91,10 @@ console.log(state.properties);
 
     
   return (
+    <>
+    {(!(Object.keys(state.properties).length)) ? 
+      <Error/> :
+
     <Col className="sm-12 Property_details">
       <div className="container-fluid">
         <div className="row">
@@ -124,7 +130,7 @@ console.log(state.properties);
                     : "")}
                   </span>
                   <span>
-                    { (state.properties.owner_id === Userid) && 
+                    { (state.properties.owner_id === Userid) ? 
                     
                     ((state.properties.offer_amount && state.properties.bid_active ) ? (
                       <>
@@ -136,7 +142,10 @@ console.log(state.properties);
                       ((state.properties.offer_amount && state.properties.seller_response === "Accepted") 
                       ? <Badge bg="success">You Accepted An offer of{formatter.format(state.properties.offer_amount)}</Badge> :
 
-                      ((state.properties.offer_amount && state.properties.seller_response === "Rejected") ? <Badge bg="danger">You Rejected An offer of{formatter.format(state.properties.offer_amount)}</Badge> : "")))}
+                      ((state.properties.offer_amount && state.properties.seller_response === "Rejected") ? <Badge bg="danger">You Rejected An offer of{formatter.format(state.properties.offer_amount)}</Badge> : ""))) :
+                      ((state.properties.offer_amount && state.properties.bid_active === false) && 
+                        <Badge bg="success">Sold</Badge>
+                      )}
                     
                   </span>
                 </Card.Body>
@@ -171,13 +180,33 @@ console.log(state.properties);
                     </span>
                   </div>
                   <div>
-                    <div className="price">
+                  <div className="price">
+                    {((state.properties.owner_id !== Userid) &&
+                      ((state.properties.offer_amount && state.properties.bid_active === false) ?
+                      <>
+                      <span className="text">Sold:</span> {" "}
+                      <span>
+                      <strike> {formatter.format(
+                          state.properties.base_price_in_cents / 100
+                        )}
+                        </strike>
+                      </span>
+                      <span className="text-success">
+                        {formatter.format(
+                          state.properties.offer_amount
+                        )}
+                      </span>
+                      </>
+                      :
+                      <>
                       <span className="text-danger">For Sale:</span>
                       <span className="text-danger">
                         {formatter.format(
                           state.properties.base_price_in_cents / 100
                         )}
                       </span>
+                      </>
+                    ))}
                     </div>
                   </div>
                 </div>
@@ -204,5 +233,7 @@ console.log(state.properties);
             </div>
           </div>
     </Col>
+}
+    </>
   );
 }

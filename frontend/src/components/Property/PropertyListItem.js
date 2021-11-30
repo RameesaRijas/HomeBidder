@@ -20,7 +20,7 @@ export default function PropertListItem(props) {
       </Carousel.Item>
       )
     });
-
+console.log(properties);
   const pathname = (myList && properties.is_approved === false) ? "" :  `/listing/${properties.id}`;
   const formatter = new Intl.NumberFormat("en-CA", {
     style: "currency",
@@ -109,12 +109,24 @@ export default function PropertListItem(props) {
                 </div>
               </div>
             </div>
-            <div className="price">
-              <span>For Sale</span>
-              <span>
-                {formatter.format(properties.base_price_in_cents / 100)}
-              </span>
-            </div>
+              <div className="price">
+              {(properties.bid_active === false && properties.bid_amount) ? 
+                <span>Sold </span> :
+                <span>For Sale</span>
+                }
+                {((properties.bid_active === false && properties.bid_amount) ?
+                  <>
+                  <strike>{formatter.format(properties.base_price_in_cents / 100)}</strike>
+                  {" "}
+                  <b style={{color:"green"}}>{formatter.format(properties.bid_amount)}</b>
+                  </>
+                  :
+                  <span>
+                  {formatter.format(properties.base_price_in_cents / 100)}
+                  </span>
+                )}
+                
+              </div>
             <div className="bid_status">
               
                 <Badge pill bg="warning">
@@ -122,7 +134,8 @@ export default function PropertListItem(props) {
                   "Bid Started"
                 : 
                 (((diffStart > 0 ) && diffEnd > 0) ?
-                  "Bid Not Yet Started" : "Bid Closed")
+                  "Bid Not Yet Started" :   
+                  ((properties.bid_active === true && properties.bid_amount) && "Bid Closed"))
               }
                   </Badge>
             </div>

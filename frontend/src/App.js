@@ -51,7 +51,9 @@ const userType = state.loggedUser && state.loggedUser.user_type;
             <Route exact path="/properties/Mybids">
             {(loggedIn && userType === 2) ? <MyBids/>:<Error />}
             </Route>
-            
+            <Route exact path="/404">
+              <Error />
+            </Route>
           </Switch>
           <Footer/>
       </div>
