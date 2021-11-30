@@ -24,10 +24,10 @@ export default function PostListingForm() {
   const [bidEndDate, setBidEndDate] = useState("");
   const [basePrice, setBasePrice] = useState("");
   const [imageUrl, setImageUrl] = useState([]);
- 
+
   const [url, setUrl] = useState("");
   const [image, setImage] = useState("");
-  const [imageCheck,setImageCheck]=useState(false)
+  const [imageCheck, setImageCheck] = useState(false);
 
   // Temporarily getting the userid from localStorage until backend finalized
   const userid = localStorage.getItem("userid");
@@ -47,47 +47,41 @@ export default function PostListingForm() {
     axios
       .post("https://api.cloudinary.com/v1_1/dj8arn33b/image/upload", data)
       .then((response) => {
-        setImageCheck(true)
-        console.log("++",response)
+        setImageCheck(true);
+        
 
         setUrl(response.data.url);
-        
       });
   };
 
   const newListing = (e) => {
     e.preventDefault();
     const data = new FormData();
-    if(imageCheck){
-    axios
-      .post("/api/properties/new", {
-        street: street,
-        city: city,
-        province: province,
-        post_code: postCode,
-        property_type: propertyType,
-        number_of_bedrooms: numBeds,
-        number_of_bathrooms: numBaths,
-        parking_spaces: numParking,
-        square_footage: squareFootage,
-        year_built: yearBuilt,
-        owner_id: userid,
-        bid_start_date: bidStartDate,
-        bid_end_date: bidEndDate,
-        base_price_in_cents: basePrice,
-        image_url: url,
-      })
-      .then((response) => {
-        console.log("ressss",response);
-        window.location = '/properties/mylistings'
-
-
-      });
+    if (imageCheck) {
+      axios
+        .post("/api/properties/new", {
+          street: street,
+          city: city,
+          province: province,
+          post_code: postCode,
+          property_type: propertyType,
+          number_of_bedrooms: numBeds,
+          number_of_bathrooms: numBaths,
+          parking_spaces: numParking,
+          square_footage: squareFootage,
+          year_built: yearBuilt,
+          owner_id: userid,
+          bid_start_date: bidStartDate,
+          bid_end_date: bidEndDate,
+          base_price_in_cents: basePrice,
+          image_url: url,
+        })
+        .then((response) => {
+          
+           window.location = "/properties/mylistings";
+        });
     }
   };
-
-
- 
 
   return (
     <Modal.Dialog size="lg">
@@ -327,10 +321,9 @@ export default function PostListingForm() {
               <Form.Label>Upload property images</Form.Label>
 
               <Form.Control
-                name="images[]"
+                name="images"
                 type="file"
-                multiple
-                
+                // multiple
                 // For each image uploaded, I need to append to imageUrl using spread operator
                 onChange={(e) => setImage(e.target.files[0])}
               />
