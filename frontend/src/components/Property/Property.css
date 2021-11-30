@@ -33,6 +33,9 @@ th, tr {
 
 .details{
   text-align: left;
+  display: flex;
+  flex-direction: column;
+  line-height: 3;
 }
 .bid-button{
   color: #fff;
@@ -72,7 +75,26 @@ th, tr {
 }
 .div-orginize{
   display: flex;
+  justify-content: space-between;
 }
+
+.property_street {
+  margin-bottom: 1em;
+}
+.Property_details {
+  margin:2em;
+}
+
+.text-center {
+  margin-bottom: 2em;
+}
+.top_details{
+  margin-bottom: 2em;
+}
+.price  {
+  font-weight: 700;
+}
+
 
 @media only screen and  (max-width: 900px)  {
   .bid-info{
@@ -87,4 +109,3 @@ th, tr {
   }
 
 }
-

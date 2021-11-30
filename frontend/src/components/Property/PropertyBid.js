@@ -9,10 +9,10 @@ export default function PropertyBid(props) {
 
   const { state, user_id,userType, userSetBid, endDay , addBidTohistory} = props;
   const [error, setError] = useState("");
-  const maxAmount = state.bids && Math.max(...state.bids.map(item => Number(item.amount)), 0);
+  const maxAmount = state.bids.length ? Math.max(...state.bids.map(item => Number(item.amount)), 0) : ((state.properties.base_price_in_cents /100)/100 * 80);
 
 
-
+console.log(maxAmount);
   const minBidAmount = maxAmount + state.properties.increment_price_per_bid / 100;
 
   const [amount, setAmount] = useState(maxAmount || 0);
@@ -37,7 +37,7 @@ export default function PropertyBid(props) {
         .then(() => setError(""))
         .catch(error => setError(error))
     } else {
-      setError("Min Amount Must be greater than current Bid");
+      setError(`Min Amount Must be greater than current Bid${amount}`);
     }
   }
 
@@ -73,7 +73,7 @@ export default function PropertyBid(props) {
               <section style={{ color: "red" }}>{error}</section>
               </>
             ) : <tr className="amount_digit">
-            { (userDetails && userDetails[0]) ? userDetails[0].first_name + " " + userDetails[0].last_name+":" : "Last Bid :"}  {maxAmount}</tr>}
+            { (userDetails && userDetails[0]) ? userDetails[0].first_name + " " + userDetails[0].last_name+":" : "Current Amount :"}  {maxAmount}</tr>}
             </th>
             <th width="30%">
               {(userType !== 1 && state.properties.owner_id !== user_id) &&
@@ -83,12 +83,13 @@ export default function PropertyBid(props) {
           </tr>
         </thead>
         <tbody>
-        {(userType !== 1 && state.properties.owner_id !== user_id) &&
-          <tr className="amount_digit">
-            { (userDetails && userDetails[0]) ? userDetails[0].first_name + " " + userDetails[0].last_name+":" : "Last Bid :"}  {maxAmount}</tr>
-        }
           <tr>
-          </tr>
+        {(userType !== 1 && state.properties.owner_id !== user_id) &&
+          <td className="amount_digit">
+            { (userDetails && userDetails[0]) ? 
+            ((userDetails[0].id === user_id) ? "Your Bid :" : userDetails[0].first_name + " " + userDetails[0].last_name+":") : "Current Amount :"}  {maxAmount}</td>
+        }
+        </tr>
         </tbody>
       </table>
       <br />

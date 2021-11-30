@@ -5,81 +5,54 @@ import "./Property.css";
 import "font-awesome/css/font-awesome.min.css";
 
 
-export default function PropertyDetails() {
-  const params = useParams();
-  const [state, setState] = useState({
-    properties: {},
-    bidders: {},
-    bids: {},
-  });
+export default function PropertyDetails(props) {
 
-  useEffect(() => {
-    Promise.all([
-      axios.get(`/api/properties/${params.propertyId}`),
-      axios.get(`/api/properties/bidder`),
-    ])
-      .then(([{ data: properties }, { data: bidders }]) => {
-        setState({
-          ...state,
-          properties: properties,
-          bidders: bidders,
-        });
-      })
-      .catch((error) => console.log(error));
-  }, []);
-
+  const {state, formatter} = props;
   const dateFormater = (date) => {
     const d = new Date(date);
     return d.toLocaleString("en-US", { timeZone: "America/New_York" });
   };
-  const formatter = new Intl.NumberFormat("en-CA", {
-    style: "currency",
-    currency: "CAD",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  });
+
 
   return (
     <div>
       <div className="div-orginize">
         <div className="col-md-6">
-          <div className="details">
+          <section className="details">
             <h2>Property details</h2>
-            <p> Number of Parking Spots: <b>{state.properties.parking_spaces}</b></p>
-            <p> Property Type: <b>{state.properties.property_type}</b></p>
+            <span> Number of Parking Spots: <b>{state.properties.parking_spaces}</b></span>
+            <span> Property Type: <b>{state.properties.property_type}</b></span>
 
-            <p>Area: <b>{state.properties.square_footage}</b>Sq Ft</p>
+            <span>Area: <b>{state.properties.square_footage}</b>Sq Ft</span>
 
-            <p>Year Built: <b>{state.properties.year_built}</b></p>
-          </div>
+            <span>Year Built: <b>{state.properties.year_built}</b></span>
+          </section>
         </div>
         <div className="col-sm-6">
           <div className="bidding-div">
             <div className="bid-info">
-              <button className="bidding">
-                <p className="p-2 mb-2  text-light">
-                  bidding price:{formatter.format(
+              <span className="bidding">
+                <span className="p-2 mb-2  text-light">
+                  Market Price : {formatter.format(
                           state.properties.base_price_in_cents / 100
-                        )} $CA
-                </p>
-              </button>
-              <p className="p-3 mb-3 text-black">
-                <h6>starting bid date:</h6>
+                        )} CAD
+                </span>
+              </span>
+              <span className="p-3 mb-3 text-black">
+                <h6>Bid Starting Date:</h6>
                 {dateFormater(state.properties.bid_start_date)}
-              </p>
-              <p className="p-3 mb-3  text-black">
-                <h6>ending bid date:</h6>
+              </span>
+              <span className="p-3 mb-3  text-black">
+                <h6>Bid Ending Date:</h6>
                 {dateFormater(state.properties.bid_end_date)}
-              </p>
+              </span>
             </div>
           </div>
         </div>
       </div>
 
       <div className="col-md-12">
-        <p>
-          <hr></hr>
-        </p>
+      <hr></hr>
       </div>
      
     </div>

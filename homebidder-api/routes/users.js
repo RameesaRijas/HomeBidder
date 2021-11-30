@@ -125,7 +125,6 @@ module.exports = ({
     registerBidder(user_id, bidId)
     .then((result) => {
       setTimeout(() => {
-        res.json({});
         updateBidders(result);
       }, 500);
     })

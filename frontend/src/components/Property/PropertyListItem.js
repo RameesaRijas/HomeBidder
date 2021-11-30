@@ -7,7 +7,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function PropertListItem(props) {
   const { properties, fav, addToFav, removeFav, user, myList } = props;
-
   const imgUrl =
     properties.thumbnail &&
     properties.thumbnail.map((item, index) => {
@@ -21,6 +20,8 @@ export default function PropertListItem(props) {
       </Carousel.Item>
       )
     });
+console.log(properties);
+  const pathname = (myList && properties.is_approved === false) ? "" :  `/listing/${properties.id}`;
   const formatter = new Intl.NumberFormat("en-CA", {
     style: "currency",
     currency: "CAD",
@@ -54,7 +55,7 @@ export default function PropertListItem(props) {
             {imgUrl}
             
           </Carousel>
-          {(user.id && user.user_type !== 1) &&
+          {(user.id && user.user_type !== 1 && properties.is_approved)&&
             (fav && fav.includes(properties.id) ? (
               <div className="fav" onClick={remove}>
                 <i className="fa fa-star" style={{ color: "red" }}></i>
@@ -64,11 +65,15 @@ export default function PropertListItem(props) {
                 <i className="fa fa-star" style={{ color: "white" }}></i>
               </div>
             ))}
+
+            {(myList && properties.is_approved === false) && (
+              <Badge bg="danger" className="approved_status">Not Yet Approved</Badge>
+            )}
         </div>
         <Link
           className="link_to_details"
           to={{
-            pathname: `/listing/${properties.id}`,
+            pathname: pathname,
             key: properties.id,
           }}
         >
@@ -104,12 +109,24 @@ export default function PropertListItem(props) {
                 </div>
               </div>
             </div>
-            <div className="price">
-              <span>For Sale</span>
-              <span>
-                {formatter.format(properties.base_price_in_cents / 100)}
-              </span>
-            </div>
+              <div className="price">
+              {(properties.bid_active === false && properties.bid_amount) ? 
+                <span>Sold </span> :
+                <span>For Sale</span>
+                }
+                {((properties.bid_active === false && properties.bid_amount) ?
+                  <>
+                  <strike>{formatter.format(properties.base_price_in_cents / 100)}</strike>
+                  {" "}
+                  <b style={{color:"green"}}>{formatter.format(properties.bid_amount)}</b>
+                  </>
+                  :
+                  <span>
+                  {formatter.format(properties.base_price_in_cents / 100)}
+                  </span>
+                )}
+                
+              </div>
             <div className="bid_status">
               
                 <Badge pill bg="warning">
@@ -117,7 +134,8 @@ export default function PropertListItem(props) {
                   "Bid Started"
                 : 
                 (((diffStart > 0 ) && diffEnd > 0) ?
-                  "Bid Not Yet Started" : "Bid Closed")
+                  "Bid Not Yet Started" :   
+                  ((properties.bid_active === true && properties.bid_amount) && "Bid Closed"))
               }
                   </Badge>
             </div>

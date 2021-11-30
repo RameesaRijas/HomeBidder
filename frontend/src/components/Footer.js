@@ -4,27 +4,21 @@ import { Card, Button } from "react-bootstrap";
 export default function Footer() {
   return (
     <>
-      <div className="col-ms-16">
-        <hr></hr>
+    <footer className="footer-distributed">
+      <div className="footer-right">
+        <a><i className="fa fa-facebook"></i></a>
+        <a><i className="fa fa-twitter"></i></a>
+        <a><i className="fa fa-linkedin"></i></a>
       </div>
-      <div className="footer">
-        <div className="inside-footer">
-          you can find as in
-          <div className="contact-info">
-            <i className="fa fa-twitter"></i>
-          </div>
-          <div className="contact-info">
-            <i className="fa fa-facebook-square"></i>
-          </div>
-          <div className="contact-info">
-            <i className="fa fa-envelope"></i>
-          </div>
-          <p> for more information </p>
-          <div className="contact-info">
-            <button className="btn btn-dark">Contact US</button>
-          </div>
-        </div>
-      </div>
+      <div className="footer-left">
+        <p className="footer-links">
+          <a className="link-1">Home</a>
+          <a>About</a>
+          <a>Contact</a>
+        </p>
+      <p>HomeBidder &copy; 2021</p>
+    </div>
+  </footer>
     </>
   );
 }
