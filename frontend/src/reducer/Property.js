@@ -7,11 +7,12 @@ export const SET_LOGGED_USER = "SET_LOGGED_USER";
 function reducer(state, action) {
   switch (action.type) {
     case SET_PROPERTY_DATA:
-      return {  
+      return {
         ...state,
         properties: action.properties,
         fav: action.fav,
-        loggedUser: action.loggedUser
+        loggedUser: action.loggedUser,
+        hasRead: action.hasRead
       }
 
       case SET_PROPERTY_ID:

@@ -54,20 +54,6 @@ module.exports = (db) => {
         .catch((err) => err);
   };
 
-  // GET ALL PROPERTIES FOR A SPECIFIC USER
-  // ** Don't need this anymore as listings are called and filtered in frontend **
-  // const getMyListings = (userId) => {
-  //   const query = {
-  //     text: `SELECT * FROM properties WHERE owner_id = $1`,
-  //     values: [userId]
-  //   }
-
-  //   return db
-  //     .query(query)
-  //     .then((result) => result.rows)
-  //     .catch((err) => err);
-  // }
-
   //ADD A PROPERTY TO THE LISTINGS
   const addProperty = (ownerId, numBaths, numBeds, numParking, street, city, province, postCode, squareFootage, propertyType, yearBuilt) => {
     const query = {
@@ -99,13 +85,15 @@ module.exports = (db) => {
   };
 
   // ADD PROPERTY IMAGES
-  const addPropertyImage = (propertyId, imageUrl) => {
-    const query = {
-      text: `INSERT INTO property_images
-        (property_id, image_url)
-        VALUES ($1, $2) RETURNING *`,
-      values: [propertyId, imageUrl]
-    }
+ 
+    const addPropertyImage = (property_id,image_url) => {
+      console.log("f",property_id,"d",image_url)
+      const query = {
+        text: `INSERT INTO property_images
+          (property_id, image_url)
+          VALUES ($1, $2) RETURNING *`,
+        values: [property_id, image_url]
+      }
 
     return db
       .query(query)
@@ -246,7 +234,7 @@ module.exports = (db) => {
     const query = {
       text: `SELECT bid_logs.id, bid_logs.amount, bid_logs.bidder_registration_id,
             bid_logs.bids_at
-            FROM bid_logs 
+            FROM bid_logs
             JOIN bidder_registrations ON bidder_registrations.id =    bidder_registration_id
             JOIN bids ON bids.id = bidder_registrations.bids_id
             WHERE bids.property_id = $1
@@ -287,26 +275,11 @@ module.exports = (db) => {
       .catch((err) => err);
   }
 
-  const addNotification = (user_id, message) => {
-    console.log(user_id, message, "fdsfsdfsdfs");
-    const query = {
-      text: `INSERT INTO notifications (user_id, message)
-         VALUES ($1, $2)
-              RETURNING *`,
-        values: [user_id, message]
-    };
-
-  return db
-      .query(query)
-      .then((result) => result.rows[0])
-      .catch((err) => err);
-  }
-
   const getBidsbyUser = (id)=> {
     const query = {
-      text: `SELECT * FROM  bidder_registrations 
+      text: `SELECT * FROM  bidder_registrations
       join bids on bids.id = bidder_registrations.bids_id
-      join properties  on bids.property_id = properties.id 
+      join properties  on bids.property_id = properties.id
       where bidder_registrations.user_id =$1`,
       values: [id]
     }
@@ -350,7 +323,89 @@ module.exports = (db) => {
       .catch((err) => err);
   }
 
-  
+      const addNotification = (user_id, message) => {
+        const query = {
+          text: `INSERT INTO notifications (user_id, message)
+             VALUES ($1, $2)
+                  RETURNING *`,
+            values: [user_id, message]
+        };
+
+        return db
+            .query(query)
+            .then((result) => result.rows[0])
+            .catch((err) => err);
+      };
+
+      const getAllPending = () => {
+        const query = {
+          text: `SELECT users.first_name, users.last_name, users.email,
+                        bids.base_price_in_cents, bids.bid_start_date, bids.bid_end_date,
+                        properties.* FROM properties
+                 JOIN users on properties.owner_id = users.id
+                 JOIN bids on property_id = properties.id
+                 WHERE is_approved = FALSE
+                 ORDER BY properties.id`
+        }
+
+        return db
+          .query(query)
+          .then(result => result.rows)
+          .catch(err => err);
+      };
+
+      const updateApproved = (id) => {
+        const query = {
+          text: `UPDATE properties
+                 SET is_approved = true
+                 WHERE id = $1 RETURNING *`,
+          values: [id]
+        }
+
+        return db
+          .query(query)
+          .then(result => result.rows)
+          .catch(err => err);
+      };
+
+      const getNotifications = (id) => {
+        const query = {
+          text: `SELECT * FROM notifications WHERE user_id = $1 ORDER BY id DESC`,
+          values: [id]
+        }
+
+        return db
+          .query(query)
+          .then(result => result.rows)
+          .catch(err => err);
+      };
+
+      const getUnreadNotifications = (id) => {
+        const query = {
+          text: `SELECT * FROM notifications WHERE user_id = $1 AND has_read = FALSE`,
+          values: [id]
+        }
+
+        return db
+          .query(query)
+          .then(result => result.rows)
+          .catch(err => err);
+      };
+
+      const confirmNotificationRead = (id) => {
+        const query = {
+          text: `UPDATE notifications
+                 SET has_read = true
+                 WHERE id = $1 RETURNING *`,
+          values: [id]
+        }
+
+        return db
+          .query(query)
+          .then(result => result.rows)
+          .catch(err => err);
+      };
+
   return {
     getUsers,
     addUser,
@@ -371,8 +426,13 @@ module.exports = (db) => {
     addPropertyImage,
     getBidsbyUser,
     registerBidder, getPropertyBidsLog, addUserBids, addToBidHistory,
-    addNotification,
     updateBidStatusAccepted,
-    updateBidStatusRejected
+    updateBidStatusRejected,
+    addNotification,
+    getAllPending,
+    updateApproved,
+    getNotifications,
+    getUnreadNotifications,
+    confirmNotificationRead
   };
 };

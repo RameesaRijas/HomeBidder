@@ -1,10 +1,9 @@
 import "./Login.css";
 import React, { useState, useContext } from "react";
 import axios from "axios";
-import { Button ,Modal} from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import { propertyContext } from "../providers/PropertyProvider";
 import { toast } from "react-toastify";
-
 
 export default function Login(props) {
   const { setLoggedInUser } = useContext(propertyContext);
@@ -20,8 +19,7 @@ export default function Login(props) {
         password: password,
       })
       .then((response) => {
-        props.toggleLoginModal();
-
+        
         if (!response.data.auth) {
           if (password === "") {
             toast("please enter password");
@@ -30,7 +28,9 @@ export default function Login(props) {
             toast("Sorrrrrry !!!! Un-authenticated User !!!!!");
           }
         } else {
+          props.toggleLoginModal();
           setLoggedInUser(response.data.user);
+          localStorage.setItem('token', response.data.token);
         }
       });
   };
@@ -42,17 +42,7 @@ export default function Login(props) {
     }
   }
 
-  const userAuth = () => {
-    axios
-      .get("api/users/userAuth", {
-        headers: {
-          "x-access-token": localStorage.getItem("token"),
-        },
-      })
-      .then((response) => {
-        console.log("mays", response);
-      });
-  };
+  
 
   return (
     <div className="login">
@@ -111,6 +101,8 @@ export default function Login(props) {
                 </Button>
               </div>
             </div>
+      
+           
           </form>
         </Modal.Body>
       </Modal>

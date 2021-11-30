@@ -74,7 +74,7 @@ export default function Property() {
   };
 
   const addAndRemoveFav = () => {
-    if (!Userid) {
+    if (!Userid || user.user_type === 1) {
       return null;
     } else {
       return fav && isfav() ? (
