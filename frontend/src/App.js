@@ -12,7 +12,10 @@ import { useContext } from 'react';
 import { propertyContext } from './providers/PropertyProvider';
 import Error from './components/Error';
 import MyListings from "./components/Property/MyListings";
+import PendingList from "./components/Admin/PendingList";
+import Notifications from "./components/Property/Notifications";
 import MyBids from "./components/Property/MyBids";
+
 function App() {
 
 const { state } = useContext(propertyContext);
@@ -46,11 +49,17 @@ const userType = state.loggedUser && state.loggedUser.user_type;
                 <Route exact path="/properties/mylistings" >
                 {(loggedIn && userType === 2) ? <MyListings /> : <Error />}
               </Route>
+                <Route exact path="/users/notifications" >
+                {(loggedIn && userType === 2) ? <Notifications /> : <Error />}
+              </Route>
+                <Route exact path="/admin/pending" >
+                {(loggedIn && userType === 1) ? <PendingList /> : <Error />}
+              </Route>
 
             <Route exact path="/properties/Mybids">
             {(loggedIn && userType === 2) ? <MyBids/>:<Error />}
             </Route>
-            
+
           </Switch>
       </div>
     </BrowserRouter>

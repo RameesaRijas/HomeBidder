@@ -16,6 +16,7 @@ export default function PropertyList() {
   const userFav = state.fav && state.fav.map(item => item.user_id ===  Userid ? item.property_id : 0);
   
   const propertylist = state.properties.map(item => 
+              item.is_approved === true &&
                       <PropertListItem 
                         key={item.id} 
                         properties={item}
@@ -23,6 +24,7 @@ export default function PropertyList() {
                         user={user}
                         addToFav={addToYourFav}
                         removeFav={removeFromFav}
+                        myList={false}
                       />)
   
   return (

@@ -18,6 +18,7 @@ export default function MyListings() {
       key={item.id}
       properties={item}
       user={user}
+      myList={true}
     />
     };
   });

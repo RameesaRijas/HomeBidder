@@ -27,7 +27,9 @@ display:inline-block  !important;
     height: 400px;
     object-fit: cover;
 }
-
+th, tr {
+  text-align: center;
+}
 
 .details{
   text-align: left;

@@ -26,8 +26,13 @@ VALUES
     (5,'/images/4_3.png'),
     (5,'/images/4_4.png'),
     (5,'/images/4_5.png'),
+
     (6,'/images/9_1.jpg'),
     (6,'/images/9_2.jpg'),
     (6,'/images/9_3.jpg'),
     (6,'/images/9_4.jpg'),
     (6,'/images/9_5.jpg')
+
+    
+    
+

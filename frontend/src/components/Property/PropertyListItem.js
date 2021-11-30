@@ -1,14 +1,19 @@
 import { Link } from "react-router-dom";
 import "./PropertyListItem.css";
 import "font-awesome/css/font-awesome.min.css";
-import { Carousel, Col } from "react-bootstrap";
+import { Carousel, Col, Badge, Button} from "react-bootstrap";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function PropertListItem(props) {
-  const { properties, fav, addToFav, removeFav, user } = props;
+
+  
  
  
+
+  const { properties, fav, addToFav, removeFav, user, myList } = props;
+
+
   const imgUrl =
     properties.thumbnail &&
     properties.thumbnail.map((item, index) => {
@@ -40,6 +45,12 @@ export default function PropertListItem(props) {
       .then(toast.success("Property Removed From Fav"))
       .catch((error) => console.log(error));
   };
+
+  const today = new Date();
+  const startDay = new Date(properties.bid_start_date);
+  const endDay = new Date(properties.bid_end_date);
+  const diffStart = startDay.getTime() - today.getTime();
+  const diffEnd = endDay.getTime() - today.getTime();
 
   return (
     <Col sm>
@@ -104,6 +115,27 @@ export default function PropertListItem(props) {
               <span>
                 {formatter.format(properties.base_price_in_cents / 100)}
               </span>
+            </div>
+            <div className="bid_status">
+              
+                <Badge pill bg="warning">
+                {((diffStart <= 0 ) && diffEnd > 0) ? 
+                  "Bid Started"
+                : 
+                (((diffStart > 0 ) && diffEnd > 0) ?
+                  "Bid Not Yet Started" : "Bid Closed")
+              }
+                  </Badge>
+            </div>
+            <div>
+            { (myList && properties.bid_amount && properties.bid_active)&& (
+              <>
+              <div>
+            <Badge pill bg="success">There is a offer for your property </Badge>
+            <Badge pill bg="primary">{properties.bid_amount}</Badge>
+            </div>
+            <br/>
+            </>)}
             </div>
           </div>
         </Link>

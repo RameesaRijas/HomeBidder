@@ -1,11 +1,13 @@
-import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
-import "./NavBar.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Navbar, Nav, NavDropdown } from "react-bootstrap";
-import { propertyContext } from "../providers/PropertyProvider";
-import Login from "./Login";
-import Register from "./Register";
+import React, { useContext,useState } from 'react';
+import { Link } from 'react-router-dom';
+import './NavBar.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'font-awesome/css/font-awesome.min.css';
+import { Navbar, Nav, NavDropdown, Badge, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { propertyContext } from '../providers/PropertyProvider';
+import Login from './Login';
+import Register from './Register';
+
 export default function NavBar() {
   const [showRegister, setShowRegister] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
@@ -17,14 +19,19 @@ export default function NavBar() {
     setShowLogin(!showLogin);
   };
 
-  const { setLoggedInUser, state } = useContext(propertyContext);
+  const {setLoggedInUser, state} = useContext(propertyContext);
+  const hasRead = state.hasRead;
   const user = state.loggedUser;
 
 
   const logout = () => {
     setLoggedInUser("");
-    
   };
+
+  const unRead = hasRead && hasRead.filter(item => item.has_read === false);
+  const messages = unRead && unRead.length;
+
+
   return (
     <Navbar
       className="homebidder-nav"
@@ -56,7 +63,7 @@ export default function NavBar() {
                 <Nav.Link className="text-white bg-dark">Login</Nav.Link>
               </p>
               <p onClick={toggleRegisterModal}>
-             
+
                 <Nav.Link className="text-white bg-dark">Register</Nav.Link>
               </p>
             </>
@@ -76,20 +83,31 @@ export default function NavBar() {
               </NavDropdown.Item>
               <NavDropdown.Divider />
 
-              <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
-            </NavDropdown>
+            <NavDropdown.Item  onClick={logout}>Logout</NavDropdown.Item>
+          </NavDropdown>
           )}
 
-          {user && user.user_type === 1 && (
-            <NavDropdown title={user.email} id="navbarScrollingDropdown">
-              <NavDropdown.Item as={Link} to="getRoute">
-                Pending Listings
-              </NavDropdown.Item>
-            
-              <NavDropdown.Divider />
-              <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
-            </NavDropdown>
+          {(user && user.user_type === 2) && (
+            <OverlayTrigger
+              placement="bottom"
+              overlay={<Tooltip id="button-tooltip-2">Notifications</Tooltip>}
+              >
+              <Nav.Link as={Link} to="/users/notifications">
+                <i className="fa fa-bell"></i>
+                <Badge pill bg="danger">{messages}</Badge>
+                {/* {(messages > 0) && <Badge pill bg="danger">{messages}</Badge>} */}
+              </Nav.Link>
+            </OverlayTrigger>
           )}
+
+          {(user && user.user_type === 1) && (
+          <NavDropdown title={user.email} id="navbarScrollingDropdown">
+            <NavDropdown.Item as={Link} to="/admin/pending">Pending Listings</NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item  onClick={logout}>Logout</NavDropdown.Item>
+          </NavDropdown>
+          )}
+
         </Nav>
       </Navbar.Collapse>
       <Register
@@ -99,4 +117,4 @@ export default function NavBar() {
       <Login show={showLogin} toggleLoginModal={toggleLoginModal}></Login>
     </Navbar>
   );
-}
+};

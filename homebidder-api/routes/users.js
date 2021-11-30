@@ -9,9 +9,17 @@ const jwt = require("jsonwebtoken");
 module.exports = ({
   getUsers,
   getUserByEmail,
-  addUser
+  addUser,
+  registerBidder,
+  getPropertyBidsLog,
+  addUserBids,
+  updateBidStatusAccepted,
+  updateBidStatusRejected,
+  getNotifications,
+  getUnreadNotifications,
+  confirmNotificationRead
 
-}) => {
+}, updateBids, updateBidders ) => {
   /* GET users listing. */
   router.get('/', (req, res) => {
     getUsers()
@@ -97,8 +105,6 @@ module.exports = ({
 
   router.get('/getUser', (req, res) => {
     const email = req.session.email;
-    console.log("hete is email", email);
-    console.log("hello");
     if (email) {
       getUserByEmail(email)
         .then(result =>   { console.log(result); res.json(result) })
@@ -113,6 +119,91 @@ module.exports = ({
     res.status(201).send("user successfully logout");
   })
 
+  router.post('/bidder', (req, res) => {
+    const user_id = req.session.userId
+    const { bidId } = req.body;
+    registerBidder(user_id, bidId)
+    .then((result) => {
+      setTimeout(() => {
+        res.json({});
+        updateBidders(result);
+      }, 500);
+    })
+      .catch(error => res.json(error))
+  })
+
+  router.get('/bids/:propertyId' , (req, res) => {
+    const propertyId = req.params.propertyId;
+
+    getPropertyBidsLog(propertyId)
+    .then(result => res.json(result))
+  })
+
+  router.post('/bid', (req, res) => {
+    const {data } = req.body;
+    const registrationId = data.registrationId;
+    const amount = data.amount;
+    addUserBids(registrationId, amount)
+    .then((result) => {
+      setTimeout(() => {
+        updateBids(result);
+      }, 1000);
+    })
+    .catch(error => res.json(error));
+  })
+
+  router.put('/seller/accept', (req, res) => {
+    const { data } = req.body
+    const { property_id, buyer_id} = data;
+
+    updateBidStatusAccepted(property_id)
+    .then(result => {
+        addNotification(buyer_id, "Congratulation!!! Buyer Accepted Your Offer! Please Proceed with further actions!")
+        .then(result => res.json(result))
+    })
+    .catch(error => res.json(error))
+  })
+
+  router.put('/seller/reject', (req, res) => {
+    const { data } = req.body
+    const { property_id, buyer_id} = data;
+    console.log(property_id, buyer_id);
+    updateBidStatusRejected(property_id)
+    .then(result => {
+        addNotification(buyer_id, "Buyer Rejected Your Offer! Please Look into other available Homes")
+        .then(result => res.json(result))
+      }).catch(err => res.json(err));
+  })
+
+  // Get all the notifications for a specific user
+  router.get('/notifications', (req, res) => {
+    const userId = req.session.userId
+
+    getNotifications(userId)
+      .then(result => res.json(result))
+      .catch(error => res.json(error));
+  });
+
+  // Get all unread notifications for a specific user
+  router.get('/notifications/unread', (req, res) => {
+    const userId = req.session.userId
+
+    getUnReadNotifications(userId)
+      .then(result => res.json(result))
+      .catch(error => res.json(error));
+  });
+
+  // Update notification has_read = true
+  router.patch('/notifications', (req, res) => {
+    const data = req.body.data;
+    const notificationId = data.messageId;
+
+    console.log('backend notificationId ==> ', data)
+
+    confirmNotificationRead(notificationId)
+      .then((result) => res.json(result))
+      .catch(error => res.json(error));
+  });
 
   return router;
 }

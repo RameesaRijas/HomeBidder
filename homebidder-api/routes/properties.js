@@ -16,11 +16,22 @@ module.exports = ({
   addbidlog,
   adduserRegistration,
   getBidsbyUser,
+
+
+  addToBidHistory,
+  addNotification,
+  getAllPending,
+  updateApproved
+
 }) => {
   /* GET properties listing. */
   router.get("/", (req, res) => {
     getProperties()
+
       .then((properties) => {
+
+      .then(properties => {console.log(properties);
+
         const getData = async () => {
           return Promise.all(
             properties.map((property) =>
@@ -41,6 +52,16 @@ module.exports = ({
       );
   });
 
+
+
+  // Get all the pending listings for Admin
+  router.get('/admin/pending', (req, res) => {
+    getAllPending()
+      .then(result => res.json(result))
+      .catch(error => res.json(error));
+  });
+
+
   //to get fav
   router.get("/favorites/all", (req, res) => {
     getAllFavorites()
@@ -49,8 +70,13 @@ module.exports = ({
   });
 
   ///get bidder registrations and bids
-  router.get("/bidder", (req, res) => {
-    getRegisteredUsersAndBids()
+
+
+
+  router.get('/bidder/:propertyId', (req, res) => {
+    const propertyId = req.params.propertyId;
+    getRegisteredUsersAndBids(propertyId)
+
       .then((bidders) => res.json(bidders))
       .catch((err) =>
         res.json({
@@ -59,11 +85,7 @@ module.exports = ({
       );
   });
 
-  router.get("/upload",(req,res)=> {
 
-    const{property_id,data}=req.body
-    console.log("re",req.body)
-  
 
   })
   // get all the details by passing id
@@ -80,6 +102,7 @@ module.exports = ({
           });
         }).then((result) => res.json(result));
       })
+
       .catch((err) =>
         res.json({
           error: err.message,
@@ -149,6 +172,60 @@ module.exports = ({
       .catch((error) => res.status(500).send(error.message));
   });
 
+
+    
+
+// Update the is_approved status of a pending listing
+  router.patch('/admin/pending', (req, res) => {
+    const data = req.body.data;
+    // const isApproved = data.is_approved;
+    const propertyId = data.property_id;
+    const address = data.street;
+    const userId = data.user_id;
+    const userName = data.first_name;
+    const message = `Hi ${userName}! Your property at ${address} has been approved and is now posted in the listings.`;
+
+    updateApproved(propertyId)
+      .then((result) => {
+        addNotification(userId, message)
+          .then((result) => res.json(result))
+      })
+      .catch(error => res.json(error));
+  });
+
+   //git bids from db
+   router.get("/properties/myBids", (req, res) => {
+
+    getBidsbyUser(req.session.userId)
+
+      .then(properties => {
+       const getData = async () => {
+         return Promise.all(properties.map(property => (
+           getPropertiesPhotos(property.id)
+             .then(images =>  {
+               return {...property ,'thumbnail':images}
+           })
+         )))
+       }
+       getData().then(data => {
+         res.json(data)
+       })
+
+       })
+      .catch(error => res.json(error));
+  });
+
+ //add post bid
+ router.post('/bidder',(req,res)=> {
+    const{
+      bidder_registration_id,
+      amount
+    } = req.body
+  addbidlog(bidder_registration_id,amount).then((bid) => res.json(bid))
+  .catch((error) => res.status(500).send(error.message));
+ });
+
+
   //add and remove from fav
   router.post("/favorites/new", (req, res) => {
     const user_id = req.body.user_id;
@@ -162,9 +239,51 @@ module.exports = ({
     const user_id = req.body.data;
     const property_id = req.params.property_id;
     removeFromFavorites(user_id, property_id)
+
       .then((result) => res.json(result))
       .catch((error) => res.json(error));
   });
+
+   
+
+ //add post bid
+ router.post('/bidder',(req,res)=> {
+    const{
+      bidder_registration_id,
+      amount
+    } = req.body
+  addbidlog(bidder_registration_id,amount).then((bid) => res.json(bid))
+  .catch((error) => res.status(500).send(error.message));
+ });
+
+  router.post('/userRegisteration',(req,res)=>{
+    const{bids_id,
+      user_id}
+      =req.body
+    adduserRegistration(bids_id,user_id).then((register) => res.json(register))
+    .catch((error) => res.status(500).send(error.message));
+  });
+
+  //add to propertyHistory
+  router.post('/bids/history', (req, res) => {
+    const { data } = req.body;
+    const { amount , property_id , userId , owner_id} = data;
+
+    addToBidHistory(amount, property_id, userId)
+    .then(result => {
+      return new Promise(resolve => {
+        addNotification(userId, "You Won The Bid, Wait for the sellers Response, You will get a notification when seller accept your offer!")
+        .then(result =>  {
+          addNotification(owner_id, "Your Listted Property's Bidding is Over, Please go to My Listing and check the details, and Review the offer price");
+          resolve(result)
+        })
+      })
+      .then(result => res.json(result))
+    })
+    .catch(error => res.json(error))
+  })
+
+
 
   //add post bid
   router.post("/bidder", (req, res) => {
@@ -174,12 +293,14 @@ module.exports = ({
       .catch((error) => res.status(500).send(error.message));
   });
 
+
   router.post("/userRegisteration", (req, res) => {
     const { bids_id, user_id } = req.body;
     adduserRegistration(bids_id, user_id)
       .then((register) => res.json(register))
       .catch((error) => res.status(500).send(error.message));
   });
+
 
   return router;
 };

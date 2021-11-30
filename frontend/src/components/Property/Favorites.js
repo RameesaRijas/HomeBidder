@@ -21,6 +21,7 @@ export default function Favorites() {
       user={user}
       addToFav={addToYourFav}
       removeFav={removeFromFav}
+      myList={false}
     />
     }
   })
