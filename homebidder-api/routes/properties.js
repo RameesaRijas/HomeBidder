@@ -63,16 +63,18 @@ module.exports = ({
     const id = req.params.id
     getPropertyDetailsById(id)
       .then(property => {
-        return new Promise(resolve => {
-            getPropertiesPhotos(id)
-              .then(images =>  {
-                if (images) {
-                  property['thumbnail'] = images;
-                }
-                resolve(property)
+        if(property) {
+          return new Promise(resolve => {
+              getPropertiesPhotos(id)
+                .then(images =>  {
+                  if (images) {
+                    property['thumbnail'] = images;
+                  }
+                  resolve(property)
+                })
               })
-            })
-            .then(result => res.json(result))
+              .then(result => res.json(result))
+          }
         })
       .catch((err) => res.json({
           error: err.message
