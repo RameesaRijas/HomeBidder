@@ -1,4 +1,22 @@
 
+![homepage.png]()
+![email.png]()
+![myfav.png]()
+![detials.png]()
+![createnewlist.png]()
+![confirm.png]()
+![bid_process.png]()
+![mybids.png]()
+![pendinglist.png]()
+
+
+
+
+
+
+
+
+
 ## front end 
 * Install  dependencies with `npm install`.
 * To  run the server :
