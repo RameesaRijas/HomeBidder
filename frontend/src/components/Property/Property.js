@@ -101,7 +101,9 @@ export default function Property() {
           <div className="col-sm-8"></div>
           <div className="d-flex justify-content-center">
             <div className="col-sm-12">
+               <Link to={{ pathname: `/` }}>
                 <Carousel interval={null}>{imgUrl}</Carousel>
+                </Link>
             </div>
           </div>
           <div className="d-flex justify-content-center top_details">
