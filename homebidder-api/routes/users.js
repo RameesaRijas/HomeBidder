@@ -17,9 +17,10 @@ module.exports = ({
   updateBidStatusRejected,
   getNotifications,
   getUnreadNotifications,
-  confirmNotificationRead
+  confirmNotificationRead,
+  addNotification
 
-}, updateBids, updateBidders ) => {
+}, updateBids, updateBidders , updateNotification) => {
   /* GET users listing. */
   router.get('/', (req, res) => {
     getUsers()
@@ -126,6 +127,7 @@ module.exports = ({
     .then((result) => {
       setTimeout(() => {
         updateBidders(result);
+        res.json(true)
       }, 500);
     })
       .catch(error => res.json(error))
@@ -153,11 +155,12 @@ module.exports = ({
 
   router.put('/seller/accept', (req, res) => {
     const { data } = req.body
-    const { property_id, buyer_id} = data;
+    const { property_id, buyer_id, message} = data;
 
     updateBidStatusAccepted(property_id)
     .then(result => {
-        addNotification(buyer_id, "Congratulation!!! Buyer Accepted Your Offer! Please Proceed with further actions!")
+        addNotification(buyer_id, message)
+        .then(result => updateNotification(result))
         .then(result => res.json(result))
     })
     .catch(error => res.json(error))
@@ -165,11 +168,11 @@ module.exports = ({
 
   router.put('/seller/reject', (req, res) => {
     const { data } = req.body
-    const { property_id, buyer_id} = data;
-    console.log(property_id, buyer_id);
+    const { property_id, buyer_id, message} = data;
     updateBidStatusRejected(property_id)
     .then(result => {
-        addNotification(buyer_id, "Buyer Rejected Your Offer! Please Look into other available Homes")
+        addNotification(buyer_id, message)
+        .then(result => updateNotification(result))
         .then(result => res.json(result))
       }).catch(err => res.json(err));
   })

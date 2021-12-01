@@ -1,26 +1,35 @@
 import axios from "axios";
-import { useReducer, useEffect, createContext } from "react";
+import { useReducer, useEffect, createContext, useRef } from "react";
 import reducer, {
   SET_PROPERTY_DATA,
   SET_PROPERTY_ID,
   SET_FAV,
   SET_LOGGED_USER,
+  SET_NOTIFICATION,
+  SET_PROPERTIES
 
 } from '../reducer/Property';
+import io from 'socket.io-client';
 
 export const propertyContext = createContext();
 
+let socketRef;
+const CONNECTION_PORT = 'localhost:3001'
+
 export default function PropertyProvider(props) {
+
+  socketRef = useRef(io(CONNECTION_PORT, { transports: ['websocket', 'polling', 'flashsocket'] }));
+
+
   const [state, dispatch] = useReducer(reducer, {
-    propertyId: 0,
     properties: [],
     fav:[],
     loggedUser: {},
-    hasRead: []
+    notification: [],
+    users: [],
   });
 
 
-  const setPropertyId = id => dispatch({ type: SET_PROPERTY_ID, id});
   const setLoggedInUser = (user) => {
     if (!user) {
       axios.post(`/api/users/logout`)
@@ -34,17 +43,18 @@ export default function PropertyProvider(props) {
       axios.get('/api/properties'),
       axios.get('/api/properties/favorites/all'),
       axios.get('/api/users/getUser'),
-      axios.get('/api/users/notifications')
-      // get has_read = false   ==> '/api/users/notifications/unread'
+      axios.get('/api/users/notifications'),
+      axios.get('/api/users/')
     ])
     .then(
-      ([{ data: properties }, { data: fav }, {data:loggedUser}, {data: hasRead}]) =>
+      ([{ data: properties }, { data: fav }, {data:loggedUser}, {data: notification}, {data:users}]) =>
         dispatch({
           type: SET_PROPERTY_DATA,
           properties,
           fav,
           loggedUser,
-          hasRead
+          notification,
+          users
         })
       )
     .catch(e => console.log(e));
@@ -71,7 +81,29 @@ export default function PropertyProvider(props) {
       })
   }
 
-  const data = {state, setPropertyId, addToYourFav, removeFromFav, setLoggedInUser};
+
+  useEffect(() => {
+    const socket = socketRef.current
+    socket.on('notification', function(data) {
+      const dataParsed = JSON.parse(data);
+      if (dataParsed.type === SET_NOTIFICATION && typeof dataParsed === "object") {
+        dispatch(dataParsed);
+      }
+    })
+
+    socket.on('properties', function(data) {
+      const dataParsed = JSON.parse(data);
+      if (dataParsed.type === SET_PROPERTIES && typeof dataParsed === "object") {
+        dispatch(dataParsed);
+      }
+    })
+
+    return (() => socket.disconnect());
+
+  }, [dispatch])
+
+
+  const data = {state, addToYourFav, removeFromFav, setLoggedInUser};
 
   return (
     <propertyContext.Provider value={data}>

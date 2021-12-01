@@ -110,11 +110,11 @@ console.log(properties);
               </div>
             </div>
               <div className="price">
-              {(properties.bid_active === false && properties.bid_amount) ? 
+              {(properties.bid_active === false && properties.bid_amount && properties.seller_response === "Accepted") ? 
                 <span>Sold </span> :
                 <span>For Sale</span>
                 }
-                {((properties.bid_active === false && properties.bid_amount) ?
+                {((properties.bid_active === false && properties.bid_amount && properties.seller_response === "Accepted") ?
                   <>
                   <strike>{formatter.format(properties.base_price_in_cents / 100)}</strike>
                   {" "}
@@ -135,7 +135,7 @@ console.log(properties);
                 : 
                 (((diffStart > 0 ) && diffEnd > 0) ?
                   "Bid Not Yet Started" :   
-                  ((properties.bid_active === true && properties.bid_amount) && "Bid Closed"))
+                  (((properties.bid_active === true && properties.bid_amount && properties.seller_response === "Pending") || ((diffStart <= 0 ) && diffEnd <= 0)) && "Bid Closed"))
               }
                   </Badge>
             </div>

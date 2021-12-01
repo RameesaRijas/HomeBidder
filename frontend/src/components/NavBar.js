@@ -20,7 +20,7 @@ export default function NavBar() {
   };
 
   const {setLoggedInUser, state} = useContext(propertyContext);
-  const hasRead = state.hasRead;
+  const notification = state.notification;
   const user = state.loggedUser;
 
 
@@ -28,7 +28,7 @@ export default function NavBar() {
     setLoggedInUser("");
   };
 
-  const unRead = hasRead && hasRead.filter(item => item.has_read === false);
+  const unRead = notification && notification.filter(item => item.has_read === false);
   const messages = unRead && unRead.length;
 
 

@@ -100,18 +100,21 @@ const useBidsData = (propertyId) => {
       .catch(err => console.log(err));
   }
 
-  const acceptOffer = (property_id, buyer_id) => {
+  const acceptOffer = (property_id, buyer_id, property_name, price) => {
+    const message = `Congratulations!!!Seller Accepted your offer for the Property ${property_name} For Price - ${formatter.format(price)} , Please Proceed with furthur Actions!!!`
     const data = {
-      property_id, buyer_id
+      property_id, buyer_id, message
     }
     axios.put('/api/users/seller/accept', { data })
     .then(result => window.location.reload())
     .catch(err => console.log(err))
   }
   
-  const rejectOffer = (property_id, buyer_id) => {
+  const rejectOffer = (property_id, buyer_id, property_name, price) => {
+
+    const message = `We are Sorry to Inform You that the Seller Rejcted your offer for the Property ${property_name} For Price - ${formatter.format(price)} , Please Look into other available options`;
     const data = {
-      property_id, buyer_id
+      property_id, buyer_id, message
     }
     axios.put('/api/users/seller/reject', { data})
     .then(result => window.location.reload())
