@@ -6,7 +6,10 @@ import { Container, Accordion, Row, Button, Col, Stack } from 'react-bootstrap';
 
 
 export default function PendingListItem(props) {
-  const { properties } = props;
+  const { properties, users } = props;
+  const user = users.filter(item => item.id === properties.owner_id ? item : "")
+
+  const first_name = user && user[0] && user[0].first_name;
 
   const approveListing = (e) => {
     const data = {
@@ -14,7 +17,7 @@ export default function PendingListItem(props) {
       property_id: properties.id,
       street: properties.street,
       user_id: properties.owner_id,
-      first_name: properties.first_name
+      first_name: first_name
     }
     e.preventDefault()
     axios.patch('/api/properties/admin/pending/', {data})

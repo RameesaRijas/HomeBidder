@@ -1,4 +1,4 @@
-import { useParams, Redirect, Link  } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Carousel, Col, Card, Alert, Button, Badge } from "react-bootstrap";
 import "./Property.css";
 import "font-awesome/css/font-awesome.min.css";
@@ -109,9 +109,9 @@ export default function Property() {
               <Card>
                 <Card.Body className="bid-info">
                   <span  className="bid-button">
-                    {(userType === 2 ? 
+                    {((userType === 2) ? 
                     ((diffStart > 0 || diffStart <= 0) && diffEnd > 0) ?
-                        (state.properties.owner_id === Userid || isRegistredUser.length) ?
+                        ((state.properties.owner_id === Userid || isRegistredUser.length) ?
 
                         <Button  className ="btn btn-dark" >
                               {((diffStart <= 0 ) && diffEnd > 0) ? 
@@ -124,7 +124,7 @@ export default function Property() {
                           </Button>
                         : ((Userid && state.properties.owner_id !== Userid)? 
                             <Confirm bidId={state.properties.bid_id} register={userRegisterationForBid} state={state}></Confirm> :
-                              <Alert variant="warning"> Please Login/ Register to see bid Details</Alert>) 
+                              <Alert variant="warning"> Please Login/ Register to see bid Details</Alert>))
                       :
                         <Alert variant="warning"> Bid Is closed</Alert>
                     : "")}
@@ -135,9 +135,9 @@ export default function Property() {
                     ((state.properties.offer_amount && state.properties.bid_active ) ? (
                       <>
                       <b>{formatter.format(state.properties.offer_amount)}{" "}</b>
-                      <Button variant="success" onClick={(e) => acceptOffer(state.properties.id, state.properties.buyer_id)}>Accept Offer</Button>
+                      <Button variant="success" onClick={(e) => acceptOffer(state.properties.id, state.properties.buyer_id, state.properties.street, state.properties.offer_amount)}>Accept Offer</Button>
                       {" "}
-                      <Button variant="danger" onClick={(e) => rejectOffer(state.properties.id, state.properties.buyer_id)}>Reject Offer</Button>
+                      <Button variant="danger" onClick={(e) => rejectOffer(state.properties.id, state.properties.buyer_id, state.properties.street, state.properties.offer_amount)}>Reject Offer</Button>
                       </>) : 
                       ((state.properties.offer_amount && state.properties.seller_response === "Accepted") 
                       ? <Badge bg="success">You Accepted An offer of{formatter.format(state.properties.offer_amount)}</Badge> :
@@ -147,6 +147,11 @@ export default function Property() {
                         <Badge bg="success">Sold</Badge>
                       )}
                     
+                  </span>
+                  <span>
+                    {(state.properties.buyer_id === Userid && state.properties.seller_response === "Pending")&& 
+                    <Badge bg="primary">You Put an offer for this - {formatter.format(state.properties.offer_amount)}</Badge>
+                    }
                   </span>
                 </Card.Body>
               </Card>
@@ -182,7 +187,7 @@ export default function Property() {
                   <div>
                   <div className="price">
                     {((state.properties.owner_id !== Userid) &&
-                      ((state.properties.offer_amount && state.properties.bid_active === false) ?
+                      ((state.properties.offer_amount && state.properties.bid_active === false && state.properties.seller_response === "Accepted") ?
                       <>
                       <span className="text">Sold:</span> {" "}
                       <span>

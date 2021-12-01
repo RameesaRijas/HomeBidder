@@ -5,20 +5,17 @@ import axios from "axios";
 import { Container, ListGroup } from 'react-bootstrap';
 import NotificationItem from "./NotificationItem";
 import AlertNotification from "./AlertNotification";
+import { useContext } from 'react';
+import { propertyContext } from '../../providers/PropertyProvider';
 
+export default function Notification() {
 
-export default function Notification(props) {
-  const [notifications, setNotifications] = useState([]);
+  const {state} = useContext(propertyContext);
 
-  useEffect(() => {
-    axios
-    .get('/api/users/notifications')
-    .then((response) => {
-      setNotifications([...response.data])
-    })
-    .catch((error) =>
-      console.log(error))
-  }, []);
+  const user_id = state.loggedUser && state.loggedUser.id;
+
+  const notifications = state.notification && state.notification.filter(item => item.user_id === user_id ? item :"")
+  
 
   const notificationList = notifications.map(item => {
     return <NotificationItem
