@@ -335,7 +335,7 @@ export default function PostListingForm() {
               Cancel
             </Button>
 
-            <Button variant="primary" type="submit">
+            <Button variant="primary" className="btn btn-dark" type="submit">
               Submit Listing
             </Button>
           </Form>
