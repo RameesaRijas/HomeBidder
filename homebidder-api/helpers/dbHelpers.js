@@ -323,19 +323,19 @@ module.exports = (db) => {
       .catch((err) => err);
   }
 
-      const addNotification = (user_id, message) => {
-        const query = {
-          text: `INSERT INTO notifications (user_id, message)
-             VALUES ($1, $2)
-                  RETURNING *`,
-            values: [user_id, message]
-        };
-
-        return db
-            .query(query)
-            .then((result) => result.rows[0])
-            .catch((err) => err);
+    const addNotification = (user_id, message) => {
+      const query = {
+        text: `INSERT INTO notifications (user_id, message)
+            VALUES ($1, $2)
+                RETURNING *`,
+          values: [user_id, message]
       };
+
+      return db
+          .query(query)
+          .then((result) => result.rows[0])
+          .catch((err) => err);
+    };
 
       const getAllPending = () => {
         const query = {
