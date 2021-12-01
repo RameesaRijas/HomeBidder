@@ -1,5 +1,5 @@
-import { useParams } from "react-router-dom";
-import { Carousel, Col, Card, Alert, Button, Badge } from "react-bootstrap";
+import { useParams ,Link } from "react-router-dom";
+import { Carousel, Col, Card, Alert, Button, Badge} from "react-bootstrap";
 import "./Property.css";
 import "font-awesome/css/font-awesome.min.css";
 import Confirm from "./ConfirmModal";
