@@ -19,7 +19,7 @@ module.exports = ({
   getAllPending,
   addToBidHistory,
   updateApproved,
-}) => {
+}, updateNotification, updateProperties) => {
   /* GET properties listing. */
   router.get("/", (req, res) => {
     getProperties()
@@ -50,15 +50,15 @@ module.exports = ({
       .catch((error) => res.json(error));
   });
   ///get bidder registrations and bids
-  router.get("/bidder", (req, res) => {
-    getRegisteredUsersAndBids()
-      .then((bidders) => res.json(bidders))
-      .catch((err) =>
-        res.json({
-          error: err.message,
-        })
-      );
-  });
+  // router.get("/bidder", (req, res) => {
+  //   getRegisteredUsersAndBids()
+  //     .then((bidders) => res.json(bidders))
+  //     .catch((err) =>
+  //       res.json({
+  //         error: err.message,
+  //       })
+  //     );
+  // });
 
   //to get fav
   router.get("/favorites/all", (req, res) => {
@@ -82,15 +82,19 @@ module.exports = ({
   router.get("/:id", (req, res) => {
     const id = req.params.id;
     getPropertyDetailsById(id)
-      .then((property) => {
-        return new Promise((resolve) => {
-          getPropertiesPhotos(id).then((images) => {
-            if (images) {
-              property["thumbnail"] = images;
-            }
-            resolve(property);
-          });
-        }).then((result) => res.json(result));
+      .then(property => {
+        if(property) {
+          return new Promise(resolve => {
+              getPropertiesPhotos(id)
+                .then(images =>  {
+                  if (images) {
+                    property['thumbnail'] = images;
+                  }
+                  resolve(property)
+                })
+              })
+              .then(result => res.json(result))
+          }
       })
       .catch((err) =>
         res.json({
@@ -143,10 +147,11 @@ module.exports = ({
             ).then((response) => {
             
               const image = req.body.image_url;
-              addPropertyImage(property.id, image).then((response) => {
-                resolve(property);
-                
-              });
+              addPropertyImage(property.id, image)
+              .then((response) => {
+                updateProperties()
+                resolve(property)
+              })
             });
           }).then((result) => res.json(result));
         })
@@ -165,7 +170,13 @@ module.exports = ({
 
     updateApproved(propertyId)
       .then((result) => {
-        addNotification(userId, message).then((result) => res.json(result));
+        return new Promise((resolve) => {
+          addNotification(userId, message)
+          .then(result => updateNotification(result))
+          .then(result => updateProperties())
+          resolve(result)
+        })
+        .then((result) => res.json(result));
       })
       .catch((error) => res.json(error));
   });
@@ -233,11 +244,12 @@ module.exports = ({
           addNotification(
             userId,
             "You Won The Bid, Wait for the sellers Response, You will get a notification when seller accept your offer!"
-          ).then((result) => {
+          ).then(result => updateNotification(result))
+          .then((result) => {
             addNotification(
               owner_id,
               "Your Listted Property's Bidding is Over, Please go to My Listing and check the details, and Review the offer price"
-            );
+            ).then(result => updateNotification(result))
             resolve(result);
           });
         }).then((result) => res.json(result));

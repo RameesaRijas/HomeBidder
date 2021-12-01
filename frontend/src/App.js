@@ -15,6 +15,7 @@ import MyListings from "./components/Property/MyListings";
 import PendingList from "./components/Admin/PendingList";
 import Notifications from "./components/Property/Notifications";
 import MyBids from "./components/Property/MyBids";
+import Footer from "./components/Footer";
 
 function App() {
 
@@ -59,8 +60,11 @@ const userType = state.loggedUser && state.loggedUser.user_type;
             <Route exact path="/properties/Mybids">
             {(loggedIn && userType === 2) ? <MyBids/>:<Error />}
             </Route>
-
+            <Route exact path="/404">
+              <Error />
+            </Route>
           </Switch>
+          <Footer/>
       </div>
     </BrowserRouter>
   );

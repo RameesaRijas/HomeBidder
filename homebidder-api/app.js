@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors= require("cors");
 const cookieSession = require('cookie-session');
@@ -12,7 +11,7 @@ const usersRouter = require('./routes/users');
 const db = require('./db');
 const dbHelpers = require('./helpers/dbHelpers')(db);
 const propertyRouter = require('./routes/properties');
-
+const { getProperties, getPropertiesPhotos } = dbHelpers;
 const app = express();
 
 app.use(cookieSession({
@@ -28,8 +27,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use (cors())
-
-app.use('/api/properties', propertyRouter(dbHelpers));
 
 
 app.sockIO = sockIO;
@@ -60,7 +57,43 @@ sockIO.on('connection', function(socket){
       })
     );
   }
-  app.use('/api/users', usersRouter(dbHelpers, updateBids, updateBidders));
+
+  const updateNotification = (notification) => {
+    sockIO.emit("notification",
+      JSON.stringify({
+        type: "SET_NOTIFICATION",
+        notification
+      })
+    );
+  }
+
+  const updateProperties = () => {
+    getProperties()
+    .then((properties) => {
+      const getData = async () => {
+        return Promise.all(
+          properties.map((property) =>
+            getPropertiesPhotos(property.property_id).then((images) => {
+              return { ...property, thumbnail: images };
+            })
+          )
+        );
+      };
+      getData().then((properties) => {
+      sockIO.emit("properties",
+        JSON.stringify({
+          type: "SET_PROPERTIES",
+          properties
+        })
+      );
+    })
+  })
+  }
+
+  getProperties
+  app.use('/api/users', usersRouter(dbHelpers, updateBids, updateBidders, updateNotification));
+
+  app.use('/api/properties', propertyRouter(dbHelpers, updateNotification, updateProperties));
 
 
 
