@@ -11,9 +11,11 @@ import { Alert } from "react-bootstrap";
 export default function MyBids() {
   const [bids, setBids] = useState([]);
 
-  const { state: contextState } = useContext(propertyContext);
+  const { state: contextState, addToYourFav, removeFromFav } = useContext(propertyContext);
 
   const user = contextState.loggedUser;
+  const Userid = user && user.id;
+  const userFav = contextState.fav && contextState.fav.map(item => item.user_id ===  Userid ? item.property_id : 0);
 
   useEffect(() => {
     axios
@@ -25,7 +27,10 @@ export default function MyBids() {
   }, []);
 
   const bidList = bids.map((item, index) => (
-    <PropertListItem key={index} properties={item} user={user} myList={false}/>
+    <PropertListItem key={index} properties={item} user={user} myList={false} 
+    addToFav={addToYourFav}
+    removeFav={removeFromFav}
+    fav={userFav}/>
   ));
 
   return (
