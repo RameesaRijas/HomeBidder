@@ -31,11 +31,11 @@ export default function Confirm(props) {
       </Button>
       <Modal show={show} onHide={handleClose} animation={false}>
         <Modal.Header closeButton>
-          <Modal.Title>Term and Conditions</Modal.Title>
+          <Modal.Title>Terms and Conditions</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form>
-            By Submitting I agree that all my prsonal info are entered correct and i am aware of that the contract is valid and the authority can persue legal actions against me if any fraudulent occurs.
+            By submitting I agree that all my personal info entered herein is correct and I am aware that the contract is valid and legal actions can be brought against me for any fraudulent activities.
             <br />
             <input type="checkbox"
               className="custom-control-input"
@@ -51,10 +51,10 @@ export default function Confirm(props) {
 
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            cancel
+            Cancel
           </Button>
           <Button variant="primary" disabled={!agree} onClick={submit}>
-            confirm
+            Confirm
           </Button>
         </Modal.Footer>
       </Modal>

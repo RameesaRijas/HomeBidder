@@ -19,7 +19,7 @@ export default function Login(props) {
         password: password,
       })
       .then((response) => {
-        
+
         if (!response.data.auth) {
           if (password === "") {
             toast("please enter password");
@@ -42,7 +42,7 @@ export default function Login(props) {
     }
   }
 
-  
+
 
   return (
     <div className="login">
@@ -52,7 +52,7 @@ export default function Login(props) {
         animation={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>log in to continue</Modal.Title>
+          <Modal.Title>Log in to continue</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form className="loginform" onSubmit={login}>
@@ -101,8 +101,8 @@ export default function Login(props) {
                 </Button>
               </div>
             </div>
-      
-           
+
+
           </form>
         </Modal.Body>
       </Modal>

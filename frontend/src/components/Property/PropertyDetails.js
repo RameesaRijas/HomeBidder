@@ -19,11 +19,11 @@ export default function PropertyDetails(props) {
       <div className="div-orginize">
         <div className="col-md-6">
           <section className="details">
-            <h2>Property details</h2>
+            <h2>Property Details</h2>
             <span> Number of Parking Spots: <b>{state.properties.parking_spaces}</b></span>
             <span> Property Type: <b>{state.properties.property_type}</b></span>
 
-            <span>Area: <b>{state.properties.square_footage}</b>Sq Ft</span>
+            <span>Area: <b>{state.properties.square_footage}</b> Sq Ft</span>
 
             <span>Year Built: <b>{state.properties.year_built}</b></span>
           </section>
@@ -54,7 +54,7 @@ export default function PropertyDetails(props) {
       <div className="col-md-12">
       <hr></hr>
       </div>
-     
+
     </div>
   );
 }
