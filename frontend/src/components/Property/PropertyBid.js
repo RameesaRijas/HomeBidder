@@ -33,11 +33,14 @@ console.log(maxAmount);
       amount
     }
     if (amount >= minBidAmount) {
+      setError("")
       userSetBid(data)
-        .then(() => setError(""))
+        .then(() => {
+          
+        })
         .catch(error => setError(error))
     } else {
-      setError(`Min Amount Must be greater than current Bid${amount}`);
+      setError(`Min Amount Must be greater than current Bid $${maxAmount} About $${state.properties.increment_price_per_bid / 100}`);
     }
   }
 
