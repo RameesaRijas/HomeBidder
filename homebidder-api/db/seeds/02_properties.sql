@@ -10,7 +10,7 @@ VALUES
     (5,3,1,1,'41 Rue Jeanne-dArc','Gatineau','Quebec','J8Y2H3',4000,'Detached',1941,TRUE,TRUE),
     (6,3,3,3,'408 8 Street NE','Calgary,','Alberta','T2E4G9',4050,'Detached',1914,TRUE,TRUE),
     (7,3,3,3,'409 809 Street NE','Ontario,','Ottawa','T2E4G9',4390,'Detached',2012,TRUE,TRUE),
-    (8,2,2,1,'10 parkwat','Ontario,','Toronto','M2J 1L3',2800,'Detached',1970,TRUE,TRUE);
+    (8,2,2,1,'10 Sell Street','Ontario,','Toronto','M2J 1L3',2800,'Detached',1970,TRUE,TRUE);
    
    
     

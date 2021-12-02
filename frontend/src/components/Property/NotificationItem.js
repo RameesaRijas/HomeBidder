@@ -32,7 +32,7 @@ export default function NotificationItem(props) {
             <div className="fw-bold">{message}</div>
           </div>
           <Badge variant="primary" pill onClick={confirmRead}>
-            confirm
+            Mark As Read
           </Badge>
         </ListGroup.Item>
       }
