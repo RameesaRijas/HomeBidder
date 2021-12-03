@@ -27,17 +27,20 @@ console.log(maxAmount);
 
 
   const submitBid = () => {
-    
+
     const data = {
       registrationId,
       amount
     }
     if (amount >= minBidAmount) {
+      setError("")
       userSetBid(data)
-        .then(() => setError(""))
+        .then(() => {
+
+        })
         .catch(error => setError(error))
     } else {
-      setError(`Min Amount Must be greater than current Bid${amount}`);
+      setError(`Min Amount Must be greater than current Bid $${maxAmount} About $${state.properties.increment_price_per_bid / 100}`);
     }
   }
 
@@ -77,7 +80,7 @@ console.log(maxAmount);
             </th>
             <th width="30%">
               {(userType !== 1 && state.properties.owner_id !== user_id) &&
-                <Button size="lg" onClick={submitBid}>submit</Button>
+                <Button size="lg" onClick={submitBid}>Submit</Button>
               }
             </th>
           </tr>
@@ -86,8 +89,8 @@ console.log(maxAmount);
           <tr>
         {(userType !== 1 && state.properties.owner_id !== user_id) &&
           <td className="amount_digit">
-            { (userDetails && userDetails[0]) ? 
-            ((userDetails[0].id === user_id) ? "Your Bid :" : userDetails[0].first_name + " " + userDetails[0].last_name+":") : "Current Amount :"}  {maxAmount}</td>
+            { (userDetails && userDetails[0]) ?
+            ((userDetails[0].id === user_id) ? "Your Bid :" : userDetails[0].first_name + " " + userDetails[0].last_name+":") : "Current Amount: $"}  {maxAmount}</td>
         }
         </tr>
         </tbody>

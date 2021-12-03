@@ -53,7 +53,7 @@ console.log(properties);
         <div className="top">
           <Carousel interval={null}>
             {imgUrl}
-            
+
           </Carousel>
           {(user.id && user.user_type !== 1 && properties.is_approved)&&
             (fav && fav.includes(properties.id) ? (
@@ -80,8 +80,8 @@ console.log(properties);
           <div className="bottom">
             <h3>{properties.street}</h3>
             <p>
-              Enchanting {properties.number_of_bedrooms} bedrooms,{" "}
-              {properties.number_of_bathrooms} bath home
+              Enchanting {properties.number_of_bedrooms} bedroom,{" "}
+              {properties.number_of_bathrooms} bathroom home
             </p>
             <div className="advants">
               <div>
@@ -110,7 +110,7 @@ console.log(properties);
               </div>
             </div>
               <div className="price">
-              {(properties.bid_active === false && properties.bid_amount && properties.seller_response === "Accepted") ? 
+              {(properties.bid_active === false && properties.bid_amount && properties.seller_response === "Accepted") ?
                 <span>Sold </span> :
                 <span>For Sale</span>
                 }
@@ -125,16 +125,16 @@ console.log(properties);
                   {formatter.format(properties.base_price_in_cents / 100)}
                   </span>
                 )}
-                
+
               </div>
             <div className="bid_status">
-              
+
                 <Badge pill bg="warning">
-                {((diffStart <= 0 ) && diffEnd > 0) ? 
+                {((diffStart <= 0 ) && diffEnd > 0) ?
                   "Bid Started"
-                : 
+                :
                 (((diffStart > 0 ) && diffEnd > 0) ?
-                  "Bid Not Yet Started" :   
+                  "Bid Not Yet Started" :
                   (((properties.bid_active === true && properties.bid_amount && properties.seller_response === "Pending") || ((diffStart <= 0 ) && diffEnd <= 0)) && "Bid Closed"))
               }
                   </Badge>
@@ -143,7 +143,7 @@ console.log(properties);
             { (myList && properties.bid_amount && properties.bid_active)&& (
               <>
               <div>
-            <Badge pill bg="success">There is a offer for your property </Badge>
+            <Badge pill bg="success">There is an offer for your property </Badge>
             <Badge pill bg="primary">{properties.bid_amount}</Badge>
             </div>
             <br/>

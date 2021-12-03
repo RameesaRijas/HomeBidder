@@ -21,7 +21,7 @@ export default function Property() {
   const {
     state,
     formatter,
-    userRegisterationForBid, 
+    userRegisterationForBid,
     userSetBid,
     addBidTohistory,
     acceptOffer,
@@ -36,7 +36,7 @@ export default function Property() {
 
   const isfav = ()=> {
     const result =fav.filter((fav)=> {
-      return fav.user_id === Userid && String(fav.property_id) === params.propertyId 
+      return fav.user_id === Userid && String(fav.property_id) === params.propertyId
     }).length
     return result
   }
@@ -89,10 +89,10 @@ export default function Property() {
     }
   };
 
-    
+
   return (
     <>
-    {(!(Object.keys(state.properties).length)) ? 
+    {(!(Object.keys(state.properties).length)) ?
       <Error/> :
 
     <Col className="sm-12 Property_details">
@@ -109,48 +109,48 @@ export default function Property() {
               <Card>
                 <Card.Body className="bid-info">
                   <span  className="bid-button">
-                    {((userType === 2) ? 
+                    {((userType === 2) ?
                     ((diffStart > 0 || diffStart <= 0) && diffEnd > 0) ?
                         ((state.properties.owner_id === Userid || isRegistredUser.length) ?
 
                         <Button  className ="btn btn-dark" >
-                              {((diffStart <= 0 ) && diffEnd > 0) ? 
+                              {((diffStart <= 0 ) && diffEnd > 0) ?
                                   "Bid Started"
-                                : 
+                                :
                                (((diffStart > 0 ) && diffEnd > 0) ?
                                   "Bid Not Yet Started" : "Bid Closed")
                               }
-                              
+
                           </Button>
-                        : ((Userid && state.properties.owner_id !== Userid)? 
+                        : ((Userid && state.properties.owner_id !== Userid)?
                             <Confirm bidId={state.properties.bid_id} register={userRegisterationForBid} state={state}></Confirm> :
-                              <Alert variant="warning"> Please Login/ Register to see bid Details</Alert>))
+                              <Alert variant="warning"> Please Login/Register to see the bid details</Alert>))
                       :
-                        <Alert variant="warning"> Bid Is closed</Alert>
+                        <Alert variant="warning"> Bid is closed</Alert>
                     : "")}
                   </span>
                   <span>
-                    { (state.properties.owner_id === Userid) ? 
-                    
+                    { (state.properties.owner_id === Userid) ?
+
                     ((state.properties.offer_amount && state.properties.bid_active ) ? (
                       <>
                       <b>{formatter.format(state.properties.offer_amount)}{" "}</b>
                       <Button variant="success" onClick={(e) => acceptOffer(state.properties.id, state.properties.buyer_id, state.properties.street, state.properties.offer_amount)}>Accept Offer</Button>
                       {" "}
                       <Button variant="danger" onClick={(e) => rejectOffer(state.properties.id, state.properties.buyer_id, state.properties.street, state.properties.offer_amount)}>Reject Offer</Button>
-                      </>) : 
-                      ((state.properties.offer_amount && state.properties.seller_response === "Accepted") 
-                      ? <Badge bg="success">You Accepted An offer of{formatter.format(state.properties.offer_amount)}</Badge> :
+                      </>) :
+                      ((state.properties.offer_amount && state.properties.seller_response === "Accepted")
+                      ? <Badge bg="success">You accepted an offer of - {formatter.format(state.properties.offer_amount)}</Badge> :
 
-                      ((state.properties.offer_amount && state.properties.seller_response === "Rejected") ? <Badge bg="danger">You Rejected An offer of{formatter.format(state.properties.offer_amount)}</Badge> : ""))) :
-                      ((state.properties.offer_amount && state.properties.bid_active === false) && 
+                      ((state.properties.offer_amount && state.properties.seller_response === "Rejected") ? <Badge bg="danger">You rejected an offer of - {formatter.format(state.properties.offer_amount)}</Badge> : ""))) :
+                      ((state.properties.offer_amount && state.properties.bid_active === false) &&
                         <Badge bg="success">Sold</Badge>
                       )}
-                    
+
                   </span>
                   <span>
-                    {(state.properties.buyer_id === Userid && state.properties.seller_response === "Pending")&& 
-                    <Badge bg="primary">You Put an offer for this - {formatter.format(state.properties.offer_amount)}</Badge>
+                    {(state.properties.buyer_id === Userid && state.properties.seller_response === "Pending")&&
+                    <Badge bg="primary">You put an offer for this - {formatter.format(state.properties.offer_amount)}</Badge>
                     }
                   </span>
                 </Card.Body>
@@ -158,13 +158,13 @@ export default function Property() {
             </div>
           </div>
           <div className="text-center text-md-left  d-flex justify-content-between">
-            <div className="text-center text-md-left"> 
+            <div className="text-center text-md-left">
             <h2 className="property_street">
                {state.properties.street} </h2>
             <h6>
               {state.properties.city}, {" "}{state.properties.province},  {" "}
             {state.properties.post_code}
-          </h6></div>  
+          </h6></div>
               {addAndRemoveFav()}
          </div>
          </div>
@@ -181,7 +181,7 @@ export default function Property() {
                   <div>
                     <span>
                       <i className="fa fa-bath"> </i>
-                      <span><b> Bath: {state.properties.number_of_bedrooms}</b></span>
+                      <span><b> Baths: {state.properties.number_of_bedrooms}</b></span>
                     </span>
                   </div>
                   <div>
@@ -221,8 +221,8 @@ export default function Property() {
                     <div>
                       <PropertyDetails formatter={formatter} state={state} ></PropertyDetails>
                       </div>
-                      {((state.properties.owner_id === Userid || isRegistredUser.length ||userType === 1) && ((diffStart <= 0 ) && diffEnd > 0)) && 
-                        <PropertyBid 
+                      {((state.properties.owner_id === Userid || isRegistredUser.length ||userType === 1) && ((diffStart <= 0 ) && diffEnd > 0)) &&
+                        <PropertyBid
                         userSetBid={userSetBid}
                         state={state}
                         user_id ={Userid}

@@ -11,6 +11,8 @@ export default function PendingListItem(props) {
 
   const first_name = user && user[0] && user[0].first_name;
 
+  const last_name = user && user[0] && user[0].last_name;
+
   const approveListing = (e) => {
     const data = {
       // is_approved: true,
@@ -53,11 +55,11 @@ export default function PendingListItem(props) {
           <Row>
             <Col>
               <i className="fa fa-user"></i> &nbsp;
-              Seller: {properties.first_name} {properties.last_name}
+              Seller: {first_name} {last_name}
             </Col>
             <Col>
               <i className="fa fa-money"></i> &nbsp;
-              Starting Price: {formatter.format(properties.base_price_in_cents / 100)}
+              Marketing Price: {formatter.format(properties.base_price_in_cents / 100)}
             </Col>
           </Row>
 
