@@ -15,7 +15,7 @@ export default function Register(props) {
   const [userEmailReg, setUseEmailReg] = useState("");
   const [passwordReg, setPasswordReg] = useState("");
 
-  
+
 
   const register = (e) => {
     e.preventDefault();
@@ -29,8 +29,8 @@ export default function Register(props) {
       })
       .then((response) => {
         props.toggleRegisterModal();
- 
-        
+
+
 
         // setLoggedInUser(response.data);
 
@@ -63,7 +63,7 @@ export default function Register(props) {
       toast("password  cannot be empty");
       return;
     }
-  
+
   }
 
   return (
@@ -73,7 +73,7 @@ export default function Register(props) {
       animation={false}
     >
       <Modal.Header closeButton>
-        <Modal.Title>Don't have an account please Register</Modal.Title>
+        <Modal.Title>Don't have an account? Please register</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <form className="registerform" onSubmit={register}>
