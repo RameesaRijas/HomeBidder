@@ -1,5 +1,5 @@
-import { useParams } from "react-router-dom";
-import { Carousel, Col, Card, Alert, Button, Badge } from "react-bootstrap";
+import { useParams ,Link } from "react-router-dom";
+import { Carousel, Col, Card, Alert, Button, Badge} from "react-bootstrap";
 import "./Property.css";
 import "font-awesome/css/font-awesome.min.css";
 import Confirm from "./ConfirmModal";
@@ -101,7 +101,9 @@ export default function Property() {
           <div className="col-sm-8"></div>
           <div className="d-flex justify-content-center">
             <div className="col-sm-12">
+               <Link to={{ pathname: `/` }}>
                 <Carousel interval={null}>{imgUrl}</Carousel>
+                </Link>
             </div>
           </div>
           <div className="d-flex justify-content-center top_details">

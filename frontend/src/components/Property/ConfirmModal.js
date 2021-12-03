@@ -53,8 +53,9 @@ export default function Confirm(props) {
           <Button variant="secondary" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="primary" disabled={!agree} onClick={submit}>
-            Confirm
+       
+          <Button variant="primary"  disabled={!agree} onClick={submit}>
+            confirm
           </Button>
         </Modal.Footer>
       </Modal>
