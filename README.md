@@ -2,18 +2,18 @@
 
 ## Summary
 
-**HomeBidder** is an online platform for buying and selling homes without the use of blind-bidding. Instead of making an offer on a home without knowing the offers that have already been made, HomeBidder empowers buyers by putting the tools and data they need at their fingertips to help inform their decision-making during this critical process.
+**HomeBidder** is an online platform for buying and selling homes without the use of blind-bidding. Instead of making an offer on a home without knowing the offers that have already been made, **HomeBidder** empowers buyers by putting the tools and data they need at their fingertips to help inform their decision-making during this critical process.
 
-With HomeBidder, buyers participate in live bidding sessions for a home and can see other offers updated in real time as they are made. They can then make or adjust their own offers with greater confidence and transparency.
+With **HomeBidder**, buyers participate in live bidding sessions for a home and can see other offers updated in real time as they are made. They can then make or adjust their own offers with greater confidence and transparency.
 
-HomeBidder was built by 3 enthusiastic grads of Lighthouse Labs' web development bootcamp as our final project using Node, Express, and PostgresQL in the backend, and React with React-Bootstrap and CSS styling in the frontend.  We also used socket.io for the live bidding sessions and real-time updates.
+**HomeBidder** was built by 3 **enthusiastic** grads of **Lighthouse Labs**' web development bootcamp as our final project using **Node**, **Express**, and **PostgresQL** in the backend, and **React** with **React-Bootstrap** and **CSS** styling in the frontend.  We also used socket.io for the live bidding sessions and real-time updates.
 
 ---
 ## Contributors
 
-- Rameesa Rijas
-- Mays Al Raheem
-- Hasan Lam
+- [Rameesa Rijas](https://github.com/RameesaRijas)
+- [Mays Al Raheem](https://github.com/mays4)
+- [Hasan Lam](https://github.com/HCBLam)
 
 ---
 ## Features
@@ -30,9 +30,20 @@ HomeBidder was built by 3 enthusiastic grads of Lighthouse Labs' web development
 #### Create a new listing for sale!
 ![Browsing](frontend/public/images/homebidder4.png)
 
-
 ---
 ## Future Developments
 - We would love to add a map API with a fully-filterable search function
 - Also high on our list is to add a real estate API
+
+---
+## Setup
+- Install dependencies for each of the 'frontend' and 'homebidder-api' directories using: `npm install`
+
+- Reset the database in the 'homebidder-api' directory using: `npm run db:reset`
+
+- Run the backend server in the 'homebidder-api' directory using: `npm start`
+
+- Run the frontend React in the 'frontend' directory using: `npm start`
+
+
 
