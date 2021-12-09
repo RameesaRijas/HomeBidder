@@ -6,7 +6,11 @@
 
 With **HomeBidder**, buyers participate in live bidding sessions for a home and can see other offers updated in real time as they are made. They can then make or adjust their own offers with greater confidence and transparency.
 
-**HomeBidder** was built by 3 **enthusiastic** grads of **Lighthouse Labs**' web development bootcamp as our final project using **Node**, **Express**, and **PostgresQL** in the backend, and **React** with **React-Bootstrap** and **CSS** styling in the frontend.  We also used socket.io for the live bidding sessions and real-time updates.
+**HomeBidder** was built by 3 **enthusiastic** grads of **Lighthouse Labs**' web development bootcamp as our final project using the following:
+
+**Backend**:  Node, Express, PostgresQL, socket.io (for live bidding and real-time updates)
+
+**Frontend**:  React, React-Bootstrap, CSS
 
 ---
 ## Contributors
@@ -45,5 +49,27 @@ With **HomeBidder**, buyers participate in live bidding sessions for a home and 
 
 - Run the frontend React in the 'frontend' directory using: `npm start`
 
+- In your browser, go to:  `http://localhost:3000`
 
+---
+## Dependencies
+
+#### Backend
+- bcryptjs
+- chalk
+- cookie-parser
+- cookie-session
+- cors
+- jsonwebtoken
+- socket.io
+
+#### Frontend
+- axios
+- bootstrap
+- font-awesome
+- react-bootstrap
+- react-confirm-bootstrap
+- react-router-dom
+- react-toastify
+- socket.io-client
 
