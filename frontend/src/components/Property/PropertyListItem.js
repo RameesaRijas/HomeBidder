@@ -58,11 +58,11 @@ console.log(properties);
           {(user.id && user.user_type !== 1 && properties.is_approved)&&
             (fav && fav.includes(properties.id) ? (
               <div className="fav" onClick={remove}>
-                <i className="fa fa-star" style={{ color: "red" }}></i>
+                <i className="fa fa-heart" style={{ color: "red" }}></i>
               </div>
             ) : (
               <div className="fav" onClick={save}>
-                <i className="fa fa-star" style={{ color: "white" }}></i>
+                <i className="fa fa-heart" style={{ color: "white" }}></i>
               </div>
             ))}
 
