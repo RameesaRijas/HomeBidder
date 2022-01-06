@@ -230,7 +230,8 @@ export default function Property() {
                         user_id ={Userid}
                         userType={userType}
                         endDay={endDay}
-                        addBidTohistory = {addBidTohistory}/>
+                        addBidTohistory = {addBidTohistory}
+                        formatter={formatter}/>
                       }
                  <div>
                   <PropertyHistory user={Userid}></PropertyHistory>

@@ -73,7 +73,9 @@ const useBidsData = (propertyId) => {
     return axios.post(`/api/users/bidder`, {bidId})
       .then(result =>  {
         const data = result.data;
-        dispatch({type: SET_BIDDER, bidder:data })
+        if (typeof dataParsed === "object") {
+          dispatch({type: SET_BIDDER, bidder:data })
+        }
       })
   }
 

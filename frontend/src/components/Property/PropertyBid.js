@@ -7,15 +7,15 @@ import Timer from "./Timer";
 
 export default function PropertyBid(props) {
 
-  const { state, user_id,userType, userSetBid, endDay , addBidTohistory} = props;
+  const { state, user_id,userType, userSetBid, endDay , addBidTohistory, formatter} = props;
   const [error, setError] = useState("");
   const maxAmount = state.bids.length ? Math.max(...state.bids.map(item => Number(item.amount)), 0) : ((state.properties.base_price_in_cents /100)/100 * 80);
 
 
-console.log(maxAmount);
   const minBidAmount = maxAmount + state.properties.increment_price_per_bid / 100;
+  
+  const [amount, setAmount] = useState(maxAmount);
 
-  const [amount, setAmount] = useState(maxAmount || 0);
   const registrationDetails = state.bidders.filter(item => item.user_id === user_id)
   const registrationId = registrationDetails && registrationDetails[0] && registrationDetails[0].id;
 
@@ -36,7 +36,7 @@ console.log(maxAmount);
       setError("")
       userSetBid(data)
         .then(() => {
-
+          
         })
         .catch(error => setError(error))
     } else {
@@ -90,7 +90,7 @@ console.log(maxAmount);
         {(userType !== 1 && state.properties.owner_id !== user_id) &&
           <td className="amount_digit">
             { (userDetails && userDetails[0]) ?
-            ((userDetails[0].id === user_id) ? "Your Bid :" : userDetails[0].first_name + " " + userDetails[0].last_name+":") : "Current Amount: $"}  {maxAmount}</td>
+            ((userDetails[0].id === user_id) ? "Your Bid :" : userDetails[0].first_name + " " + userDetails[0].last_name+":") : "Current Amount:"}  {formatter.format(maxAmount)}</td>
         }
         </tr>
         </tbody>
